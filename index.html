@@ -57,11 +57,10 @@
           return;
         }
         const feature = features[0];
-
         const popup = new mapboxgl.Popup({ offset: [0, -15] })
           .setLngLat(feature.geometry.coordinates)
           .setHTML(
-            `<h3>${feature.properties.state}</h3><p>${feature.properties["tfpw.slope"]} cm/year</p>`
+            `<span>${feature.properties.state}</span><h3>${feature.properties.district}</h3><p>${feature.properties.slope} cm/year</p>`
           )
           .addTo(map);
       });
