@@ -49,6 +49,52 @@
       // Add zoom and rotation controls to the map.
       map.addControl(new mapboxgl.NavigationControl());
 
+      // kreise polygons
+      // map.on('load', () => {
+        // map.setPaintProperty(
+          // 'districts',
+          // 'fill-color',
+          // '#ffffff'
+        // );
+        // map.setPaintProperty(
+          // 'districts',
+          // 'fill-opacity',
+          // ['case', ['boolean', ['feature-state', 'hover'], false], 0.2, 0 ]
+        // );
+      // })
+
+
+      // When the user moves their mouse over the state-fill layer, we'll update the
+      // feature state for the feature under the mouse.
+      // let districtId = null;
+      // map.on('mousemove', 'districts', (e) => {
+        // if (e.features.length > 0) {
+          // if (districtId !== null) {
+            // map.setFeatureState(
+              // { source: 'composite', sourceLayer: 'VG250_KRS-78fyqx', id: districtId },
+              // { hover: false }
+            // );
+          // }
+          // districtId = e.features[0].id;
+          // map.setFeatureState(
+            // { source: 'composite', sourceLayer: 'VG250_KRS-78fyqx', id: districtId },
+            // { hover: true }
+          // );
+        // }
+      // });
+
+      // When the mouse leaves the state-fill layer, update the feature state of the
+      // previously hovered feature.
+      // map.on('mouseleave', 'composite', () => {
+        // if (districtId !== null) {
+          // map.setFeatureState(
+            // { source: 'composite', sourceLayer: 'VG250_KRS-78fyqx', id: districtId },
+            // { hover: false }
+          // );
+        // }
+        // districtId = null;
+      // });
+
       map.on('click', (event) => {
         const features = map.queryRenderedFeatures(event.point, {
           layers: ['data-driven-circles']
@@ -60,7 +106,7 @@
         const popup = new mapboxgl.Popup({ offset: [0, -15] })
           .setLngLat(feature.geometry.coordinates)
           .setHTML(
-            `<span>${feature.properties.state}</span><h3>${feature.properties.district}</h3><p>${feature.properties.slope} cm/year</p>`
+            `<span>${feature.properties.state}</span><h3>${feature.properties.district}</h3><p>${feature.properties.slope} % / year</p><strong>${feature.properties.slope_class}</strong>`
           )
           .addTo(map);
       });
