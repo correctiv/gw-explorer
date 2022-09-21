@@ -73,6 +73,7 @@ body {
       const LAYERS = [
         'messstellen-trends',
         'messstellen-trends-extremes',
+        'messstellen-trends-timeseries',
       ];
       let activeLayer = LAYERS[0];
 
@@ -145,7 +146,7 @@ body {
 
       map.on('click', (event) => {
         const features = map.queryRenderedFeatures(event.point, {
-          layers: [activeLayer]
+          layers: LAYERS
         });
         if (!features.length) {
           return;
