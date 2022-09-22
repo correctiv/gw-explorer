@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import Spinner from "components/Spinner";
@@ -9,11 +9,13 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  const [activeStation, setActiveStation] = useState();
+
   return (
     <Wrapper>
       <h1>Grundwasser</h1>
       <Spinner />
-      <Mapbox />
+      <Mapbox onStationChange={setActiveStation} />
     </Wrapper>
   );
 }
