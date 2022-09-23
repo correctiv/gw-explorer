@@ -66,6 +66,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(json|geojson)$/,
+        use: "json-loader",
+      }
     ],
   },
 };

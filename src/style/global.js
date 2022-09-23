@@ -14,9 +14,9 @@ function GlobalStyle() {
       font-size: 16px;
       padding: 0;
       margin: 0;
+      height: 100%;
       color: ${theme.colors.text};
     }
-
     a {
       color: ${theme.colors.text};
       text-decoration: none;
@@ -34,6 +34,10 @@ function GlobalStyle() {
     code,
     pre {
       font-family: ${theme.fonts.mono};
+    }
+    #gw-explorer-app {
+      margin: 0;
+      height: 100%;
     }
   `;
 

@@ -7,8 +7,8 @@ import config from "~/config";
 import Geocoder from "./Geocoder";
 
 const MapElement = styled.div`
-  width: 100%;
-  height: 1000px;
+  flex-grow: 1;
+  height: 100%;
 `;
 
 const selectFeature = (map, { point }) => {
@@ -16,7 +16,7 @@ const selectFeature = (map, { point }) => {
     layers: config.mapbox.layers,
   });
   if (!features.length) {
-    return;
+    return false;
   }
   return features[0];
 };
@@ -46,7 +46,7 @@ const initMap = (elementId, { onStationChange }) => {
   // on feature click
   map.on("click", ({ point }) => {
     const feature = selectFeature(map, { point });
-    feature && onStationChange(feature);
+    return feature && onStationChange(feature); // is this correct?
   });
 };
 
