@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const InfoboxWrapper = styled.div`
+const DataOverviewWrapper = styled.div`
   width: 100%;
 `;
 
@@ -70,6 +70,7 @@ const BarColorFill = styled.div`
   height: 10px;
   background-color: ${(props) => props.fill};
   width: ${(props) => props.width};
+  border-radius: 2px;
 `;
 
 const BarValue = styled.div`
@@ -159,17 +160,25 @@ function DataSummary({ data }) {
 }
 
 function Explainer() {
-  return <div>Heres an explanation of how to use this tool.</div>;
+  return (
+    <TextContainer id="intro-text">
+      Heres an explanation of how to use this tool.
+    </TextContainer>
+  );
 }
 
-function Infobox({ activeKreis }) {
+function DataOverview({ activeKreis }) {
   const results =
     activeKreis === null ? (
       <Explainer />
     ) : (
       <DataSummary data={activeKreis.properties.data} />
     );
-  return <InfoboxWrapper id="infobox-wrapper">{results}</InfoboxWrapper>;
+  return (
+    <DataOverviewWrapper id="data-overview-wrapper">
+      {results}
+    </DataOverviewWrapper>
+  );
 }
 
-export default Infobox;
+export default DataOverview;

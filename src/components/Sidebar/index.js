@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import Searchbar from "../Searchbar";
-import Infobox from "../Infobox";
+import DataOverview from "../DataOverview";
 import Toolbar from "../Toolbar";
 
 const SidebarWrapper = styled.div`
@@ -32,7 +32,7 @@ function Sidebar({ activeKreis, setActiveKreis }) {
         Der Grundwasserspiegel in Ihrem Kreis
       </SidebarHeader>
       <Searchbar setActiveKreis={setActiveKreis} />
-      <Infobox id="infobox" activeKreis={activeKreis} />
+      <DataOverview id="infobox" activeKreis={activeKreis} />
       <Toolbar />
     </SidebarWrapper>
   );
