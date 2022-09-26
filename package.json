@@ -65,6 +65,7 @@
     "emotion-normalize": "^11.0.1",
     "mapbox-gl": "^2.10.0",
     "react": "^17.0.2",
+    "react-aria": "^3.19.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
     "topojson-client": "^3.1.0",

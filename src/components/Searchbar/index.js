@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { BsSearch } from "react-icons/bs";
 
 const dataByKreis = require("../../data/dataByKreis.geojson");
 
-const SearchbarWrapper = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  max-height: 239px;
-  background: #f8f8f8;
-  border-radius: 2px;
-  position: relative;
-`;
-
 const InputWrapper = styled.div`
   width: 100%;
-  margin: 0,
-  box-sizing: border-box;
+  margin: 20px 0px;
   float: right;
   border-radius: 2px;
+  position: relative;
 `;
 
 const Input = styled.input`
@@ -32,79 +19,88 @@ const Input = styled.input`
   border: 0;
   box-sizing: border-box;
   border-radius: 2px;
+  &:focus {
+    outline: none;
+  }
 `;
 
-const SuggestionWrapper = styled.div`
+const SuggestionsWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  max-height: 176px;
   box-sizing: border-box;
-  width: 100%;
-  padding: 10px 0px;
-  max-height: 190px;
-  order: 2;
-  overflow: scroll;
+  overflow: auto;
+  border-radius: 2px;
+  position: absolute;
+  background: #f8f8f8;
 `;
 
-const SuggestionItem = styled.div`
+const Suggestion = styled.div`
   width: 100%;
   padding: 10px 24px 10px 52px;
   box-sizing: border-box;
   border-radius: 2px;
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: #e6e6e6;
   }
 `;
 
-// TODO: Rerenders not working
-function Searchbar() {
+function Searchbar({ setActiveKreis }) {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
-  useEffect(() => {
-    if (value.length === 0) {
-      setSuggestions([]);
-      return;
-    }
-    const text = value.toLowerCase();
-    const matches = dataByKreis.features
-      .filter((d) => d.properties.GEN.toLowerCase().includes(text))
-      .sort((a, b) => a.properties.GEN.localeCompare(b.properties.GEN))
-      .map((d) => (
-        <SuggestionItem key={d.properties.AGS}>
-          {d.properties.GEN}
-        </SuggestionItem>
-      ));
+  function handleSelect(d) {
+    setActiveKreis(d);
+    setValue(d.properties.GEN);
+    setSuggestions([]);
+  }
+
+  function getSuggestions(text) {
+    const searchTerm = text.toLocaleLowerCase();
+
+    const matches =
+      searchTerm.length === 0
+        ? []
+        : dataByKreis.features
+            .filter((d) => d.properties.GEN.toLowerCase().includes(searchTerm))
+            .sort((a, b) => a.properties.GEN.localeCompare(b.properties.GEN))
+            .map((d) => (
+              <Suggestion
+                key={d.properties.DEBKG_ID}
+                id={d.properties.DEBKG_ID}
+                value={d.properties.GEN}
+                onClick={() => handleSelect(d)}
+              >
+                {d.properties.GEN}
+              </Suggestion>
+            ));
     setSuggestions(matches);
-    console.log(suggestions);
-  }, [value]);
+    setValue(text);
+  }
 
   return (
-    <SearchbarWrapper id="searchbar-wrapper">
-      <InputWrapper>
-        <BsSearch
-          width={16}
-          height={16}
-          style={{
-            position: "absolute",
-            left: 16,
-            top: 16,
-            display: "inline-block",
-          }}
-        />
-        <Input
-          id="searchbar"
-          placeholder="Kreis suchen"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-      </InputWrapper>
-      <SuggestionWrapper id="suggestion-wrapper">
+    <InputWrapper id="input-wrapper">
+      <BsSearch
+        width={16}
+        height={16}
+        style={{
+          position: "absolute",
+          left: 16,
+          top: 16,
+          display: "inline-block",
+        }}
+      />
+      <Input
+        id="searchbar"
+        type="text"
+        placeholder="Kreis suchen"
+        value={value}
+        onChange={(e) => getSuggestions(e.target.value)}
+      />
+      <SuggestionsWrapper id="suggestions-wrapper">
         {suggestions}
-      </SuggestionWrapper>
-    </SearchbarWrapper>
+      </SuggestionsWrapper>
+    </InputWrapper>
   );
 }
 

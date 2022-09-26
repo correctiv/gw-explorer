@@ -26,16 +26,17 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [activeKreis, setActiveKreis] = useState();
-  const [activeStation, setActiveStation] = useState();
-  console.log(activeStation, activeKreis); // need to do something here or eslint is mad
+  const [activeKreis, setActiveKreis] = useState(null);
+  const [activeStation, setActiveStation] = useState(null);
+
+  console.log(activeStation);
 
   return (
     <Wrapper>
       {/* <h1>Grundwasser</h1>
       <Spinner /> */}
       <Container>
-        <Sidebar onKreisChange={setActiveKreis} />
+        <Sidebar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
         <Mapbox onStationChange={setActiveStation} />
       </Container>
     </Wrapper>

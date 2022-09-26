@@ -2,13 +2,14 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import Searchbar from "../Searchbar";
+import Infobox from "../Infobox";
+import Toolbar from "../Toolbar";
 
-const SidebarElement = styled.div`
+const SidebarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 40px 30px 30px;
-  gap: 40px;
   width: 380px;
   height: 791px;
   flex: none;
@@ -17,19 +18,23 @@ const SidebarElement = styled.div`
   flex-grow: 0;
 `;
 
-const Infobox = styled.div`
-  width: 100%;
+const SidebarHeader = styled.div`
+  font-size: 23px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
 `;
 
-function Sidebar() {
+function Sidebar({ activeKreis, setActiveKreis }) {
   return (
-    <SidebarElement id="sidebar">
-      <h2>Der Grundwasserspiegel in Ihrem Kreis</h2>
-      <Searchbar />
-      <Infobox id="infobox">
-        <div>Here some information about the tool.</div>
-      </Infobox>
-    </SidebarElement>
+    <SidebarWrapper id="sidebar">
+      <SidebarHeader id="sidebar-header">
+        Der Grundwasserspiegel in Ihrem Kreis
+      </SidebarHeader>
+      <Searchbar setActiveKreis={setActiveKreis} />
+      <Infobox id="infobox" activeKreis={activeKreis} />
+      <Toolbar />
+    </SidebarWrapper>
   );
 }
 
