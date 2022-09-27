@@ -18,7 +18,7 @@ const SidebarWrapper = styled.div`
   flex-grow: 0;
 `;
 
-const SidebarHeader = styled.div`
+const SidebarHeader = styled.h2`
   font-size: 23px;
   font-weight: 700;
   margin: 0;
@@ -31,7 +31,7 @@ function Sidebar({ activeKreis, setActiveKreis }) {
       <SidebarHeader id="sidebar-header">
         Der Grundwasserspiegel in Ihrem Kreis
       </SidebarHeader>
-      <Searchbar setActiveKreis={setActiveKreis} />
+      <Searchbar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
       <DataOverview id="infobox" activeKreis={activeKreis} />
       <Toolbar />
     </SidebarWrapper>

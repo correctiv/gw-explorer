@@ -45,14 +45,36 @@ const Suggestion = styled.div`
   }
 `;
 
+function SuggestionItem({ d, handleSelect }) {
+  const [selected, setSelected] = useState(false);
+  return (
+    <Suggestion
+      key={d.properties.DEBKG_ID}
+      id={d.properties.DEBKG_ID}
+      value={d.properties.GEN}
+      role="option"
+      onClick={() => handleSelect(d)}
+      onMouseOver={() => setSelected(!selected)}
+      onMouseLeave={() => setSelected(!selected)}
+      aria-selected={selected}
+    >
+      {d.properties.GEN}
+    </Suggestion>
+  );
+}
+
 function Searchbar({ setActiveKreis }) {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [expanded, setExpanded] = useState(false);
+  const [descendant, setDescendant] = useState(null);
 
   function handleSelect(d) {
     setActiveKreis(d);
     setValue(d.properties.GEN);
     setSuggestions([]);
+    setExpanded(false);
+    setDescendant(d.properties.GEN);
   }
 
   function getSuggestions(text) {
@@ -65,17 +87,20 @@ function Searchbar({ setActiveKreis }) {
             .filter((d) => d.properties.GEN.toLowerCase().includes(searchTerm))
             .sort((a, b) => a.properties.GEN.localeCompare(b.properties.GEN))
             .map((d) => (
-              <Suggestion
-                key={d.properties.DEBKG_ID}
-                id={d.properties.DEBKG_ID}
-                value={d.properties.GEN}
-                onClick={() => handleSelect(d)}
-              >
-                {d.properties.GEN}
-              </Suggestion>
+              <SuggestionItem d={d} handleSelect={() => handleSelect(d)} />
+              // <Suggestion
+              //   key={d.properties.DEBKG_ID}
+              //   id={d.properties.DEBKG_ID}
+              //   value={d.properties.GEN}
+              //   role="option"
+              //   onClick={() => handleSelect(d)}
+              // >
+              //   {d.properties.GEN}
+              // </Suggestion>
             ));
     setSuggestions(matches);
     setValue(text);
+    setExpanded(true);
   }
 
   return (
@@ -95,9 +120,20 @@ function Searchbar({ setActiveKreis }) {
         type="text"
         placeholder="Kreis suchen"
         value={value}
+        autocomplete="off"
+        aria-autocomplete="both"
+        aria-expanded={expanded}
+        aria-haspopup="listbox"
+        role="combobox"
+        aria-owns="suggestions-wrapper"
+        aria-activedescendant={descendant}
         onChange={(e) => getSuggestions(e.target.value)}
       />
-      <SuggestionsWrapper id="suggestions-wrapper">
+      <SuggestionsWrapper
+        id="suggestions-wrapper"
+        role="listbox"
+        aria-label="search-options"
+      >
         {suggestions}
       </SuggestionsWrapper>
     </InputWrapper>
