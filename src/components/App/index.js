@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-// import Spinner from "components/Spinner";
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
 
@@ -33,8 +32,6 @@ function App() {
 
   return (
     <Wrapper>
-      {/* <h1>Grundwasser</h1>
-      <Spinner /> */}
       <Container>
         <Sidebar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
         <Mapbox onStationChange={setActiveStation} />
