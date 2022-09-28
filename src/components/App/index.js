@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import styled from "@emotion/styled";
 
 import Sidebar from "components/Sidebar";
@@ -27,14 +27,27 @@ const Container = styled.div`
 function App() {
   const [activeKreis, setActiveKreis] = useState(null);
   const [activeStation, setActiveStation] = useState(null);
-
+  const mapContainer = createRef(null);
+  const map = createRef(null);
   console.log(activeStation);
+
+  useEffect(() => {
+    console.log(map);
+  }, [map]);
 
   return (
     <Wrapper>
       <Container>
-        <Sidebar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
-        <Mapbox onStationChange={setActiveStation} />
+        <Sidebar
+          activeKreis={activeKreis}
+          setActiveKreis={setActiveKreis}
+          map={map}
+        />
+        <Mapbox
+          onStationChange={setActiveStation}
+          mapContainer={mapContainer}
+          map={map}
+        />
       </Container>
     </Wrapper>
   );

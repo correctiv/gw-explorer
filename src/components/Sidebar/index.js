@@ -11,11 +11,9 @@ const SidebarWrapper = styled.div`
   align-items: flex-start;
   padding: 40px 30px 30px;
   width: 380px;
-  height: 791px;
+  height: 100%;
   flex: none;
   order: 0;
-  align-self: stretch;
-  flex-grow: 0;
 `;
 
 const SidebarHeader = styled.h2`
@@ -25,7 +23,7 @@ const SidebarHeader = styled.h2`
   padding: 0;
 `;
 
-function Sidebar({ activeKreis, setActiveKreis }) {
+function Sidebar({ activeKreis, setActiveKreis, map }) {
   return (
     <SidebarWrapper id="sidebar">
       <SidebarHeader id="sidebar-header">
@@ -33,7 +31,7 @@ function Sidebar({ activeKreis, setActiveKreis }) {
       </SidebarHeader>
       <Searchbar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
       <DataOverview id="infobox" activeKreis={activeKreis} />
-      <Toolbar />
+      <Toolbar activeKreis={activeKreis} map={map} />
     </SidebarWrapper>
   );
 }

@@ -12,7 +12,7 @@ const MapElement = styled.div`
 `;
 
 const selectFeature = (map, { point }) => {
-  const features = map.queryRenderedFeatures(point, {
+  const features = map.current.queryRenderedFeatures(point, {
     layers: config.mapbox.layers,
   });
   if (!features.length) {
@@ -21,40 +21,44 @@ const selectFeature = (map, { point }) => {
   return features[0];
 };
 
-const initMap = (elementId, { onStationChange }) => {
+const initMap = (elementId, { onStationChange, mapContainer, map }) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
-  const map = new mapboxgl.Map({
-    container: elementId, // container ID
+  map.current = new mapboxgl.Map({
+    container: mapContainer.current, // container ID
     style: config.mapbox.style, // style URL
     center: config.mapbox.center, // starting position [lng, lat]
     zoom: config.mapbox.zoom, // starting zoom
     projection: "globe", // display the map as a 3D globe
+    preserveDrawingBuffer: true,
   });
 
   // Set the default atmosphere style
-  map.on("style.load", () => {
-    map.setFog({});
+  map.current.on("style.load", () => {
+    map.current.setFog({});
   });
 
   // Add the geocoder to the map
-  map.addControl(Geocoder({ mapboxgl }));
+  map.current.addControl(Geocoder({ mapboxgl }));
 
-  // Add zoom and rotation controls to the map.
-  map.addControl(new mapboxgl.NavigationControl());
+  // Add zoom and rotation controls to the map.current.
+  map.current.addControl(new mapboxgl.NavigationControl());
 
   // on feature click
-  map.on("click", ({ point }) => {
+  map.current.on("click", ({ point }) => {
     const feature = selectFeature(map, { point });
     return feature && onStationChange(feature); // is this correct?
   });
 };
 
-function Mapbox({ onStationChange }) {
+function Mapbox({ onStationChange, mapContainer, map }) {
   // on mount
-  useEffect(() => initMap("mapbox-map", { onStationChange }), []);
+  useEffect(() => {
+    if (map.current) return;
+    initMap("mapbox-map", { onStationChange, mapContainer, map });
+  }, []);
 
-  return <MapElement id="mapbox-map" />;
+  return <MapElement id="mapbox-map" ref={mapContainer} />;
 }
 
 export default Mapbox;

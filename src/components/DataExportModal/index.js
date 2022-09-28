@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import Modal from "react-bootstrap/Modal";
 
@@ -16,7 +16,9 @@ const ModalTitle = styled.h2`
 
 const ModalSubtitle = styled.div`
   font-weight: 400;
-  fint-size: 17px;
+  margin-top: 5px;
+  font-size: 17px;
+  line-height: 24px;
   width: 100%;
   order: 3;
 `;
@@ -69,6 +71,9 @@ const Form = styled.form`
 
 const RadioLabel = styled.label`
   font-size: 15px;
+  &.disabled {
+    color: #707070;
+  }
 `;
 
 const RadioInput = styled.input`
@@ -87,26 +92,27 @@ const DataElement = styled.div`
   line-height: 1.8em;
 `;
 
-function RadioButton({ option, selected, onChange }) {
+function RadioButton({ option, disabled, text }) {
+  const exportDescription = text ? `(${text})` : "";
+  console.log(disabled);
+
   return (
-    <RadioLabel htmlFor={option.toLowerCase()}>
+    <RadioLabel
+      htmlFor={option.toLowerCase()}
+      className={disabled ? "disabled" : ""}
+    >
       <RadioInput
         type="radio"
         name="select-export-geography"
-        value={selected}
         id={`radio-option-${option.toLowerCase()}`}
-        onChange={onChange}
+        disabled={disabled}
       />
-      {option}
+      {option} {exportDescription}
     </RadioLabel>
   );
 }
 
-function DataExportModal({ handleClose, show }) {
-  const [dataExport, setDataExport] = useState("kreis");
-
-  //   TODO: Style Modal
-
+function DataExportModal({ activeKreis, handleClose, show }) {
   return (
     <Modal show={show} onHide={handleClose}>
       <ModalHeader closeButton>
@@ -116,13 +122,25 @@ function DataExportModal({ handleClose, show }) {
       <ModalSection id="export-geography">
         <ModalSectionHeader>Datensatz</ModalSectionHeader>
         <Form>
-          {["Kreis", "Bundesland", "Deutschland"].map((d) => (
-            <RadioButton
-              option={d}
-              selected={dataExport === d}
-              onChange={() => setDataExport(d)}
-            />
-          ))}
+          <RadioButton
+            option="Kreis"
+            disabled={activeKreis === null}
+            text={
+              activeKreis === null
+                ? "keine Auswahl"
+                : activeKreis.properties.GEN
+            }
+          />
+          <RadioButton
+            option="Bundesland"
+            disabled={activeKreis === null}
+            text={
+              activeKreis === null
+                ? "keine Auswahl"
+                : activeKreis.properties.GEN
+            }
+          />
+          <RadioButton option="Deutschland" disabled={false} />
         </Form>
       </ModalSection>
       <ModalSection id="data-description">
@@ -142,6 +160,9 @@ function DataExportModal({ handleClose, show }) {
       <ModalFooter>
         <Button highlighted onClick={handleClose}>
           Download
+        </Button>
+        <Button bordered id="abbrechen" onClick={handleClose}>
+          Abbrechen
         </Button>
       </ModalFooter>
     </Modal>

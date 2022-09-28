@@ -83,31 +83,31 @@ const dataLevels = [
   {
     shortname: "stark_sinkend",
     longname: "Stark sinkend",
-    range: "Weniger als -4 Prozent pro Jahr",
+    range: "weniger als -4 % pro Jahr",
     fill: "#f56f66",
   },
   {
     shortname: "leicht_sinkend",
     longname: "Leicht sinkend",
-    range: "-4 bis zu -1 Prozent pro Jahr",
+    range: "-4 bis -1 % pro Jahr",
     fill: "#f4a582",
   },
   {
     shortname: "kein_trend",
     longname: "Kein starker Trend",
-    range: "-1 bis zu +1 Prozent pro Jahr",
+    range: "-1 bis +1 % pro Jahr",
     fill: "#eeeeee",
   },
   {
     shortname: "leicht_steigend",
     longname: "Leicht steigend",
-    range: "+1 bis zu +4 Prozent pro Jahr",
+    range: "+1 bis +4 % pro Jahr",
     fill: "#92C5de",
   },
   {
     shortname: "stark_steigend",
     longname: "Stark steigend",
-    range: "Mehr als 4 Prozent pro Jahr",
+    range: "mehr als +4 % pro Jahr",
     fill: "#48a0fe",
   },
 ];
