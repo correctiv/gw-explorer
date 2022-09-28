@@ -54,7 +54,7 @@ const initMap = (elementId, { onMouseMove, resetTooltip }) => {
   });
 
   // Add zoom and rotation controls to the map.
-  map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
   // update current point
   map.on("mousemove", ({ point }) => onMouseMove(point));
