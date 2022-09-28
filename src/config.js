@@ -5,7 +5,13 @@ const config = {
     style: "mapbox://styles/simonwoerpel/cl7um4n0u007i14kbdlzl0f2x",
     center: [10.565834, 51.145661],
     zoom: 6,
-    layers: ["messstellen-trends", "messstellen-trends-timeseries"],
+    layers: [
+      "messstellen-trends",
+      "messstellen-trends-timeseries",
+      "kreise-summaries",
+    ],
+    districtLayer: "kreise-summaries",
+    stationLayer: "messstellen-trends-timeseries",
   },
 };
 

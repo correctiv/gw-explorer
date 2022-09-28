@@ -1,6 +1,14 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+const DistrictTitle = styled.h3`
+  color: gray;
+`;
+
+const DistrictBez = styled.span`
+  color: gray;
+`;
+
 const DataOverviewWrapper = styled.div`
   width: 100%;
 `;
@@ -130,7 +138,8 @@ function DataEntry({ measurement, shortname, range, value, fill, total }) {
   );
 }
 
-function DataSummary({ data }) {
+function DataSummary({ activeKreis }) {
+  const { name, bez, data } = activeKreis;
   const isData = data.total > 0;
   const totalText = (
     <TextContainer id="results-totals">
@@ -143,6 +152,7 @@ function DataSummary({ data }) {
   );
   const barCharts = dataLevels.map((d) => (
     <DataEntry
+      key={d.shortname}
       measurement={d.longname}
       shortname={d.shortname}
       range={d.range}
@@ -153,6 +163,8 @@ function DataSummary({ data }) {
   ));
   return (
     <ResultsWrapper>
+      <DistrictTitle>{name}</DistrictTitle>
+      <DistrictBez>{bez}</DistrictBez>
       {totalText}
       {isData ? barCharts : null}
     </ResultsWrapper>
@@ -172,7 +184,7 @@ function DataOverview({ activeKreis }) {
     activeKreis === null ? (
       <Explainer />
     ) : (
-      <DataSummary data={activeKreis.properties.data} />
+      <DataSummary activeKreis={activeKreis} />
     );
   return (
     <DataOverviewWrapper id="data-overview-wrapper">

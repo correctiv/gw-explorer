@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
+import Tooltip from "components/Tooltip";
 
 const Wrapper = styled.div`
   padding: 0;
@@ -24,17 +25,29 @@ const Container = styled.div`
   flex-grow: 0;
 `;
 
+const MapContainer = styled.div`
+  position: relative;
+  flex-grow: 1;
+  height: 100%;
+`;
+
 function App() {
   const [activeKreis, setActiveKreis] = useState(null);
   const [activeStation, setActiveStation] = useState(null);
-
-  console.log(activeStation);
+  const [tooltipPosition, setTooltipPosition] = useState([0, 0]);
 
   return (
     <Wrapper>
       <Container>
         <Sidebar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
-        <Mapbox onStationChange={setActiveStation} />
+        <MapContainer>
+          <Mapbox
+            setActiveStation={setActiveStation}
+            setActiveKreis={setActiveKreis}
+            setTooltipPosition={setTooltipPosition}
+          />
+          <Tooltip position={tooltipPosition} activeStation={activeStation} />
+        </MapContainer>
       </Container>
     </Wrapper>
   );

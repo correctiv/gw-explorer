@@ -7,6 +7,7 @@ export default function Geocoder({ mapboxgl }) {
     mapboxgl,
     countries: "de",
     language: "de",
+    types: "district,postcode,place",
     zoom: 12,
     marker: true,
   });
