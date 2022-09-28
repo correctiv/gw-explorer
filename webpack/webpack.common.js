@@ -20,9 +20,9 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin({
-      patterns: [{ from: Path.resolve(__dirname, "../static"), to: "static" }],
-    }),
+    // new CopyWebpackPlugin({
+    //   patterns: [{ from: Path.resolve(__dirname, "../static"), to: "static" }],
+    // }),
     new HtmlWebpackPlugin({
       inject: true,
       template: Path.resolve(__dirname, "../src/index.html"),
