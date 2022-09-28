@@ -21,8 +21,8 @@ export function selectDistrict(features) {
     const { id, bez, name, data } = feature.properties;
     return {
       id,
-      bez: districtBez[bez],
       name,
+      bez: districtBez[bez],
       data: getDistrictData(JSON.parse(data)),
     };
   }
@@ -32,8 +32,11 @@ export function selectDistrict(features) {
 export function selectStation(features) {
   const feature = getFeatureFromLayer(features, config.mapbox.stationLayer);
   if (feature) {
-    const { authority, state, data, ...rest } = feature.properties;
+    /* eslint-disable camelcase */
+    const { authority, state, data, ms_nr, ...rest } = feature.properties;
     return {
+      id: `${state}-${ms_nr}`,
+      ms_nr,
       state: statesByIso[state],
       authority: statesByIso[authority],
       data: JSON.parse(data.replaceAll("nan", "null")), // FIXME

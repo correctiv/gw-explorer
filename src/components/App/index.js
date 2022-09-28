@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
 import Tooltip from "components/Tooltip";
+
+import { updateUrl } from "utils/url";
 
 const Wrapper = styled.div`
   padding: 0;
@@ -36,12 +38,24 @@ function App() {
   const [activeStation, setActiveStation] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState([0, 0]);
 
+  // update url params on kreis or station change
+  useEffect(
+    () => activeStation && updateUrl({ station: activeStation.id }),
+    [activeStation]
+  );
+  useEffect(
+    () => activeKreis && updateUrl({ district: activeKreis.id }),
+    [activeKreis]
+  );
+
   return (
     <Wrapper>
       <Container>
         <Sidebar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
         <MapContainer>
           <Mapbox
+            activeKreis={activeKreis}
+            activeStation={activeStation}
             setActiveStation={setActiveStation}
             setActiveKreis={setActiveKreis}
             setTooltipPosition={setTooltipPosition}
