@@ -9,7 +9,7 @@ const breakpointsPx = Object.values(breakpoints).map(px);
 
 const theme = {
   fonts: {
-    sans: "-apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif",
+    sans: "'Source Sans Pro', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif",
     mono: "monospace",
   },
   space,
