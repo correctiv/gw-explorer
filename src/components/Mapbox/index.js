@@ -4,7 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import config from "~/config";
 import { selectDistrict, selectStation } from "~/utils/reducer";
-import Geocoder from "./Geocoder";
+import Geocoder from "~/components/Geocoder";
 
 const MapElement = styled.div`
   height: 100%;
@@ -35,9 +35,6 @@ const initMap = (
     map.setFog({});
   });
 
-  // Add the geocoder to the map
-  map.addControl(Geocoder({ mapboxgl }));
-
   // Add zoom and rotation controls to the map.
   map.addControl(new mapboxgl.NavigationControl());
 
@@ -51,6 +48,12 @@ const initMap = (
 
   // hide tooltip on map click
   map.on("click", () => setActiveStation(null));
+
+  // add geocoder to sidebar element
+  const geocoder = Geocoder({ mapboxgl });
+  document
+    .getElementById("gw-explorer-geocoder")
+    .appendChild(geocoder.onAdd(map));
 };
 
 function Mapbox({ setActiveKreis, setActiveStation, setTooltipPosition }) {
