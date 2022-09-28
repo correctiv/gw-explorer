@@ -2,7 +2,7 @@ export { axisLeft, axisBottom } from "d3-axis";
 
 export { extent } from "d3-array";
 
-export { line } from "d3-shape";
+export { line, curveBasis } from "d3-shape";
 
 export { scaleQuantile, scaleLinear, scaleTime } from "d3-scale";
 

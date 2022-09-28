@@ -1,5 +1,26 @@
 import React, { useEffect } from "react";
+import styled from "@emotion/styled";
 import * as d3 from "~/lib/d3";
+
+const ChartWrapper = styled.div`
+  path {
+    fill: none;
+    stroke: #707070;
+    stroke-width: 1.5;
+  }
+
+  .axis,
+  .tick,
+  .tick line,
+  .domain {
+    stroke: #e6e6e6;
+    stroke-width: 1;
+  }
+
+  .tick text {
+    font-weight: light;
+  }
+`;
 
 // 1990 - 2021
 const DATES = [...Array(32).keys()]
@@ -19,8 +40,8 @@ const renderChart = ({ element, width, height, margin, data }) => {
   const line = d3
     .line()
     .x((d) => x(d.date))
-    .y((d) => y(d.value));
-  // .curve(d3.curveStep())
+    .y((d) => y(d.value))
+    .curve(d3.curveBasis);
 
   const [top, right, bottom, left] = margin;
 
@@ -35,16 +56,11 @@ const renderChart = ({ element, width, height, margin, data }) => {
   g.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(x).ticks(5));
+    .call(d3.axisBottom(x).ticks(3));
 
-  g.append("g").attr("class", "axis axis--y").call(d3.axisLeft(y).ticks(5));
+  g.append("g").attr("class", "axis axis--y").call(d3.axisLeft(y).ticks(3));
 
-  g.append("path")
-    .datum(vizData)
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 1.5)
-    .attr("d", line);
+  g.append("path").datum(vizData).attr("d", line);
 
   return g;
 };
@@ -68,7 +84,7 @@ function Chart({ data }) {
     });
   }, [data]);
 
-  return <div id="gw-tooltip-chart" />;
+  return <ChartWrapper id="gw-tooltip-chart" />;
 }
 
 export default Chart;
