@@ -3,39 +3,20 @@ import styled from "@emotion/styled";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import config from "~/config";
-import { selectDistrict, selectStation } from "~/utils/reducer";
 import Geocoder from "~/components/Geocoder";
-import { updateUrlMapState, getMapStateFromUrl } from "~/utils/url";
-import { useDebounce } from "~/utils/hooks";
+import { updateUrl } from "utils/url";
+import * as actions from "./actions";
 
 const MapElement = styled.div`
   height: 100%;
 `;
 
-const getDistrict = (map, districtId) => {
-  // FIXME not working yet
-  console.log(districtId);
-  console.log(map);
-  const features = map.querySourceFeatures(config.mapbox.districtSource, {
-    sourceLayer: config.mapbox.districtLayer,
-  });
-  console.log(features);
-  return features;
-};
-
-const selectFeatures = (map, { point }) => {
-  const features = map.queryRenderedFeatures(point, {
-    layers: config.mapbox.layers,
-  });
-  return [selectDistrict(features), selectStation(features)];
-};
-
-const initMap = (elementId, { onMouseMove, resetTooltip }) => {
+const initMap = (elementId, { onMouseMove, resetStation }) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
 
   // try to get url state
-  const { bbox, zoom, districtId } = getMapStateFromUrl();
+  const { bbox, zoom, districtId } = actions.getMapStateFromUrl();
 
   const map = new mapboxgl.Map({
     container: elementId, // container ID
@@ -47,9 +28,12 @@ const initMap = (elementId, { onMouseMove, resetTooltip }) => {
   });
 
   map.on("load", () => {
+    // add districts layer
+    actions.addDistrictsLayer(map);
+
     // if initial district via url, activate it
     if (districtId) {
-      getDistrict(map, districtId);
+      actions.findDistrict(map, districtId);
     }
   });
 
@@ -60,11 +44,11 @@ const initMap = (elementId, { onMouseMove, resetTooltip }) => {
   map.on("mousemove", ({ point }) => onMouseMove(point));
 
   // hide tooltip on map click
-  map.on("click", resetTooltip);
-  map.on("mouseleave", resetTooltip);
+  map.on("click", resetStation);
+  map.on("mouseleave", resetStation);
 
   // update url state
-  map.on("moveend", () => updateUrlMapState(map));
+  map.on("moveend", () => actions.updateUrlMapState(map));
 
   // add geocoder to sidebar element
   const geocoder = Geocoder({ mapboxgl });
@@ -85,34 +69,35 @@ function Mapbox({
   // avoid race conditions on mouse move
   const [map, setMap] = useState(null);
   const [point, onMouseMove] = useState(null);
-  const changedPoint = useDebounce(point, 100);
+
+  const resetStation = () => {
+    setActiveStation(null);
+    updateUrl({ station: null });
+  };
+
+  // mousemove
   useEffect(() => {
     if (point) {
-      const [district, station] = selectFeatures(map, { point });
+      setTooltipPosition([point.x, point.y]);
+      const [district, station] = actions.getCurrentFeatures(map, { point });
       if (station && station.id !== activeStation?.id) {
         setActiveStation(station);
       }
       if (district && district.id !== activeKreis?.id) {
+        actions.handleDistrictHighlight(map, {
+          currentId: activeKreis?.id,
+          newId: district.id,
+        });
         setActiveKreis(district);
       }
     }
-  }, [changedPoint]);
-
-  // update tooltip position always
-  useEffect(() => point && setTooltipPosition([point.x, point.y]), [point]);
+  }, [point]);
 
   // on mount
   useEffect(
-    () =>
-      setMap(
-        initMap("mapbox-map", {
-          onMouseMove,
-          resetTooltip: () => setActiveStation(null), // reset tooltip
-        })
-      ),
+    () => setMap(initMap("mapbox-map", { onMouseMove, resetStation })),
     []
   );
-
   return <MapElement id="mapbox-map" />;
 }
 

@@ -11,7 +11,7 @@ const TooltipWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 30px;
+  padding: 20px;
   gap: 5px;
   width: 340px;
   min-height: 200px;
@@ -26,6 +26,7 @@ const TooltipHeader = styled.header`
 `;
 
 const StateName = styled.h4`
+  font-size: 14px;
   color: grey;
   text-transform: uppercase;
   margin: 0;

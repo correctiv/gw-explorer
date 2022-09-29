@@ -6,9 +6,10 @@ const config = {
     center: [10.565834, 51.145661],
     bounds: [5.86625035, 47.2701236, 15.04181566, 55.05877772],
     zoom: 6,
-    layers: ["messstellen-trends-timeseries", "kreise-summaries"],
-    districtLayer: "kreise-summaries",
-    districtSource: "VG250_KRS_with_summaries-b3rb6g",
+    layers: ["messstellen-trends-timeseries", "districts"],
+    districtLayer: "districts",
+    districtSource: "mapbox://simonwoerpel.1swa7nuo",
+    districtSourceLayer: "VG250_KRS_with_summaries-b3rb6g",
     stationLayer: "messstellen-trends-timeseries",
   },
 };

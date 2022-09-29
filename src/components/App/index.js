@@ -6,6 +6,7 @@ import Mapbox from "components/Mapbox";
 import Tooltip from "components/Tooltip";
 
 import { updateUrl } from "utils/url";
+import { useDebounce } from "utils/hooks";
 
 const Wrapper = styled.div`
   padding: 0;
@@ -37,15 +38,21 @@ function App() {
   const [activeKreis, setActiveKreis] = useState(null);
   const [activeStation, setActiveStation] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState([0, 0]);
+  const delayedKreis = useDebounce(activeKreis, 500);
 
-  // update url params on kreis or station change
+  // update url params on station change
   useEffect(
     () => activeStation && updateUrl({ station: activeStation.id }),
     [activeStation]
   );
+  useEffect(() => {
+    setActiveStation(null); // reset active station on kreis change
+    updateUrl({ station: null });
+  }, [activeKreis]);
+  // avoid race conditions on update url when moving around kreise
   useEffect(
-    () => activeKreis && updateUrl({ district: activeKreis.id }),
-    [activeKreis]
+    () => delayedKreis && updateUrl({ district: delayedKreis.id }),
+    [delayedKreis]
   );
 
   return (
