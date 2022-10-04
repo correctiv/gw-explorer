@@ -37,6 +37,9 @@ const Button = styled.button`
     color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
     border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
   }
+  @media (max-width: 768px) {
+    display: ${(props) => (props.hideOnMobile ? "none" : "flex")};
+  }
 `;
 
 const ButtonText = styled.span`
@@ -83,7 +86,11 @@ function Toolbar({ activeKreis, map }) {
           <BsCameraFill size={16} />
           <ButtonText>Screenshot</ButtonText>
         </Button>
-        <Button id="export" onClick={(e) => handleShow(e.currentTarget.id)}>
+        <Button
+          id="export"
+          onClick={(e) => handleShow(e.currentTarget.id)}
+          hideOnMobile
+        >
           <BsDownload size={16} />
           <ButtonText>Rohdaten</ButtonText>
         </Button>

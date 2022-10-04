@@ -14,11 +14,14 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   align-items: flex-start;
   padding: 0;
   margin: 0;
-  width: 100%;
-  height: 100%;
   flex: none;
   order: 1;
   flex-grow: 0;

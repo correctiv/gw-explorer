@@ -12,6 +12,10 @@ const SidebarWrapper = styled.div`
   padding: 40px 30px 30px;
   width: 380px;
   height: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: max-content;
+  }
   flex: none;
   order: 0;
 `;

@@ -9,6 +9,11 @@ import Geocoder from "./Geocoder";
 const MapElement = styled.div`
   flex-grow: 1;
   height: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    min-height: 400px;
+    height: 80%;
+  }
 `;
 
 const selectFeature = (map, { point }) => {
