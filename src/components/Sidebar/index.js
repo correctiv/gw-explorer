@@ -10,11 +10,13 @@ const SidebarWrapper = styled.div`
   align-items: flex-start;
   padding: 40px 30px 30px;
   width: 380px;
-  height: 791px;
+  height: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: max-content;
+  }
   flex: none;
   order: 0;
-  align-self: stretch;
-  flex-grow: 0;
 `;
 
 const SidebarHeader = styled.h2`
@@ -24,7 +26,7 @@ const SidebarHeader = styled.h2`
   padding: 0;
 `;
 
-function Sidebar({ activeKreis }) {
+function Sidebar({ activeKreis, mapRef }) {
   // geocoder is added in `components/Mapbox/index.js`
   return (
     <SidebarWrapper id="sidebar">
@@ -33,7 +35,7 @@ function Sidebar({ activeKreis }) {
       </SidebarHeader>
       <div id="gw-explorer-geocoder" />
       <DataOverview id="infobox" activeKreis={activeKreis} />
-      <Toolbar />
+      <Toolbar activeKreis={activeKreis} mapRef={mapRef} />
     </SidebarWrapper>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import DataExportModal from "components/DataExportModal";
+import ImageExportModal from "components/ImageExportModal";
 
 import { BsReplyFill, BsCameraFill, BsDownload } from "react-icons/bs";
 
@@ -12,6 +13,7 @@ const ToolbarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
 `;
 
 const Button = styled.button`
@@ -35,17 +37,43 @@ const Button = styled.button`
     color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
     border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
   }
+  @media (max-width: 768px) {
+    display: ${(props) => (props.hideOnMobile ? "none" : "flex")};
+  }
 `;
 
 const ButtonText = styled.span`
   margin-left: 7px;
 `;
 
-function Toolbar() {
-  const [show, setShow] = useState(false);
+function Toolbar({ activeKreis, mapRef }) {
+  const [show, setShow] = useState({
+    screenshot: false,
+    export: false,
+  });
+  const [dataURL, setDataURL] = useState(null);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  function handleClose(eventId) {
+    setShow((prevState) => ({
+      ...prevState,
+      [eventId]: false,
+    }));
+  }
+
+  function handleShow(eventId) {
+    setShow((prevState) => ({
+      ...prevState,
+      [eventId]: true,
+    }));
+  }
+
+  function screenshot(eventId) {
+    /* eslint no-underscore-dangle: 0 */
+    const canvas = mapRef.current._canvas;
+    const url = canvas.toDataURL("png");
+    setDataURL(url);
+    handleShow(eventId);
+  }
 
   return (
     <>
@@ -54,16 +82,31 @@ function Toolbar() {
           <BsReplyFill size={16} />
           <ButtonText>Teilen</ButtonText>
         </Button>
-        <Button id="screenshot">
+        <Button id="screenshot" onClick={(e) => screenshot(e.currentTarget.id)}>
           <BsCameraFill size={16} />
           <ButtonText>Screenshot</ButtonText>
         </Button>
-        <Button id="export" onClick={handleShow}>
+        <Button
+          id="export"
+          onClick={(e) => handleShow(e.currentTarget.id)}
+          hideOnMobile
+        >
           <BsDownload size={16} />
           <ButtonText>Rohdaten</ButtonText>
         </Button>
       </ToolbarWrapper>
-      <DataExportModal show={show} handleClose={handleClose} />
+      <ImageExportModal
+        show={show.screenshot}
+        handleClose={() => handleClose("screenshot")}
+        dataURL={dataURL}
+        controlledBy="screenshot"
+      />
+      <DataExportModal
+        show={show.export}
+        handleClose={() => handleClose("export")}
+        activeKreis={activeKreis}
+        controlledBy="export"
+      />
     </>
   );
 }

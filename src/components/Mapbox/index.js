@@ -9,9 +9,14 @@ import * as actions from "./actions";
 
 const MapElement = styled.div`
   height: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    min-height: 400px;
+    height: 80%;
+  }
 `;
 
-const initMap = (elementId, { onMouseMove, resetStation }) => {
+const initMap = ({ mapContainerRef, mapRef, onMouseMove, resetStation }) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
 
@@ -19,7 +24,7 @@ const initMap = (elementId, { onMouseMove, resetStation }) => {
   const { bbox, zoom, districtId } = actions.getMapStateFromUrl();
 
   const map = new mapboxgl.Map({
-    container: elementId, // container ID
+    container: mapContainerRef, // container ID
     style: config.mapbox.style, // style URL
     center: config.mapbox.center, // starting position [lng, lat]
     bounds: bbox || config.mapbox.bounds,
@@ -56,7 +61,8 @@ const initMap = (elementId, { onMouseMove, resetStation }) => {
     .getElementById("gw-explorer-geocoder")
     .appendChild(geocoder.onAdd(map));
 
-  return map;
+  mapRef.current = map;
+  return mapRef.current;
 };
 
 function Mapbox({
@@ -65,6 +71,8 @@ function Mapbox({
   activeStation,
   setActiveStation,
   setTooltipPosition,
+  mapRef,
+  mapContainerRef,
 }) {
   // avoid race conditions on mouse move
   const [map, setMap] = useState(null);
@@ -95,7 +103,8 @@ function Mapbox({
 
   // on mount
   useEffect(
-    () => setMap(initMap("mapbox-map", { onMouseMove, resetStation })),
+    () =>
+      setMap(initMap({ onMouseMove, resetStation, mapContainerRef, mapRef })),
     []
   );
   return <MapElement id="mapbox-map" />;

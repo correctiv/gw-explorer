@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, createRef, useEffect } from "react";
 import styled from "@emotion/styled";
 
 import Sidebar from "components/Sidebar";
@@ -18,11 +18,14 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   align-items: flex-start;
   padding: 0;
   margin: 0;
-  width: 100%;
-  height: 100%;
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -39,6 +42,8 @@ function App() {
   const [activeStation, setActiveStation] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState([0, 0]);
   const delayedKreis = useDebounce(activeKreis, 500);
+  const mapContainerRef = createRef(null);
+  const mapRef = createRef(null);
 
   // update url params on station change
   useEffect(
@@ -58,7 +63,11 @@ function App() {
   return (
     <Wrapper>
       <Container>
-        <Sidebar activeKreis={activeKreis} setActiveKreis={setActiveKreis} />
+        <Sidebar
+          activeKreis={activeKreis}
+          setActiveKreis={setActiveKreis}
+          mapRef={mapRef}
+        />
         <MapContainer>
           <Mapbox
             activeKreis={activeKreis}
@@ -66,6 +75,7 @@ function App() {
             setActiveStation={setActiveStation}
             setActiveKreis={setActiveKreis}
             setTooltipPosition={setTooltipPosition}
+            mapContainerRef={mapContainerRef}
           />
           <Tooltip position={tooltipPosition} activeStation={activeStation} />
         </MapContainer>
