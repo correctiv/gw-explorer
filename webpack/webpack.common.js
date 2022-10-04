@@ -9,7 +9,7 @@ module.exports = {
     app: Path.resolve(__dirname, "../src/index.js"),
   },
   output: {
-    path: Path.join(__dirname, "../build"),
+    path: Path.join(__dirname, "../docs"),
     filename: "js/[name].js",
   },
   optimization: {

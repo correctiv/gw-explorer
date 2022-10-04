@@ -94,7 +94,6 @@ const DataElement = styled.div`
 
 function RadioButton({ option, disabled, text }) {
   const exportDescription = text ? `(${text})` : "";
-  console.log(disabled);
 
   return (
     <RadioLabel
