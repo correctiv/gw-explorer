@@ -76,6 +76,7 @@ function App() {
             setActiveKreis={setActiveKreis}
             setTooltipPosition={setTooltipPosition}
             mapContainerRef={mapContainerRef}
+            mapRef={mapRef}
           />
           <Tooltip position={tooltipPosition} activeStation={activeStation} />
         </MapContainer>

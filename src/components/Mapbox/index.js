@@ -24,7 +24,7 @@ const initMap = ({ mapContainerRef, mapRef, onMouseMove, resetStation }) => {
   const { bbox, zoom, districtId } = actions.getMapStateFromUrl();
 
   const map = new mapboxgl.Map({
-    container: mapContainerRef, // container ID
+    container: mapContainerRef.current, // container ID
     style: config.mapbox.style, // style URL
     center: config.mapbox.center, // starting position [lng, lat]
     bounds: bbox || config.mapbox.bounds,
@@ -102,12 +102,10 @@ function Mapbox({
   }, [point]);
 
   // on mount
-  useEffect(
-    () =>
-      setMap(initMap({ onMouseMove, resetStation, mapContainerRef, mapRef })),
-    []
-  );
-  return <MapElement id="mapbox-map" />;
+  useEffect(() => {
+    setMap(initMap({ onMouseMove, resetStation, mapContainerRef, mapRef }));
+  }, []);
+  return <MapElement ref={mapContainerRef} />;
 }
 
 export default Mapbox;

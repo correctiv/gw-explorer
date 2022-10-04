@@ -125,20 +125,12 @@ function DataExportModal({ activeKreis, handleClose, show }) {
           <RadioButton
             option="Kreis"
             disabled={activeKreis === null}
-            text={
-              activeKreis === null
-                ? "keine Auswahl"
-                : activeKreis.properties.GEN
-            }
+            text={activeKreis === null ? "keine Auswahl" : activeKreis.name}
           />
           <RadioButton
             option="Bundesland"
             disabled={activeKreis === null}
-            text={
-              activeKreis === null
-                ? "keine Auswahl"
-                : activeKreis.properties.GEN
-            }
+            text={activeKreis === null ? "keine Auswahl" : activeKreis.name}
           />
           <RadioButton option="Deutschland" disabled={false} />
         </Form>
