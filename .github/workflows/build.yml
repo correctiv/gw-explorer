@@ -1,4 +1,4 @@
-name: Build NodeJS with Webpack and deploy page
+name: Build and deploy
 
 on:
   workflow_dispatch:
@@ -32,3 +32,4 @@ jobs:
         rebase: true
         name: 'github action'
         files: docs/
+        force: true
