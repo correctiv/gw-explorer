@@ -1,11 +1,12 @@
 name: Build NodeJS with Webpack and deploy page
 
 on:
+  workflow_dispatch:
   pull_request:
     types:
     - closed
     branches:
-    - master
+    - main
 
 jobs:
   build:
