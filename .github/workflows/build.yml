@@ -32,4 +32,4 @@ jobs:
         rebase: true
         name: 'github action'
         files: docs/
-        force: true
+        force-add: true
