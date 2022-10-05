@@ -2,11 +2,14 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const DistrictTitle = styled.h3`
-  color: gray;
+  font-weight: 700;
+  font-size: 23px;
+  color: #333;
+  margin-bottom: 5px;
 `;
 
 const DistrictBez = styled.span`
-  color: gray;
+  color: #707070;
 `;
 
 const DataOverviewWrapper = styled.div`
@@ -15,7 +18,7 @@ const DataOverviewWrapper = styled.div`
 
 const ResultsWrapper = styled.div`
   width: 100%;
-  margin-bottom: 40px;
+  margin: 0px;
 `;
 
 const Totals = styled.span`
@@ -23,21 +26,18 @@ const Totals = styled.span`
 `;
 
 const TextContainer = styled.div`
-  border-bottom: 1px solid #e6e6e6;
-  padding-bottom: 20px;
-  margin-bottom: 40px;
+  border-bottom: ${(props) => (props.isData ? "1px solid #e6e6e6" : "none")};
+  padding: 18px 0px;
 `;
 
 const EntryWrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid #e6e6e6;
-  margin-bottom: 18px;
+  padding: 12px 0px;
+  margin: 0px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;
 
 const EntryTextWrapper = styled.div`
@@ -67,7 +67,7 @@ const BarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
+  margin: 0;
 `;
 
 const Bar = styled.div`
@@ -85,6 +85,10 @@ const BarValue = styled.div`
   font-weight: 700;
   width: 30px;
   text-align: right;
+`;
+
+const IntroGraf = styled.p`
+  color: #333;
 `;
 
 const dataLevels = [
@@ -142,10 +146,10 @@ function DataSummary({ activeKreis }) {
   const { name, bez, data } = activeKreis;
   const isData = data.total > 0;
   const totalText = (
-    <TextContainer id="results-totals">
+    <TextContainer id="results-totals" isData={isData}>
       Hier gibt es
       <Totals>{` ${
-        data.total === 0 ? "keine" : data.total
+        isData ? data.total : "keine"
       } Grundwassermessstellen `}</Totals>
       mit regelmäßigen Daten seit 1990.
     </TextContainer>
@@ -174,7 +178,24 @@ function DataSummary({ activeKreis }) {
 function Explainer() {
   return (
     <TextContainer id="intro-text">
-      Heres an explanation of how to use this tool.
+      <IntroGraf>Das Grundwasser in Deutschland sinkt.</IntroGraf>
+      <IntroGraf>
+        Eine CORRECTIV-Analyse in 13 Bundesländern zeigt, dass der
+        Grundwasserspiegel zwischen 1990 und 2021 um durchschnittlich 0,04
+        Prozent pro Jahr gesunken ist.
+      </IntroGraf>
+      <IntroGraf>
+        Mit diesem Tool können Sie herausfinden, wie sich der Grundwasserspiegel
+        an bestimmten Stellen in Ihrem Gebiet in den letzten 32 Jahren
+        entwickelt hat. In der Satellitenansicht können Sie schauen, ob
+        menschliche Einflüsse wie Kohleförderung dafür verantwortlich sein
+        könnten.
+      </IntroGraf>
+      <IntroGraf>
+        Sie können sowohl die Trends der einzelnen Messstellen als auch die
+        Übersichten auf Kreisebene einsehen.
+      </IntroGraf>
+      <IntroGraf>Mehr über unsere Methodik finden Sie hier.</IntroGraf>
     </TextContainer>
   );
 }

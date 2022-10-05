@@ -53,7 +53,12 @@ function App() {
   useEffect(() => {
     setActiveStation(null); // reset active station on kreis change
     updateUrl({ station: null });
+    console.log(activeKreis);
   }, [activeKreis]);
+
+  useEffect(() => {
+    console.log(activeStation);
+  }, [activeStation]);
   // avoid race conditions on update url when moving around kreise
   useEffect(
     () => delayedKreis && updateUrl({ district: delayedKreis.id }),
