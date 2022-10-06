@@ -1,4 +1,4 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 
 import Sidebar from "components/Sidebar";
@@ -31,19 +31,13 @@ const Container = styled.div`
   flex-grow: 0;
 `;
 
-const MapContainer = styled.div`
-  position: relative;
-  flex-grow: 1;
-  height: 100%;
-`;
-
 function App() {
   const [activeKreis, setActiveKreis] = useState(null);
   const [activeStation, setActiveStation] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState([0, 0]);
   const delayedKreis = useDebounce(activeKreis, 500);
-  const mapContainerRef = createRef(null);
-  const mapRef = createRef(null);
+  const mapContainerRef = useRef(null);
+  const mapRef = useRef(null);
 
   // update url params on station change
   useEffect(
@@ -53,12 +47,8 @@ function App() {
   useEffect(() => {
     setActiveStation(null); // reset active station on kreis change
     updateUrl({ station: null });
-    console.log(activeKreis);
   }, [activeKreis]);
 
-  useEffect(() => {
-    console.log(activeStation);
-  }, [activeStation]);
   // avoid race conditions on update url when moving around kreise
   useEffect(
     () => delayedKreis && updateUrl({ district: delayedKreis.id }),
@@ -73,18 +63,16 @@ function App() {
           setActiveKreis={setActiveKreis}
           mapRef={mapRef}
         />
-        <MapContainer>
-          <Mapbox
-            activeKreis={activeKreis}
-            activeStation={activeStation}
-            setActiveStation={setActiveStation}
-            setActiveKreis={setActiveKreis}
-            setTooltipPosition={setTooltipPosition}
-            mapContainerRef={mapContainerRef}
-            mapRef={mapRef}
-          />
-          <Tooltip position={tooltipPosition} activeStation={activeStation} />
-        </MapContainer>
+        <Mapbox
+          activeKreis={activeKreis}
+          activeStation={activeStation}
+          setActiveStation={setActiveStation}
+          setActiveKreis={setActiveKreis}
+          setTooltipPosition={setTooltipPosition}
+          mapContainerRef={mapContainerRef}
+          mapRef={mapRef}
+        />
+        <Tooltip position={tooltipPosition} activeStation={activeStation} />
       </Container>
     </Wrapper>
   );

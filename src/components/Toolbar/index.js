@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "@emotion/styled";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import DataExportModal from "components/DataExportModal";
 import ImageExportModal from "components/ImageExportModal";
@@ -50,8 +52,10 @@ function Toolbar({ activeKreis, mapRef }) {
   const [show, setShow] = useState({
     screenshot: false,
     export: false,
+    teilen: false,
   });
   const [dataURL, setDataURL] = useState(null);
+  const teilenRef = useRef(null);
 
   function handleClose(eventId) {
     setShow((prevState) => ({
@@ -75,13 +79,36 @@ function Toolbar({ activeKreis, mapRef }) {
     handleShow(eventId);
   }
 
+  function copyCurrentURL(eventId) {
+    navigator.clipboard.writeText(window.location.href);
+    handleShow(eventId);
+    setTimeout(() => handleClose(eventId), 1000);
+  }
+
   return (
     <>
       <ToolbarWrapper id="toolbar-wrapper">
-        <Button highlighted id="teilen">
+        <Button
+          highlighted
+          id="teilen"
+          ref={teilenRef}
+          onClick={(e) => copyCurrentURL(e.currentTarget.id)}
+        >
           <BsReplyFill size={16} />
           <ButtonText>Teilen</ButtonText>
         </Button>
+        <Overlay
+          target={teilenRef.current}
+          show={show.teilen}
+          placement="bottom"
+        >
+          {(props) => (
+            /* eslint-disable react/jsx-props-no-spreading */
+            <Tooltip id="teilen-confirm" {...props}>
+              Link kopiert
+            </Tooltip>
+          )}
+        </Overlay>
         <Button id="screenshot" onClick={(e) => screenshot(e.currentTarget.id)}>
           <BsCameraFill size={16} />
           <ButtonText>Screenshot</ButtonText>
