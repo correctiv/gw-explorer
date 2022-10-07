@@ -8,7 +8,7 @@ const SidebarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 40px 30px 30px;
+  padding: 40px 30px 30px 30px;
   width: 380px;
   height: 100%;
   @media (max-width: 768px) {
@@ -22,8 +22,13 @@ const SidebarWrapper = styled.div`
 const SidebarHeader = styled.h2`
   font-size: 23px;
   font-weight: 700;
-  margin: 0;
+  margin: 0px 0px 30px 0px;
   padding: 0;
+`;
+
+const Searchbar = styled.div`
+  width: 100%;
+  margin-bottom: 30px;
 `;
 
 function Sidebar({ activeKreis, mapRef }) {
@@ -33,7 +38,7 @@ function Sidebar({ activeKreis, mapRef }) {
       <SidebarHeader id="sidebar-header">
         Der Grundwasserspiegel in Ihrem Kreis
       </SidebarHeader>
-      <div id="gw-explorer-geocoder" />
+      <Searchbar id="gw-explorer-geocoder" />
       <DataOverview id="infobox" activeKreis={activeKreis} />
       <Toolbar activeKreis={activeKreis} mapRef={mapRef} />
     </SidebarWrapper>

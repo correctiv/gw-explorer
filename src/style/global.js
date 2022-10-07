@@ -39,6 +39,31 @@ function GlobalStyle() {
       margin: 0;
       height: 100%;
     }
+    .mapboxgl-ctrl-geocoder {
+      box-shadow: 0 0 10px 1px #e6e6e6;
+      min-width: 100%;
+      padding: 4px 5px;
+    }
+    .mapboxgl-ctrl-geocoder--input {
+      transition: 0.2s ease-out;
+      &:focus {
+        outline: none;
+      }
+    }
+    .mapboxgl-ctrl-geocoder--icon-search {
+      top: 12px;
+      left: 12px;
+    }
+    .mapboxgl-ctrl-geocoder--button {
+      top: 0px !important;
+      background-color: transparent;
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+    .mapboxgl-ctrl-geocoder--icon-close {
+      margin-top: 14px;
+    }
   `;
 
   return <Global styles={globalStyles} />;
