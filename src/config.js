@@ -8,6 +8,7 @@ const config = {
     zoom: 6,
     layers: ["messstellen-trends-timeseries", "districts"],
     districtLayer: "districts",
+    districtLayerOutline: "districts-outline",
     districtSource: "mapbox://simonwoerpel.1swa7nuo",
     districtSourceLayer: "VG250_KRS_with_summaries-b3rb6g",
     stationLayer: "messstellen-trends-timeseries",

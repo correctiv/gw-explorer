@@ -16,6 +16,15 @@ export function handleDistrictHighlight(map, { currentId, newId }) {
   return newId;
 }
 
+export function handleDistrictLock(map, { currentId, newId }) {
+  if (newId !== currentId) {
+    if (currentId)
+      map.setFeatureState({ ...DISTRICTS, id: currentId }, { locked: false });
+    map.setFeatureState({ ...DISTRICTS, id: newId }, { locked: true });
+  }
+  return newId;
+}
+
 export function findDistrict(map, { id }) {
   // FIXME
   const features = map.querySourceFeatures(DISTRICTS.source, {
@@ -66,6 +75,22 @@ export function addDistrictsLayer(map) {
         ["boolean", ["feature-state", "hover"], false],
         0,
         0.3,
+      ],
+    },
+  });
+  map.addLayer({
+    id: config.mapbox.districtLayerOutline,
+    type: "line",
+    source: DISTRICTS.source,
+    "source-layer": DISTRICTS.sourceLayer,
+    layout: {},
+    paint: {
+      "line-color": "#ffffff",
+      "line-width": [
+        "case",
+        ["boolean", ["feature-state", "locked"], false],
+        3,
+        1,
       ],
     },
   });
