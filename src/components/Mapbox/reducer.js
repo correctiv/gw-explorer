@@ -1,5 +1,5 @@
 import config from "~/config";
-import { districtBez, statesByIso } from "~/utils/labels";
+import { districtBez, statesByIso, statesById } from "~/utils/labels";
 
 const getFeatureFromLayer = (features, layer) => {
   const layerFeatures = features.filter((f) => f.layer.id === layer);
@@ -23,6 +23,7 @@ export function selectDistrict(features) {
       id,
       name,
       bez: districtBez[bez],
+      state: statesById[id.slice(0, 2)],
       data: getDistrictData(JSON.parse(data)),
     };
   }

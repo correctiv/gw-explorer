@@ -4,7 +4,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import config from "~/config";
 import Geocoder from "~/components/Geocoder";
-import { updateUrl } from "utils/url";
 import * as actions from "./actions";
 
 const MapElement = styled.div`
@@ -75,16 +74,12 @@ function Mapbox({
   setActiveKreis,
   activeStation,
   setActiveStation,
+  resetStation,
   setTooltipPosition,
   mapRef,
   mapContainerRef,
 }) {
   const [point, onClick] = useState(null);
-
-  const resetStation = () => {
-    setActiveStation(null);
-    updateUrl({ station: null });
-  };
 
   // click
   useEffect(() => {
@@ -93,6 +88,7 @@ function Mapbox({
       const [district, station] = actions.getCurrentFeatures(mapRef.current, {
         point,
       });
+      if (!station) resetStation();
       if (station && station.id !== activeStation?.id) {
         setActiveStation(station);
       }

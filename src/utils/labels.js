@@ -13,6 +13,14 @@ const slopeBin = {
   sf: "stark fallend",
 };
 
+const slopeBinColorClass = {
+  g: "keinTrend",
+  f: "leichtSinkend",
+  s: "leichtSteigend",
+  st: "starkSteigend",
+  sf: "starkSinkend",
+};
+
 const statesById = {
   "01": "Schleswig-Holstein",
   "02": "Hamburg",
@@ -51,4 +59,4 @@ const statesByIso = {
   th: "Thüringen",
 };
 
-export { districtBez, slopeBin, statesById, statesByIso };
+export { districtBez, slopeBin, slopeBinColorClass, statesById, statesByIso };

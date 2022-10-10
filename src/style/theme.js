@@ -28,6 +28,12 @@ const theme = {
     text: "#1A192B",
     textLight: "#808080",
     lightGrey: "#D9D9D9",
+    // data coloring
+    starkSinkend: "#f56f66",
+    leichtSinkend: "#f4a582",
+    keinTrend: "#eeeeee",
+    leichtSteigend: "#92C5de",
+    starkSteigend: "#48a0fe",
   },
 };
 
