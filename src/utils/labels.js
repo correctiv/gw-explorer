@@ -6,11 +6,11 @@ const districtBez = {
 };
 
 const slopeBin = {
-  g: "gleich bleibend",
-  f: "fallend",
-  s: "steigend",
+  g: "kein starker Trend",
+  f: "leicht sinkend",
+  s: "leicht steigend",
   st: "stark steigend",
-  sf: "stark fallend",
+  sf: "stark sinkend",
 };
 
 const slopeBinColorClass = {

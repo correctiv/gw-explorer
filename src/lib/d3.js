@@ -1,6 +1,6 @@
-export { axisLeft, axisBottom } from "d3-axis";
+export { axisRight, axisBottom } from "d3-axis";
 
-export { extent } from "d3-array";
+export { extent, min, max } from "d3-array";
 
 export { line, curveBasis } from "d3-shape";
 
@@ -10,4 +10,4 @@ export { select } from "d3-selection";
 
 export { timeParse, timeFormat } from "d3-time-format";
 
-export { formatLocale } from "d3-format";
+export { formatDefaultLocale, format } from "d3-format";

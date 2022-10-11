@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import Badge from "react-bootstrap/Badge";
 import CloseButton from "react-bootstrap/CloseButton";
 import { slopeBinColorClass } from "utils/labels";
+import * as d3 from "~/lib/d3";
 
 import theme from "style/theme";
 import Chart from "./Chart";
@@ -27,7 +28,8 @@ const TooltipWrapper = styled.div`
 const TooltipHeader = styled.header`
   display: flex;
   flex-direction: row;
-  gap: 30px;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 const StateName = styled.h4`
@@ -48,6 +50,9 @@ const DistrictName = styled.h3`
 const Slope = styled(Badge)`
   background-color: ${(props) =>
     props.theme.colors[slopeBinColorClass[props.bin]]} !important;
+  font-size: 18px;
+  color: #333; // need to make white above certain saturdation
+  height: max-content;
 `;
 
 const Close = styled(CloseButton)`
@@ -55,6 +60,13 @@ const Close = styled(CloseButton)`
   top: 10px;
   right: 10px;
 `;
+
+// format locale
+d3.formatDefaultLocale({
+  decimal: ",",
+});
+
+const slopeFormat = d3.format(".2f");
 
 function Tooltip({ activeStation, resetStation, position }) {
   const [left, top] = position;
@@ -65,7 +77,9 @@ function Tooltip({ activeStation, resetStation, position }) {
       <StateName>{activeStation.state}</StateName>
       <TooltipHeader>
         <DistrictName>{activeStation.district}</DistrictName>
-        <Slope bin={activeStation.bin}>{activeStation.slope}%/Jahr</Slope>
+        <Slope bin={activeStation.bin}>
+          {slopeFormat(activeStation.slope)} %/Jahr
+        </Slope>
       </TooltipHeader>
       <span>Messstelle {activeStation.ms_nr}</span>
       <Chart data={activeStation.data} />
