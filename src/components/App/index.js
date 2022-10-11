@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
+import { ThemeProvider } from "@emotion/react";
+import theme from "style/theme";
 
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
@@ -39,6 +41,11 @@ function App() {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
 
+  const resetStation = () => {
+    setActiveStation(null);
+    updateUrl({ station: null });
+  };
+
   // update url params on station change
   useEffect(
     () => activeStation && updateUrl({ station: activeStation.id }),
@@ -56,25 +63,32 @@ function App() {
   );
 
   return (
-    <Wrapper>
-      <Container>
-        <Sidebar
-          activeKreis={activeKreis}
-          setActiveKreis={setActiveKreis}
-          mapRef={mapRef}
-        />
-        <Mapbox
-          activeKreis={activeKreis}
-          activeStation={activeStation}
-          setActiveStation={setActiveStation}
-          setActiveKreis={setActiveKreis}
-          setTooltipPosition={setTooltipPosition}
-          mapContainerRef={mapContainerRef}
-          mapRef={mapRef}
-        />
-        <Tooltip position={tooltipPosition} activeStation={activeStation} />
-      </Container>
-    </Wrapper>
+    <ThemeProvider theme={theme}>
+      <Wrapper>
+        <Container>
+          <Sidebar
+            activeKreis={activeKreis}
+            setActiveKreis={setActiveKreis}
+            mapRef={mapRef}
+          />
+          <Mapbox
+            activeKreis={activeKreis}
+            activeStation={activeStation}
+            setActiveStation={setActiveStation}
+            setActiveKreis={setActiveKreis}
+            resetStation={resetStation}
+            setTooltipPosition={setTooltipPosition}
+            mapContainerRef={mapContainerRef}
+            mapRef={mapRef}
+          />
+          <Tooltip
+            position={tooltipPosition}
+            activeStation={activeStation}
+            resetStation={resetStation}
+          />
+        </Container>
+      </Wrapper>
+    </ThemeProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import theme from "style/theme";
 
 const DistrictTitle = styled.h3`
   font-weight: 700;
@@ -96,31 +97,31 @@ const dataLevels = [
     shortname: "stark_sinkend",
     longname: "Stark sinkend",
     range: "weniger als -4 % pro Jahr",
-    fill: "#f56f66",
+    fill: theme.colors.starkSinkend,
   },
   {
     shortname: "leicht_sinkend",
     longname: "Leicht sinkend",
     range: "-4 bis -1 % pro Jahr",
-    fill: "#f4a582",
+    fill: theme.colors.leichtSinkend,
   },
   {
     shortname: "kein_trend",
     longname: "Kein starker Trend",
     range: "-1 bis +1 % pro Jahr",
-    fill: "#eeeeee",
+    fill: theme.colors.keinTrend,
   },
   {
     shortname: "leicht_steigend",
     longname: "Leicht steigend",
     range: "+1 bis +4 % pro Jahr",
-    fill: "#92C5de",
+    fill: theme.colors.leichtSteigend,
   },
   {
     shortname: "stark_steigend",
     longname: "Stark steigend",
     range: "mehr als +4 % pro Jahr",
-    fill: "#48a0fe",
+    fill: theme.colors.starkSteigend,
   },
 ];
 
@@ -143,7 +144,7 @@ function DataEntry({ measurement, shortname, range, value, fill, total }) {
 }
 
 function DataSummary({ activeKreis }) {
-  const { name, bez, data } = activeKreis;
+  const { name, state, bez, data } = activeKreis;
   const isData = data.total > 0;
   const totalText = (
     <TextContainer id="results-totals" isData={isData}>
@@ -168,7 +169,9 @@ function DataSummary({ activeKreis }) {
   return (
     <ResultsWrapper>
       <DistrictTitle>{name}</DistrictTitle>
-      <DistrictBez>{bez}</DistrictBez>
+      <DistrictBez>
+        {bez}, {state}
+      </DistrictBez>
       {totalText}
       {isData ? barCharts : null}
     </ResultsWrapper>

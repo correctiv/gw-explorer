@@ -4,7 +4,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import config from "~/config";
 import Geocoder from "~/components/Geocoder";
-import { updateUrl } from "utils/url";
 import * as actions from "./actions";
 
 const MapElement = styled.div`
@@ -20,7 +19,7 @@ const MapElement = styled.div`
 
 const initMap = (
   elementId,
-  { mapContainerRef, mapRef, onMouseMove, resetStation }
+  { mapContainerRef, mapRef, resetStation, onClick }
 ) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
@@ -44,18 +43,17 @@ const initMap = (
 
     // if initial district via url, activate it
     if (districtId) {
-      actions.findDistrict(mapRef.current, districtId);
+      actions.findDistrict(mapRef.current, { id: districtId });
     }
   });
 
   // Add zoom and rotation controls to the map.
   mapRef.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-  // update current point
-  mapRef.current.on("mousemove", ({ point }) => onMouseMove(point));
+  // update current point on click
+  mapRef.current.on("click", ({ point }) => onClick(point));
 
-  // hide tooltip on map click
-  mapRef.current.on("click", resetStation);
+  // hide tooltip on leave
   mapRef.current.on("mouseleave", resetStation);
 
   // update url state
@@ -76,26 +74,21 @@ function Mapbox({
   setActiveKreis,
   activeStation,
   setActiveStation,
+  resetStation,
   setTooltipPosition,
   mapRef,
   mapContainerRef,
 }) {
-  // avoid race conditions on mouse move
-  // const [map, setMap] = useState(null);
-  const [point, onMouseMove] = useState(null);
+  const [point, onClick] = useState(null);
 
-  const resetStation = () => {
-    setActiveStation(null);
-    updateUrl({ station: null });
-  };
-
-  // mousemove
+  // click
   useEffect(() => {
     if (point) {
       setTooltipPosition([point.x, point.y]);
       const [district, station] = actions.getCurrentFeatures(mapRef.current, {
         point,
       });
+      if (!station) resetStation();
       if (station && station.id !== activeStation?.id) {
         setActiveStation(station);
       }
@@ -113,7 +106,7 @@ function Mapbox({
   useEffect(() => {
     if (mapRef.current) return;
     initMap("mapbox-map", {
-      onMouseMove,
+      onClick,
       resetStation,
       mapContainerRef,
       mapRef,

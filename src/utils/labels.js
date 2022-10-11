@@ -6,11 +6,19 @@ const districtBez = {
 };
 
 const slopeBin = {
-  g: "gleich bleibend",
-  f: "fallend",
-  s: "steigend",
+  g: "kein starker Trend",
+  f: "leicht sinkend",
+  s: "leicht steigend",
   st: "stark steigend",
-  sf: "stark fallend",
+  sf: "stark sinkend",
+};
+
+const slopeBinColorClass = {
+  g: "keinTrend",
+  f: "leichtSinkend",
+  s: "leichtSteigend",
+  st: "starkSteigend",
+  sf: "starkSinkend",
 };
 
 const statesById = {
@@ -51,4 +59,4 @@ const statesByIso = {
   th: "Thüringen",
 };
 
-export { districtBez, slopeBin, statesById, statesByIso };
+export { districtBez, slopeBin, slopeBinColorClass, statesById, statesByIso };
