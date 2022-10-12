@@ -18,6 +18,7 @@ const SidebarWrapper = styled.div`
   }
   flex: none;
   order: 0;
+  overflow: scroll;
 `;
 
 const SidebarHeader = styled.h2`

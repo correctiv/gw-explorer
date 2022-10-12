@@ -84,7 +84,7 @@ const renderChart = ({ element, width, height, margin, data }) => {
 
   g.selectAll(".axis--x .tick text").attr("dy", 4);
 
-  g.select(".axis--x .tick:first-of-type text").attr("dx", 10);
+  g.select(".axis--x .tick:first-of-type text").attr("dx", 11);
 
   g.select(".axis--x .tick:last-of-type text").attr("dx", -5);
 
