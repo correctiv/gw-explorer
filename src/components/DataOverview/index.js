@@ -146,13 +146,16 @@ function DataEntry({ measurement, shortname, range, value, fill, total }) {
 function DataSummary({ activeKreis }) {
   const { name, state, bez, data } = activeKreis;
   const isData = data.total > 0;
-  const totalText = (
+  const totalText = isData ? (
     <TextContainer id="results-totals" isData={isData}>
       Hier gibt es
-      <Totals>{` ${
-        isData ? data.total : "keine"
-      } Grundwassermessstellen `}</Totals>
+      <Totals> {data.total} Grundwassermessstellen </Totals>
       mit regelmäßigen Daten seit 1990.
+    </TextContainer>
+  ) : (
+    <TextContainer id="results-none">
+      Hier liegen uns keine Daten vor oder die Daten erfüllten nicht unsere
+      Qualitätskriterien.
     </TextContainer>
   );
   const barCharts = dataLevels.map((d) => (
