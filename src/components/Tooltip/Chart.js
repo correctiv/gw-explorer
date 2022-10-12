@@ -98,7 +98,7 @@ const renderChart = ({ element, width, height, margin, data }) => {
       d3
         .axisRight(y)
         .tickValues(yTicks)
-        .tickFormat((d) => `${yTickFormat(d)}m`)
+        .tickFormat((d) => `${yTickFormat(d)} m ü NN`)
         .tickSize(width)
     );
 
