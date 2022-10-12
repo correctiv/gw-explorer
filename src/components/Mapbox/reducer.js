@@ -1,19 +1,10 @@
 import config from "~/config";
-import { districtBez, statesByIso, statesById } from "~/utils/labels";
+import { statesByIso, statesById } from "~/utils/labels";
 
 const getFeatureFromLayer = (features, layer) => {
   const layerFeatures = features.filter((f) => f.layer.id === layer);
   return layerFeatures.length ? layerFeatures[0] : null;
 };
-
-const getDistrictData = ({ t, si, ls, kt, lt, st }) => ({
-  total: t,
-  stark_sinkend: si,
-  leicht_sinkend: ls,
-  kein_trend: kt,
-  leicht_steigend: lt,
-  stark_steigend: st,
-});
 
 export function selectDistrict(features) {
   const feature = getFeatureFromLayer(features, config.mapbox.districtLayer);
@@ -22,9 +13,10 @@ export function selectDistrict(features) {
     return {
       id,
       name,
-      bez: districtBez[bez],
+      // bez: districtBez[bez],
+      bez,
       state: statesById[id.slice(0, 2)],
-      data: getDistrictData(JSON.parse(data)),
+      data: JSON.parse(data),
     };
   }
   return null;
