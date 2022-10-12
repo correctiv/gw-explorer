@@ -39,7 +39,8 @@ export default function Geocoder({ mapboxgl }) {
     language: "de",
     types: "district,postcode,place",
     zoom: 12,
-    marker: true,
+    marker: false,
+    localGeocoderOnly: true,
     localGeocoder,
   });
 }
