@@ -199,7 +199,6 @@ function Explainer() {
         Sie können sowohl die Trends einzelner Messstellen als auch die
         Übersicht auf Kreisebene sehen.
       </IntroGraf>
-      <IntroGraf>Mehr über unsere Methodik finden Sie hier.</IntroGraf>
     </TextContainer>
   );
 }

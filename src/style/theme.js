@@ -28,6 +28,7 @@ const theme = {
     text: "#1A192B",
     textLight: "#808080",
     lightGrey: "#D9D9D9",
+    emphasis: "#FF5064",
     // data coloring
     starkSinkend: "#f56f66",
     leichtSinkend: "#f4a582",

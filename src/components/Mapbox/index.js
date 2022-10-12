@@ -61,6 +61,13 @@ const initMap = (
 
   // add geocoder to sidebar element
   const geocoder = Geocoder({ mapboxgl });
+
+  geocoder.on("result", (e) => {
+    const geometry = e.result.geometry.coordinates;
+    const projection = mapRef.current.project([geometry[0], geometry[1]]);
+    console.log(projection);
+  });
+
   document
     .getElementById("gw-explorer-geocoder")
     .appendChild(geocoder.onAdd(mapRef.current));
