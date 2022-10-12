@@ -6,19 +6,26 @@ const districtBez = {
 };
 
 const slopeBin = {
-  g: "kein starker Trend",
-  f: "leicht sinkend",
-  s: "leicht steigend",
-  st: "stark steigend",
-  sf: "stark sinkend",
+  // FIXME
+  "kein starker trend": "kein starker Trend",
+  "leicht sinkend": "leicht sinkend",
+  "leicht steigend": "leicht steigend",
+  "stark steigend": "stark steigend",
+  "stark sinkend": "stark sinkend",
 };
 
 const slopeBinColorClass = {
-  g: "keinTrend",
-  f: "leichtSinkend",
-  s: "leichtSteigend",
-  st: "starkSteigend",
-  sf: "starkSinkend",
+  // FIXME
+  "kein starker trend": "keinTrend",
+  "leicht sinkend": "leichtSinkend",
+  "leicht steigend": "leichtSteigend",
+  "stark steigend": "starkSteigend",
+  "stark sinkend": "starkSinkend",
+  // g: "keinTrend",
+  // f: "leichtSinkend",
+  // s: "leichtSteigend",
+  // st: "starkSteigend",
+  // sf: "starkSinkend",
 };
 
 const statesById = {
