@@ -65,6 +65,8 @@ const renderChart = ({ element, width, height, margin, data }) => {
     .append("svg")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("viewBox", `0 0 ${width + left + right} ${height + top + bottom}`)
+    .attr("width", "100%")
+    .attr("height", "auto")
     .append("g")
     .attr("transform", `translate(${left},${top})`);
 

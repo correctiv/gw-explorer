@@ -40,7 +40,7 @@ function Sidebar({ activeKreis, mapRef }) {
       </SidebarHeader>
       <Searchbar id="gw-explorer-geocoder" />
       <DataOverview id="infobox" activeKreis={activeKreis} />
-      <Toolbar activeKreis={activeKreis} mapRef={mapRef} />
+      <Toolbar mapRef={mapRef} />
     </SidebarWrapper>
   );
 }

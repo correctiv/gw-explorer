@@ -16,6 +16,7 @@ const ToolbarWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
+  padding-top: 12px;
 `;
 
 const Button = styled.button`
@@ -48,7 +49,7 @@ const ButtonText = styled.span`
   margin-left: 7px;
 `;
 
-function Toolbar({ activeKreis, mapRef }) {
+function Toolbar({ mapRef }) {
   const [show, setShow] = useState({
     screenshot: false,
     export: false,
@@ -97,11 +98,7 @@ function Toolbar({ activeKreis, mapRef }) {
           <BsReplyFill size={16} />
           <ButtonText>Teilen</ButtonText>
         </Button>
-        <Overlay
-          target={teilenRef.current}
-          show={show.teilen}
-          placement="bottom"
-        >
+        <Overlay target={teilenRef.current} show={show.teilen} placement="top">
           {(props) => (
             /* eslint-disable react/jsx-props-no-spreading */
             <Tooltip id="teilen-confirm" {...props}>
@@ -131,7 +128,6 @@ function Toolbar({ activeKreis, mapRef }) {
       <DataExportModal
         show={show.export}
         handleClose={() => handleClose("export")}
-        activeKreis={activeKreis}
         controlledBy="export"
       />
     </>
