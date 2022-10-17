@@ -70,9 +70,6 @@ const slopeFormat = d3.format(".2f");
 
 function Tooltip({ activeStation, resetStation, position }) {
   const [left, top] = position;
-  if (activeStation) {
-    console.log(activeStation);
-  }
 
   return activeStation ? (
     <TooltipWrapper style={{ top, left }}>
