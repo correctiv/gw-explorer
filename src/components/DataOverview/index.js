@@ -96,7 +96,7 @@ const dataLevels = [
   {
     shortname: "stark_sinkend",
     longname: "Stark sinkend",
-    range: "weniger als -1 % pro Jahr",
+    range: "stärker als -1 % pro Jahr",
   },
   {
     shortname: "leicht_sinkend",
@@ -116,7 +116,7 @@ const dataLevels = [
   {
     shortname: "stark_steigend",
     longname: "Stark steigend",
-    range: "mehr als +1 % pro Jahr",
+    range: "stärker als +1 % pro Jahr",
   },
 ];
 
