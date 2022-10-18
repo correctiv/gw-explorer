@@ -2,7 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import Badge from "react-bootstrap/Badge";
 import CloseButton from "react-bootstrap/CloseButton";
-import { slopeBinColorClass } from "utils/labels";
 import * as d3 from "~/lib/d3";
 
 import theme from "style/theme";
@@ -48,8 +47,7 @@ const DistrictName = styled.h3`
 `;
 
 const Slope = styled(Badge)`
-  background-color: ${(props) =>
-    props.theme.colors[slopeBinColorClass[props.bin]]} !important;
+  background-color: ${(props) => props.theme.colors[props.bin]} !important;
   font-size: 18px;
   color: #333; // need to make white above certain saturdation
   height: max-content;

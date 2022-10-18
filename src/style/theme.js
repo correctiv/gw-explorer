@@ -30,11 +30,11 @@ const theme = {
     lightGrey: "#D9D9D9",
     emphasis: "#FF5064",
     // data coloring
-    starkSinkend: "#f56f66",
-    leichtSinkend: "#f4a582",
-    keinTrend: "#eeeeee",
-    leichtSteigend: "#92C5de",
-    starkSteigend: "#48a0fe",
+    stark_sinkend: "#f56f66",
+    leicht_sinkend: "#f4a582",
+    kein_starker_trend: "#eeeeee",
+    leicht_steigend: "#92C5de",
+    stark_steigend: "#48a0fe",
   },
 };
 

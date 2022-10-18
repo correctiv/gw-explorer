@@ -97,35 +97,30 @@ const dataLevels = [
     shortname: "stark_sinkend",
     longname: "Stark sinkend",
     range: "weniger als -1 % pro Jahr",
-    fill: theme.colors.starkSinkend,
   },
   {
     shortname: "leicht_sinkend",
     longname: "Leicht sinkend",
     range: "-1 bis -0,5 % pro Jahr",
-    fill: theme.colors.leichtSinkend,
   },
   {
-    shortname: "kein_trend",
+    shortname: "kein_starker_trend",
     longname: "Kein starker Trend",
     range: "-0,5 bis +0,5 % pro Jahr",
-    fill: theme.colors.keinTrend,
   },
   {
     shortname: "leicht_steigend",
     longname: "Leicht steigend",
     range: "+0,5 bis +1 % pro Jahr",
-    fill: theme.colors.leichtSteigend,
   },
   {
     shortname: "stark_steigend",
     longname: "Stark steigend",
     range: "mehr als +1 % pro Jahr",
-    fill: theme.colors.starkSteigend,
   },
 ];
 
-function DataEntry({ measurement, shortname, range, value, fill, total }) {
+function DataEntry({ measurement, shortname, range, value, total }) {
   const width = value === 0 ? "2px" : `${(100 * value) / total}%`;
   return (
     <EntryWrapper id={`${shortname}--item`}>
@@ -135,7 +130,7 @@ function DataEntry({ measurement, shortname, range, value, fill, total }) {
       </EntryTextWrapper>
       <BarWrapper>
         <Bar>
-          <BarColorFill fill={fill} width={width} />
+          <BarColorFill fill={theme.colors[shortname]} width={width} />
         </Bar>
         <BarValue>{value}</BarValue>
       </BarWrapper>
@@ -144,7 +139,7 @@ function DataEntry({ measurement, shortname, range, value, fill, total }) {
 }
 
 function DataSummary({ activeKreis }) {
-  const { name, state, bez, data } = activeKreis;
+  const { name, state, bez, ...data } = activeKreis;
   const isData = data.total > 0;
   const totalText = isData ? (
     <TextContainer id="results-totals" isData={isData}>

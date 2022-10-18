@@ -10,35 +10,27 @@ const DISTRICTS = {
 export function handleDistrictHighlight(map, { currentId, newId }) {
   if (newId !== currentId) {
     if (currentId)
-      map.setFeatureState({ ...DISTRICTS, id: currentId }, { hover: false });
-    map.setFeatureState({ ...DISTRICTS, id: newId }, { hover: true });
+      map.setFeatureState(
+        { ...DISTRICTS, id: currentId },
+        { highlight: false }
+      );
+    map.setFeatureState({ ...DISTRICTS, id: newId }, { highlight: true });
   }
   return newId;
 }
 
-export function handleDistrictLock(map, { currentId, newId }) {
-  if (newId !== currentId) {
-    if (currentId)
-      map.setFeatureState({ ...DISTRICTS, id: currentId }, { locked: false });
-    map.setFeatureState({ ...DISTRICTS, id: newId }, { locked: true });
-  }
-  return newId;
-}
-
-export function findDistrict(map, { id }) {
-  // FIXME
-  const features = map.querySourceFeatures(DISTRICTS.source, {
-    sourceLayer: DISTRICTS.sourceLayer,
-  });
-  console.log(id, features);
-  return features;
-}
-
-export function getCurrentFeatures(map, { point }) {
+export function getCurrentDistrict(map, { point }) {
   const features = map.queryRenderedFeatures(point, {
-    layers: config.mapbox.layers,
+    layers: [config.mapbox.districtLayer],
   });
-  return [selectDistrict(features), selectStation(features)];
+  return selectDistrict(features);
+}
+
+export function getCurrentStation(map, { point }) {
+  const features = map.queryRenderedFeatures(point, {
+    layers: [config.mapbox.stationLayer],
+  });
+  return selectStation(features);
 }
 
 export function getMapStateFromUrl() {
@@ -72,7 +64,7 @@ export function addDistrictsLayer(map) {
       "fill-color": "#ffffff",
       "fill-opacity": [
         "case",
-        ["boolean", ["feature-state", "hover"], false],
+        ["boolean", ["feature-state", "highlight"], false],
         0,
         0.3,
       ],
@@ -88,7 +80,7 @@ export function addDistrictsLayer(map) {
       "line-color": "#ffffff",
       "line-width": [
         "case",
-        ["boolean", ["feature-state", "locked"], false],
+        ["boolean", ["feature-state", "highlight"], false],
         3,
         1,
       ],
