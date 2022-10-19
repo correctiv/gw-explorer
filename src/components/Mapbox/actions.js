@@ -66,7 +66,7 @@ export function addDistrictsLayer(map) {
         "case",
         ["boolean", ["feature-state", "highlight"], false],
         0,
-        0.3,
+        0.15,
       ],
     },
   });
