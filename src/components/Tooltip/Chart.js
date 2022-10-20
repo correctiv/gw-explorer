@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import * as d3 from "~/lib/d3";
 
 const ChartWrapper = styled.div`
+  margin-top: 20px;
   path {
     fill: none;
     stroke: #333;
@@ -127,7 +128,7 @@ const renderChart = ({ element, width, height, margin, data }) => {
 function Chart({ data }) {
   const width = 250;
   const height = 100;
-  const margin = [20, 10, 20, 0];
+  const margin = [20, 10, 20, 1];
 
   const reset = () => d3.select("#gw-tooltip-chart").select("svg").remove();
 
