@@ -5,6 +5,7 @@ import mapboxgl from "mapbox-gl";
 import config from "~/config";
 import Geocoder from "~/components/Geocoder";
 import * as actions from "./actions";
+import { selectDistrictFromData } from "./reducer";
 
 const MapElement = styled.div`
   position: relative;
@@ -19,7 +20,7 @@ const MapElement = styled.div`
 
 const initMap = (
   elementId,
-  { mapContainerRef, mapRef, resetStation, onClick }
+  { mapContainerRef, mapRef, onClick, onMove, handleDistrictChange }
 ) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
@@ -43,7 +44,8 @@ const initMap = (
 
     // if initial district via url, activate it
     if (districtId) {
-      actions.findDistrict(mapRef.current, { id: districtId });
+      const district = selectDistrictFromData({ id: districtId });
+      console.log("INITIAL", district.id);
     }
   });
 
@@ -53,31 +55,28 @@ const initMap = (
   // update current point on click
   mapRef.current.on("click", ({ point }) => onClick(point));
 
-  // hide tooltip on leave
-  mapRef.current.on("mouseleave", resetStation);
+  // update current point on move
+  mapRef.current.on("mousemove", ({ point }) => onMove(point));
 
-  // update url state
+  // update map state in url
   mapRef.current.on("moveend", () => actions.updateUrlMapState(mapRef.current));
 
   // add geocoder to sidebar element
   const geocoder = Geocoder({ mapboxgl });
-
-  geocoder.on("result", (e) => {
-    const geometry = e.result.geometry.coordinates;
-    const projection = mapRef.current.project([geometry[0], geometry[1]]);
-    console.log(projection);
+  geocoder.on("result", ({ result }) => {
+    const { id } = result.properties;
+    if (id) handleDistrictChange(selectDistrictFromData({ id }));
   });
 
   document
     .getElementById("gw-explorer-geocoder")
     .appendChild(geocoder.onAdd(mapRef.current));
 
-  // mapRef.current = map;
   return mapRef.current;
 };
 
 function Mapbox({
-  activeKreis,
+  // activeKreis,
   setActiveKreis,
   activeStation,
   setActiveStation,
@@ -86,34 +85,53 @@ function Mapbox({
   mapRef,
   mapContainerRef,
 }) {
-  const [point, onClick] = useState(null);
+  const [clickPoint, onClick] = useState(null);
+  const [movePoint, onMove] = useState(null);
+
+  const handleDistrictChange = (newDistrict) => {
+    if (newDistrict) {
+      setActiveKreis((oldDistrict) => {
+        // apply highlight
+        actions.handleDistrictHighlight(mapRef.current, {
+          currentId: oldDistrict?.id,
+          newId: newDistrict.id,
+        });
+        return newDistrict;
+      });
+    }
+  };
 
   // click
   useEffect(() => {
-    if (point) {
-      setTooltipPosition([point.x, point.y]);
-      const [district, station] = actions.getCurrentFeatures(mapRef.current, {
-        point,
+    if (clickPoint) {
+      const district = actions.getCurrentDistrict(mapRef.current, {
+        point: clickPoint,
+      });
+      handleDistrictChange(district);
+    }
+  }, [clickPoint]);
+
+  // move
+  useEffect(() => {
+    if (movePoint) {
+      setTooltipPosition([movePoint.x, movePoint.y]);
+      const station = actions.getCurrentStation(mapRef.current, {
+        point: movePoint,
       });
       if (!station) resetStation();
       if (station && station.id !== activeStation?.id) {
         setActiveStation(station);
       }
-      if (district && district.id !== activeKreis?.id) {
-        actions.handleDistrictHighlight(mapRef.current, {
-          currentId: activeKreis?.id,
-          newId: district.id,
-        });
-        setActiveKreis(district);
-      }
     }
-  }, [point]);
+  }, [movePoint]);
 
   // on mount
   useEffect(() => {
     if (mapRef.current) return;
     initMap("mapbox-map", {
       onClick,
+      onMove,
+      handleDistrictChange,
       resetStation,
       mapContainerRef,
       mapRef,

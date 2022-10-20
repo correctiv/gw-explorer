@@ -1,7 +1,7 @@
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import { districtBez } from "~/utils/labels";
-import districts from "~/data/districts_search.csv";
+import { districtBez } from "utils/labels";
+import districts from "data/districts.csv";
 
 const districtsData = {
   features: districts.map((f) => ({

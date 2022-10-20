@@ -6,26 +6,11 @@ const districtBez = {
 };
 
 const slopeBin = {
-  // FIXME
-  "kein starker trend": "kein starker Trend",
-  "leicht sinkend": "leicht sinkend",
-  "leicht steigend": "leicht steigend",
-  "stark steigend": "stark steigend",
-  "stark sinkend": "stark sinkend",
-};
-
-const slopeBinColorClass = {
-  // FIXME
-  "kein starker trend": "keinTrend",
-  "leicht sinkend": "leichtSinkend",
-  "leicht steigend": "leichtSteigend",
-  "stark steigend": "starkSteigend",
-  "stark sinkend": "starkSinkend",
-  // g: "keinTrend",
-  // f: "leichtSinkend",
-  // s: "leichtSteigend",
-  // st: "starkSteigend",
-  // sf: "starkSinkend",
+  kein_starker_trend: "kein starker Trend",
+  leicht_sinkend: "leicht sinkend",
+  leicht_steigend: "leicht steigend",
+  stark_steigend: "stark steigend",
+  stark_sinkend: "stark sinkend",
 };
 
 const statesById = {
@@ -66,4 +51,4 @@ const statesByIso = {
   th: "Thüringen",
 };
 
-export { districtBez, slopeBin, slopeBinColorClass, statesById, statesByIso };
+export { districtBez, slopeBin, statesById, statesByIso };
