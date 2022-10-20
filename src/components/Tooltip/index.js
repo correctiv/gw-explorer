@@ -5,6 +5,7 @@ import CloseButton from "react-bootstrap/CloseButton";
 import * as d3 from "~/lib/d3";
 
 import theme from "style/theme";
+import { slopeBin } from "utils/labels";
 import Chart from "./Chart";
 
 const TooltipWrapper = styled.div`
@@ -24,7 +25,7 @@ const TooltipWrapper = styled.div`
   box-shadow: ${theme.boxShadow};
 `;
 
-const TooltipHeader = styled.header`
+const TooltipSection = styled.section`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -53,6 +54,11 @@ const Slope = styled(Badge)`
   height: max-content;
 `;
 
+const Trend = styled.span`
+  color: ${theme.colors.textLight};
+  text-align: right;
+`;
+
 const Close = styled(CloseButton)`
   position: absolute;
   top: 10px;
@@ -73,13 +79,14 @@ function Tooltip({ activeStation, resetStation, position }) {
     <TooltipWrapper style={{ top, left }}>
       <Close onClick={resetStation} />
       <StateName>{activeStation.state}</StateName>
-      <TooltipHeader>
+      <TooltipSection>
         <DistrictName>{activeStation.district}</DistrictName>
-        <Slope bin={activeStation.bin}>
-          {slopeFormat(activeStation.slope)} %/Jahr
-        </Slope>
-      </TooltipHeader>
-      <span>Messstelle {activeStation.ms_nr}</span>
+        <Slope bin={activeStation.bin}>{slopeBin[activeStation.bin]}</Slope>
+      </TooltipSection>
+      <TooltipSection>
+        <span>ID:&nbsp;{activeStation.ms_nr}</span>
+        <Trend>Jahrestrend:&nbsp;{slopeFormat(activeStation.slope)} %</Trend>
+      </TooltipSection>
       <Chart data={activeStation.data} />
     </TooltipWrapper>
   ) : null;
