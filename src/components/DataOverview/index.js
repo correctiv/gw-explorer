@@ -181,11 +181,10 @@ function Explainer() {
     <TextContainer id="intro-text">
       <IntroGraf>Das Grundwasser in Deutschland sinkt.</IntroGraf>
       <IntroGraf>
-        Eine CORRECTIV-Analyse in zwölf Bundesländern zeigt, dass der
-        Grundwasserspiegel zwischen 1990 und 2021 um durchschnittlich 0,04
-        Prozent pro Jahr gesunken ist. Knapp 45 Prozent der 5.542 untersuchten
-        Grundwassermessstellen erreichten ihren niedrigsten Wert in den
-        Dürrejahren 2018-2021.
+        Eine CORRECTIV-Analyse in 13 Bundesländern zeigt, dass insgesamt die
+        Grundwasserspiegel zwischen 1990 und 2021 mehr sinken als sie steigen.
+        Knapp die Hälfte der 6.677 untersuchten Grundwassermessstellen
+        erreichten ihren niedrigsten Wert in den Dürrejahren 2018-2021.
       </IntroGraf>
       <IntroGraf>
         Mit diesem Tool können Sie herausfinden, wie sich der Grundwasserspiegel
