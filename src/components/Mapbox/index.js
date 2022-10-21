@@ -114,7 +114,14 @@ function Mapbox({
   // move
   useEffect(() => {
     if (movePoint) {
-      setTooltipPosition([movePoint.x, movePoint.y]);
+      // nudge tooltip in view always
+      const containerWidthMidpoint = mapContainerRef.current.clientWidth / 2;
+      const containerHeightMidpoint = mapContainerRef.current.clientHeight / 2;
+      const x =
+        movePoint.x < containerWidthMidpoint ? movePoint.x + 380 : movePoint.x;
+      const y =
+        movePoint.y > containerHeightMidpoint ? movePoint.y - 300 : movePoint.y;
+      setTooltipPosition([x, y]);
       const station = actions.getCurrentStation(mapRef.current, {
         point: movePoint,
       });
