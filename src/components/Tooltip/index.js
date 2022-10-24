@@ -32,6 +32,7 @@ const TooltipSection = styled.section`
   width: 100%;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 0;
 `;
 
 const StateName = styled.h4`
@@ -49,6 +50,18 @@ const DistrictName = styled.h3`
   margin: 0;
 `;
 
+const StationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
+const StationId = styled.div`
+  width: 100%;
+`;
+
 const SlopeWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,15 +72,22 @@ const SlopeWrapper = styled.div`
 
 const Slope = styled(Badge)`
   background-color: ${(props) => props.theme.colors[props.bin]} !important;
-  font-size: 16px;
+  font-size: 15px;
   color: #333; // need to make white above certain saturdation
   height: max-content;
+  margin-bottom: 2px;
+`;
+
+const MiniHeader = styled.span`
+  color: ${theme.colors.textLight};
+  text-align: right;
+  font-size: 15px;
 `;
 
 const Trend = styled.span`
   color: ${theme.colors.textLight};
   text-align: right;
-  font-size: 15px;
+  font-size: 14px;
 `;
 
 const Close = styled(CloseButton)`
@@ -94,8 +114,12 @@ function Tooltip({ activeStation, resetStation, position }) {
       <StateName>{activeStation.state}</StateName>
       <DistrictName>{activeStation.district}</DistrictName>
       <TooltipSection>
-        <span>Messstelle&nbsp;{activeStation.ms_nr}</span>
+        <StationWrapper>
+          <MiniHeader>Messstelle Nr.</MiniHeader>
+          <StationId>{activeStation.ms_nr}</StationId>
+        </StationWrapper>
         <SlopeWrapper>
+          <MiniHeader>Tendenz</MiniHeader>
           <Slope bin={activeStation.bin}>{slopeBin[activeStation.bin]}</Slope>
           <Trend>{slopeFormat(activeStation.slope)} % pro Jahr</Trend>
         </SlopeWrapper>
