@@ -19,8 +19,8 @@ const districtsData = {
     place_name: `${f.name} (${districtBez[f.bez]})`,
     place_name_de: `${f.name} (${districtBez[f.bez]})`,
     place_type: ["district"],
-    center: f.center,
-    bbox: f.bbox,
+    center: f.center.split(",").map(parseFloat),
+    bbox: f.bbox.split(",").map(parseFloat),
     search: f.search,
   })),
 };

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "@emotion/react";
 import theme from "style/theme";
+import { device } from "utils/css-utils";
 
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
@@ -21,7 +22,7 @@ const Container = styled.div`
   flex-direction: row;
   width: 100%;
   height: 100%;
-  @media (max-width: 768px) {
+  ${device.tablet} {
     flex-direction: column;
   }
   align-items: flex-start;
@@ -41,7 +42,7 @@ function App() {
 
   const resetStation = () => {
     setActiveStation(null);
-    updateUrl({ station: null });
+    // updateUrl({ station: null });
   };
 
   // update url params on station change
