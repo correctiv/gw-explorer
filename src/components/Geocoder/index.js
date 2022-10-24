@@ -11,7 +11,7 @@ const districtsData = {
       name: f.name,
     },
     geometry: {
-      coordinates: f.center.split(",").map(parseFloat),
+      coordinates: f.center,
       type: "Point",
     },
     text: f.name,
