@@ -3,18 +3,22 @@ import styled from "@emotion/styled";
 import * as d3 from "~/lib/d3";
 
 const ChartWrapper = styled.div`
-  margin-top: 20px;
+  margin-top: 0px;
   path {
     fill: none;
-    stroke: #333;
+  }
+  .data-path {
+    stroke: #707070;
     stroke-width: 1.5;
+  }
+  .trend-path {
+    stroke-width: 2;
   }
   .tick line,
   .domain {
     stroke: #707070;
     stroke-width: 1;
   }
-
   .tick text {
     font-weight: light;
   }
@@ -31,11 +35,38 @@ const DATES = [...Array(32).keys()]
   .map((y) => [...Array(12).keys()].map((m) => new Date(y, m + 1, 16)))
   .flat();
 
-const renderChart = ({ element, width, height, margin, data }) => {
+const renderChart = ({
+  element,
+  width,
+  height,
+  margin,
+  intercept,
+  slope,
+  data,
+  color,
+}) => {
   const vizData = DATES.map((d, i) => ({
     date: d,
     value: data[i],
   })).filter(({ value }) => !!value);
+
+  const x0 = new Date(1990, 1, 1);
+  const y0 = intercept;
+  // will update later with corrected slope!
+  const changey = (32 * slope * 12) / 100;
+  const x1 = new Date(2021, 12, 31);
+  const y1 = intercept + changey;
+
+  const trendData = [
+    {
+      date: x0,
+      value: y0,
+    },
+    {
+      date: x1,
+      value: y1,
+    },
+  ];
 
   const xTicks = [
     new Date(1990, 1, 1),
@@ -43,6 +74,7 @@ const renderChart = ({ element, width, height, margin, data }) => {
     new Date(2010, 1, 1),
     new Date(2021, 1, 1),
   ];
+
   const x = d3.scaleTime().rangeRound([0, width]).domain(d3.extent(DATES));
   const yTicks = [
     d3.min(data),
@@ -120,12 +152,18 @@ const renderChart = ({ element, width, height, margin, data }) => {
 
   g.select(".axis--y .tick:nth-of-type(2) text").remove();
 
-  g.append("path").datum(vizData).attr("d", line);
+  g.append("path").datum(vizData).attr("d", line).attr("class", "data-path");
+
+  g.append("path")
+    .datum(trendData)
+    .attr("d", line)
+    .attr("class", "trend-path")
+    .attr("stroke", color);
 
   return g;
 };
 
-function Chart({ data }) {
+function Chart({ intercept, slope, data, color }) {
   const width = 250;
   const height = 100;
   const margin = [20, 10, 20, 1];
@@ -140,9 +178,12 @@ function Chart({ data }) {
       width,
       height,
       margin,
+      intercept,
+      slope,
       data,
+      color,
     });
-  }, [data]);
+  }, [intercept, slope, data, color]);
 
   return <ChartWrapper id="gw-tooltip-chart" />;
 }

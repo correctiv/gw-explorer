@@ -16,7 +16,6 @@ const ToolbarWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: auto;
-  padding-top: 12px;
 `;
 
 const Button = styled.button`

@@ -6,7 +6,7 @@ const DistrictTitle = styled.h3`
   font-weight: 700;
   font-size: 23px;
   color: #333;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
 `;
 
 const DistrictBez = styled.span`
@@ -15,6 +15,7 @@ const DistrictBez = styled.span`
 
 const DataOverviewWrapper = styled.div`
   width: 100%;
+  margin: 0px 0px 30px 0px;
 `;
 
 const ResultsWrapper = styled.div`
@@ -26,15 +27,20 @@ const Totals = styled.span`
   font-weight: 700;
 `;
 
-const TextContainer = styled.div`
+const IntroText = styled.div`
   border-bottom: ${(props) => (props.isData ? "1px solid #e6e6e6" : "none")};
-  padding: 18px 0px;
+  padding: 0px;
+`;
+
+const DistrictText = styled.div`
+  border-bottom: ${(props) => (props.isData ? "1px solid #e6e6e6" : "none")};
+  padding: 12px 0px;
 `;
 
 const EntryWrapper = styled.div`
   width: 100%;
   border-bottom: 1px solid #e6e6e6;
-  padding: 12px 0px;
+  padding: 10px 0px;
   margin: 0px;
   display: flex;
   flex-wrap: wrap;
@@ -47,7 +53,7 @@ const EntryTextWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 `;
 
 const EntryText = styled.div`
@@ -69,6 +75,7 @@ const BarWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0;
+  padding: 0;
 `;
 
 const Bar = styled.div`
@@ -142,16 +149,16 @@ function DataSummary({ activeKreis }) {
   const { name, state, bez, ...data } = activeKreis;
   const isData = data.total > 0;
   const totalText = isData ? (
-    <TextContainer id="results-totals" isData={isData}>
+    <DistrictText id="results-totals" isData={isData}>
       Hier gibt es
       <Totals> {data.total} Grundwassermessstellen </Totals>
       mit regelmäßigen Daten seit 1990.
-    </TextContainer>
+    </DistrictText>
   ) : (
-    <TextContainer id="results-none">
+    <DistrictText id="results-none">
       Hier liegen uns keine Daten vor oder die Daten erfüllten nicht unsere
       Qualitätskriterien.
-    </TextContainer>
+    </DistrictText>
   );
   const barCharts = dataLevels.map((d) => (
     <DataEntry
@@ -178,7 +185,7 @@ function DataSummary({ activeKreis }) {
 
 function Explainer() {
   return (
-    <TextContainer id="intro-text">
+    <IntroText id="intro-text">
       <IntroGraf>Das Grundwasser in Deutschland sinkt.</IntroGraf>
       <IntroGraf>
         Eine CORRECTIV-Analyse in 13 Bundesländern zeigt, dass insgesamt die
@@ -196,7 +203,7 @@ function Explainer() {
         Sie können sowohl die Trends einzelner Messstellen als auch die
         Übersicht auf Kreisebene sehen.
       </IntroGraf>
-    </TextContainer>
+    </IntroText>
   );
 }
 

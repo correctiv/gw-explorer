@@ -28,8 +28,10 @@ const TooltipWrapper = styled.div`
 const TooltipSection = styled.section`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
   justify-content: space-between;
+  align-items: flex-start;
 `;
 
 const StateName = styled.h4`
@@ -47,9 +49,17 @@ const DistrictName = styled.h3`
   margin: 0;
 `;
 
+const SlopeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+`;
+
 const Slope = styled(Badge)`
   background-color: ${(props) => props.theme.colors[props.bin]} !important;
-  font-size: 18px;
+  font-size: 16px;
   color: #333; // need to make white above certain saturdation
   height: max-content;
 `;
@@ -57,10 +67,13 @@ const Slope = styled(Badge)`
 const Trend = styled.span`
   color: ${theme.colors.textLight};
   text-align: right;
+  font-size: 15px;
 `;
 
 const Close = styled(CloseButton)`
   position: absolute;
+  height: 4px;
+  width: 4px;
   top: 10px;
   right: 10px;
 `;
@@ -70,7 +83,7 @@ d3.formatDefaultLocale({
   decimal: ",",
 });
 
-const slopeFormat = d3.format(".2f");
+const slopeFormat = d3.format("+.2f");
 
 function Tooltip({ activeStation, resetStation, position }) {
   const [left, top] = position;
@@ -79,15 +92,20 @@ function Tooltip({ activeStation, resetStation, position }) {
     <TooltipWrapper style={{ top, left }}>
       <Close onClick={resetStation} />
       <StateName>{activeStation.state}</StateName>
+      <DistrictName>{activeStation.district}</DistrictName>
       <TooltipSection>
-        <DistrictName>{activeStation.district}</DistrictName>
-        <Slope bin={activeStation.bin}>{slopeBin[activeStation.bin]}</Slope>
+        <span>Messstelle&nbsp;{activeStation.ms_nr}</span>
+        <SlopeWrapper>
+          <Slope bin={activeStation.bin}>{slopeBin[activeStation.bin]}</Slope>
+          <Trend>{slopeFormat(activeStation.slope)} % pro Jahr</Trend>
+        </SlopeWrapper>
       </TooltipSection>
-      <TooltipSection>
-        <span>ID:&nbsp;{activeStation.ms_nr}</span>
-        <Trend>Jahrestrend:&nbsp;{slopeFormat(activeStation.slope)} %</Trend>
-      </TooltipSection>
-      <Chart data={activeStation.data} />
+      <Chart
+        intercept={activeStation.intercept}
+        slope={activeStation.slope_raw}
+        data={activeStation.data}
+        color={theme.colors[activeStation.bin]}
+      />
     </TooltipWrapper>
   ) : null;
 }

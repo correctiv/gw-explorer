@@ -64,6 +64,9 @@ function GlobalStyle() {
     .mapboxgl-ctrl-geocoder--icon-close {
       margin-top: 14px;
     }
+    #gw-explorer-geocoder {
+      margin-bottom: 0px;
+    }
   `;
 
   return <Global styles={globalStyles} />;
