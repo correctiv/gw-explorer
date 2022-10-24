@@ -35,7 +35,7 @@ export function getCurrentStation(map, { point }) {
 
 export function getMapStateFromUrl() {
   const url = new URL(window.location);
-  const bbox = url.searchParams.get("bbox")?.split(",");
+  const bbox = url.searchParams.get("bbox")?.split(",").map(parseFloat);
   const zoom = url.searchParams.get("zoom");
   const districtId = url.searchParams.get("district");
   const stationId = url.searchParams.get("station");

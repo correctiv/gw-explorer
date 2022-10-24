@@ -51,7 +51,7 @@ function App() {
   // );
   useEffect(() => {
     setActiveStation(null); // reset active station on kreis change
-    updateUrl({ station: null, district: activeKreis?.id });
+    if (activeKreis) updateUrl({ station: null, district: activeKreis?.id });
   }, [activeKreis]);
 
   return (

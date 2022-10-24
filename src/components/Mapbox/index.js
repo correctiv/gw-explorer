@@ -45,7 +45,13 @@ const initMap = (
     // if initial district via url, activate it
     if (districtId) {
       const district = selectDistrictFromData({ id: districtId });
-      console.log("INITIAL", district.id);
+      mapRef.current.flyTo({ center: district.center });
+      const [s, w, n, e] = district.bbox;
+      mapRef.current.fitBounds([
+        [s, w],
+        [n, e],
+      ]);
+      handleDistrictChange(district);
     }
   });
 
