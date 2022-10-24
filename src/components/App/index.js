@@ -45,10 +45,10 @@ function App() {
   };
 
   // update url params on station change
-  useEffect(
-    () => activeStation && updateUrl({ station: activeStation.id }),
-    [activeStation]
-  );
+  // useEffect(
+  //   () => activeStation && updateUrl({ station: activeStation.id }),
+  //   [activeStation]
+  // );
   useEffect(() => {
     setActiveStation(null); // reset active station on kreis change
     updateUrl({ station: null, district: activeKreis?.id });
