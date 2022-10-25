@@ -176,10 +176,10 @@ export function addLayers(map) {
       "circle-opacity": [
         "case",
         ["boolean", ["feature-state", "highlight"], false],
-        1,
+        0.9,
         0.7,
       ],
-      "circle-stroke-color": "#ffffff",
+      "circle-stroke-color": binColors,
       "circle-stroke-width": 3,
       "circle-stroke-opacity": [
         "case",
