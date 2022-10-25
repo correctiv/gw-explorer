@@ -25,7 +25,7 @@ const theme = {
     lightLightGrey: "#eee",
     emphasis: "#FF5064",
     // data coloring
-    stark_sinkend: "#FF9210",
+    stark_sinkend: "#E9650E",
     leicht_sinkend: "#FFB727",
     kein_starker_trend: "#eeeeee",
     leicht_steigend: "#71B5FE",
