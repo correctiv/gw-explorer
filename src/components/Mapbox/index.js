@@ -44,6 +44,12 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
   mapRef.current.on("data", () => {
     const ready = util.getMapReadyState(mapRef.current);
     if (ready) {
+      // update current point on click
+      mapRef.current.on("click", ({ point }) => onClick(point));
+
+      // update current point on move
+      mapRef.current.on("mousemove", ({ point }) => onMove(point));
+
       // if initial district and station via url, activate it
       if (initialDistrictId) actions.selectDistrict({ id: initialDistrictId });
       if (initialStationId)
@@ -58,12 +64,6 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
 
   // Add zoom and rotation controls to the map.
   mapRef.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
-
-  // update current point on click
-  mapRef.current.on("click", ({ point }) => onClick(point));
-
-  // update current point on move
-  mapRef.current.on("mousemove", ({ point }) => onMove(point));
 
   // update map state in url
   mapRef.current.on("moveend", () => util.updateUrlMapState(mapRef.current));
