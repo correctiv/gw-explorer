@@ -59,7 +59,8 @@ const StateName = styled.h4`
 const Slope = styled(Badge)`
   background-color: ${(props) => props.theme.colors[props.bin]} !important;
   font-size: 15px;
-  color: #333; // need to make white above certain saturdation
+  color: ${(props) =>
+    props.bin === "kein_starker_trend" ? theme.colors.textLight : "#fff"};
   height: max-content;
   margin-bottom: 2px;
 `;
