@@ -6,7 +6,8 @@ import theme from "style/theme";
 
 import GlobalStyle from "style/global";
 import App from "components/App";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+import "style/bootstrap.scss";
 
 function AppWrapper({ renderScreenshotButton }) {
   return (

@@ -9,6 +9,7 @@ import { Button } from "components/common";
 
 const DistrictTitle = styled.h3`
   font-weight: 700;
+  line-height: 1.2;
   color: #333;
   margin-bottom: 0px;
   ${device.phone} {

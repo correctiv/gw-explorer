@@ -28,6 +28,7 @@ const SidebarWrapper = styled.div`
 `;
 
 const SidebarHeader = styled.h2`
+  line-height: 1.2;
   font-size: 23px;
   font-weight: 700;
   margin: 0px 0px 30px 0px;
