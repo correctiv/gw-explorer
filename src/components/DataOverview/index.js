@@ -145,8 +145,8 @@ function DataEntry({ measurement, shortname, range, value, total }) {
   );
 }
 
-function DataSummary({ activeKreis }) {
-  const { name, state, bez, ...data } = activeKreis;
+function DataSummary({ activeDistrict }) {
+  const { name, state, bez, ...data } = activeDistrict;
   const isData = data.total > 0;
   const totalText = isData ? (
     <DistrictText id="results-totals" isData={isData}>
@@ -207,12 +207,12 @@ function Explainer() {
   );
 }
 
-function DataOverview({ activeKreis }) {
+function DataOverview({ activeDistrict }) {
   const results =
-    activeKreis === null ? (
+    activeDistrict === null ? (
       <Explainer />
     ) : (
-      <DataSummary activeKreis={activeKreis} />
+      <DataSummary activeDistrict={activeDistrict} />
     );
   return (
     <DataOverviewWrapper id="data-overview-wrapper">

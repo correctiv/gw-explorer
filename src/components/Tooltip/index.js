@@ -6,6 +6,7 @@ import * as d3 from "~/lib/d3";
 
 import theme from "style/theme";
 import { slopeBin } from "utils/labels";
+import { useStore } from "reducer";
 import Chart from "./Chart";
 
 const TooltipWrapper = styled.div`
@@ -105,8 +106,12 @@ d3.formatDefaultLocale({
 
 const slopeFormat = d3.format("+.2f");
 
-function Tooltip({ activeStation, resetStation, position }) {
-  const [left, top] = position;
+function Tooltip() {
+  const {
+    state: { activeStation, tooltipPosition },
+    actions: { resetStation },
+  } = useStore();
+  const [left, top] = tooltipPosition;
 
   return activeStation ? (
     <TooltipWrapper style={{ top, left }}>

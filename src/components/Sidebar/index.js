@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 
 import DataOverview from "~/components/DataOverview";
 import Toolbar from "~/components/Toolbar";
+import { useStore } from "reducer";
 
 const SidebarWrapper = styled.div`
   display: flex;
@@ -32,15 +33,19 @@ const Searchbar = styled.div`
   padding-bottom: 30px;
 `;
 
-function Sidebar({ activeKreis, mapRef }) {
+function Sidebar() {
   // geocoder is added in `components/Mapbox/index.js`
+  const {
+    state: { activeDistrict, mapRef },
+  } = useStore();
+
   return (
     <SidebarWrapper id="sidebar">
       <SidebarHeader id="sidebar-header">
         Der Grundwasserspiegel in Ihrem Kreis
       </SidebarHeader>
       <Searchbar id="gw-explorer-geocoder" />
-      <DataOverview id="infobox" activeKreis={activeKreis} />
+      <DataOverview id="infobox" activeDistrict={activeDistrict} />
       <Toolbar mapRef={mapRef} />
     </SidebarWrapper>
   );

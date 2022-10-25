@@ -1,10 +1,28 @@
 import config from "config";
 import { updateUrl } from "utils/url";
-import { selectDistrict, selectStation } from "./reducer";
+import { statesByIso } from "utils/labels";
 
 const DISTRICTS = {
   source: `${config.mapbox.districtLayer}-source`,
   sourceLayer: config.mapbox.districtSourceLayer,
+};
+
+const selectStation = (features) => {
+  const feature = features[0];
+  if (feature) {
+    /* eslint-disable camelcase */
+    const { authority, state, data, ms_nr, ...rest } = feature.properties;
+    return {
+      id: `${state}-${ms_nr}`,
+      ms_nr,
+      state: statesByIso[state],
+      authority: statesByIso[authority],
+      data: JSON.parse(data.replaceAll("nan", "null")), // FIXME
+      coordinates: feature.geometry.coordinates,
+      ...rest,
+    };
+  }
+  return null;
 };
 
 export function handleDistrictHighlight(map, { currentId, newId }) {
@@ -19,17 +37,30 @@ export function handleDistrictHighlight(map, { currentId, newId }) {
   return newId;
 }
 
-export function getCurrentDistrict(map, { point }) {
+export function getCurrentDistrictId(map, { point }) {
   const features = map.queryRenderedFeatures(point, {
     layers: [config.mapbox.districtLayer],
   });
-  return selectDistrict(features);
+  return features[0]?.properties.id;
 }
 
 export function getCurrentStation(map, { point }) {
   const features = map.queryRenderedFeatures(point, {
     layers: [config.mapbox.stationLayer],
   });
+  return selectStation(features);
+}
+
+export function findStation(map, stationId) {
+  const [authority, ms_nr] = stationId.split("-"); // eslint-disable-line
+  const features = map
+    .queryRenderedFeatures(null, {
+      layers: [config.mapbox.stationLayer],
+    })
+    .filter(
+      ({ properties }) =>
+        properties.authority === authority && properties.ms_nr === ms_nr // eslint-disable-line
+    );
   return selectStation(features);
 }
 
@@ -86,4 +117,12 @@ export function addDistrictsLayer(map) {
       ],
     },
   });
+}
+
+export function getTooltopPosition({ point, element }) {
+  const containerWidthMidpoint = element.clientWidth / 2;
+  const containerHeightMidpoint = element.clientHeight / 2;
+  const x = point.x < containerWidthMidpoint ? point.x + 380 : point.x;
+  const y = point.y > containerHeightMidpoint ? point.y - 300 : point.y;
+  return [x, y];
 }

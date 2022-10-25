@@ -4,8 +4,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import config from "~/config";
 import Geocoder from "~/components/Geocoder";
-import * as actions from "./actions";
-import { selectDistrictFromData } from "./reducer";
+import { useStore } from "reducer";
+import * as util from "./util";
 
 const MapElement = styled.div`
   position: relative;
@@ -18,41 +18,41 @@ const MapElement = styled.div`
   }
 `;
 
-const initMap = (
-  elementId,
-  { mapContainerRef, mapRef, onClick, onMove, handleDistrictChange }
-) => {
+const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
 
-  // try to get url state
-  const { bbox, zoom, districtId } = actions.getMapStateFromUrl();
+  const {
+    mapRef,
+    mapContainerRef,
+    bbox,
+    zoom,
+    initialDistrictId,
+    initialStationId,
+  } = state;
 
   mapRef.current = new mapboxgl.Map({
     container: mapContainerRef.current, // container ID
     style: config.mapbox.style, // style URL
     center: config.mapbox.center, // starting position [lng, lat]
-    bounds: bbox || config.mapbox.bounds,
+    bounds: bbox,
     maxBounds: config.mapbox.bounds, // restrict to germany
-    zoom: zoom || config.mapbox.zoom, // starting zoom
+    zoom,
     preserveDrawingBuffer: true,
   });
 
   mapRef.current.on("load", () => {
     // add districts layer
-    actions.addDistrictsLayer(mapRef.current);
+    util.addDistrictsLayer(mapRef.current);
 
-    // if initial district via url, activate it
-    if (districtId) {
-      const district = selectDistrictFromData({ id: districtId });
-      mapRef.current.flyTo({ center: district.center });
-      const [s, w, n, e] = district.bbox;
-      mapRef.current.fitBounds([
-        [s, w],
-        [n, e],
-      ]);
-      handleDistrictChange(district);
-    }
+    // if initial district and station via url, activate it
+    if (initialDistrictId)
+      actions.selectDistrict({
+        id: initialDistrictId,
+        flyTo: true,
+      });
+    if (initialStationId)
+      actions.selectInitialStation({ id: initialStationId });
   });
 
   // Add zoom and rotation controls to the map.
@@ -65,13 +65,13 @@ const initMap = (
   mapRef.current.on("mousemove", ({ point }) => onMove(point));
 
   // update map state in url
-  mapRef.current.on("moveend", () => actions.updateUrlMapState(mapRef.current));
+  mapRef.current.on("moveend", () => util.updateUrlMapState(mapRef.current));
 
   // add geocoder to sidebar element
   const geocoder = Geocoder({ mapboxgl });
   geocoder.on("result", ({ result }) => {
     const { id } = result.properties;
-    if (id) handleDistrictChange(selectDistrictFromData({ id }));
+    if (id) actions.selectDistrict({ id });
   });
 
   document
@@ -81,59 +81,51 @@ const initMap = (
   return mapRef.current;
 };
 
-function Mapbox({
-  // activeKreis,
-  setActiveKreis,
-  activeStation,
-  setActiveStation,
-  resetStation,
-  setTooltipPosition,
-  mapRef,
-  mapContainerRef,
-}) {
+function Mapbox() {
+  const { state, actions } = useStore();
+
+  const {
+    activeDistrict,
+    activeStation,
+    stationLock,
+    mapRef,
+    mapContainerRef,
+  } = state;
+
   const [clickPoint, onClick] = useState(null);
   const [movePoint, onMove] = useState(null);
-
-  const handleDistrictChange = (newDistrict) => {
-    if (newDistrict) {
-      setActiveKreis((oldDistrict) => {
-        // apply highlight
-        actions.handleDistrictHighlight(mapRef.current, {
-          currentId: oldDistrict?.id,
-          newId: newDistrict.id,
-        });
-        return newDistrict;
-      });
-    }
-  };
 
   // click
   useEffect(() => {
     if (clickPoint) {
-      const district = actions.getCurrentDistrict(mapRef.current, {
+      const districtId = util.getCurrentDistrictId(mapRef.current, {
         point: clickPoint,
       });
-      handleDistrictChange(district);
+      if (activeDistrict?.id !== districtId) {
+        actions.selectDistrict({ id: districtId });
+      }
+      const station = util.getCurrentStation(mapRef.current, {
+        point: clickPoint,
+      });
+      if (station) {
+        actions.updateTooltipPosition({ point: clickPoint });
+        actions.selectStation({ station, lock: true });
+      }
     }
   }, [clickPoint]);
 
   // move
   useEffect(() => {
     if (movePoint) {
-      // nudge tooltip in view always
-      const containerWidthMidpoint = mapContainerRef.current.clientWidth / 2;
-      const containerHeightMidpoint = mapContainerRef.current.clientHeight / 2;
-      const x =
-        movePoint.x < containerWidthMidpoint ? movePoint.x + 380 : movePoint.x;
-      const y =
-        movePoint.y > containerHeightMidpoint ? movePoint.y - 300 : movePoint.y;
-      setTooltipPosition([x, y]);
-      const station = actions.getCurrentStation(mapRef.current, {
-        point: movePoint,
-      });
-      if (!station) resetStation();
-      if (station && station.id !== activeStation?.id) {
-        setActiveStation(station);
+      if (!stationLock) {
+        const station = util.getCurrentStation(mapRef.current, {
+          point: movePoint,
+        });
+        if (!station) actions.resetStation();
+        if (station && station.id !== activeStation?.id) {
+          actions.updateTooltipPosition({ point: movePoint });
+          actions.selectStation({ station });
+        }
       }
     }
   }, [movePoint]);
@@ -141,14 +133,7 @@ function Mapbox({
   // on mount
   useEffect(() => {
     if (mapRef.current) return;
-    initMap("mapbox-map", {
-      onClick,
-      onMove,
-      handleDistrictChange,
-      resetStation,
-      mapContainerRef,
-      mapRef,
-    });
+    initMap("mapbox-map", { onClick, onMove, store: { state, actions } });
   }, []);
   return <MapElement id="mapbox-map" ref={mapContainerRef} />;
 }
