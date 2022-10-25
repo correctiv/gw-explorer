@@ -4,7 +4,6 @@ import { ThemeProvider } from "@emotion/react";
 
 import theme from "style/theme";
 
-import NormalizeStyle from "style/normalize";
 import GlobalStyle from "style/global";
 import App from "components/App";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,7 +11,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function AppWrapper({ renderScreenshotButton }) {
   return (
     <ThemeProvider theme={theme}>
-      <NormalizeStyle />
       <GlobalStyle />
       <App renderScreenshotButton={renderScreenshotButton} />
     </ThemeProvider>
