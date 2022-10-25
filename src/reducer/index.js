@@ -18,6 +18,7 @@ const getInitialState = () => {
   return {
     initialDistrictId: districtId,
     initialStationId: stationId,
+    hoverDistrictId: null,
     activeDistrict: null,
     activeStation: null,
     stationLock: false,
@@ -81,7 +82,15 @@ const reducer = (state, { action, payload }) => {
       if (currentId !== id) {
         const map = state.mapRef.current;
         const district = selectDistrictFromData({ id });
-        util.handleDistrictHighlight(map, { currentId, newId: id });
+        util.handleDistrictHighlight(map, {
+          currentId,
+          newId: id,
+          status: "highlight",
+        });
+        util.handleStationHighlight(map, {
+          currentId: state.activeStation?.id,
+          newId: null,
+        });
         updateUrl({ district: district.id });
         return {
           ...state,
@@ -94,10 +103,11 @@ const reducer = (state, { action, payload }) => {
     }
     // highlight district
     case actionTypes.hoverDistrict: {
-      const currentId = state.activeDistrict?.id;
+      const map = state.mapRef.current;
+      const currentId = state.hoverDistrictId;
       const newId = payload.id;
-      util.handleDistrictHighlight({ currentId, newId });
-      return state;
+      util.handleDistrictHighlight(map, { currentId, newId, status: "hover" });
+      return { ...state, hoverDistrictId: newId };
     }
     // track tooltip
     case actionTypes.updateTooltipPosition: {

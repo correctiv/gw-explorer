@@ -128,6 +128,11 @@ function Mapbox() {
           actions.selectStation({ station });
         }
       }
+      // highlight districts on hover
+      const districtId = util.getCurrentDistrictId(mapRef.current, {
+        point: movePoint,
+      });
+      if (districtId) actions.hoverDistrict({ id: districtId });
     }
   }, [movePoint]);
 
