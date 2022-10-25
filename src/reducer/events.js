@@ -1,5 +1,6 @@
 const events = {
   mapFirstReady: "map_first_ready",
+  resetMapView: "reset_map_view",
 };
 export default events;
 

@@ -1,6 +1,7 @@
 import config from "config";
 import { updateUrl } from "utils/url";
 import { statesByIso } from "utils/labels";
+import theme from "style/theme";
 
 const DistrictStyle = {
   source: `${config.mapbox.districtLayer}-source`,
@@ -96,15 +97,15 @@ export function updateUrlMapState(map) {
 const binColors = [
   "step",
   ["get", "slope"],
-  "#FF9210",
+  theme.colors.stark_sinkend,
   -1,
-  "#FFB727",
+  theme.colors.leicht_sinkend,
   -0.5,
-  "hsl(0, 0%, 96%)",
+  theme.colors.kein_starker_trend,
   0.5,
-  "#71B5FE",
+  theme.colors.leicht_steigend,
   1,
-  "#0163CB",
+  theme.colors.stark_steigend,
 ];
 
 export function addLayers(map) {

@@ -1,9 +1,15 @@
-import React, { useReducer, useRef, createContext, useContext } from "react";
+import React, {
+  useReducer,
+  useRef,
+  useEffect,
+  createContext,
+  useContext,
+} from "react";
 import config from "~/config";
 import * as util from "components/Mapbox/util";
 import { selectDistrictFromData } from "utils/data";
 import { updateUrl } from "utils/url";
-import events, { publish } from "./events";
+import events, { publish, subscribe } from "./events";
 
 const actionTypes = {
   setMapReady: "set_map_ready",
@@ -14,6 +20,7 @@ const actionTypes = {
   hoverDistrict: "hover_district",
   adjustDistrictView: "adjust_district_view",
   updateTooltipPosition: "update_tooltip_position",
+  resetMapView: "reset_map_view",
 };
 
 const getInitialState = () => {
@@ -158,6 +165,15 @@ const reducer = (state, { action, payload }) => {
       });
       return { ...state, tooltipPosition: [x, y] };
     }
+    case actionTypes.resetMapView: {
+      const map = state.mapRef.current;
+      const [s, e, n, w] = config.mapbox.germanyBbox;
+      map.fitBounds([
+        [s, e],
+        [n, w],
+      ]);
+      return state;
+    }
     default: {
       throw Error(`Unknown action: ${action}`);
     }
@@ -170,6 +186,16 @@ const DispatchContext = createContext(null);
 export default function ContextProvider({ children }) {
   const initialState = getInitialState();
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // subscribe global events
+  useEffect(() => {
+    console.log("SUBSCRIBE");
+    subscribe(events.resetMapView, () => {
+      dispatch({ action: actionTypes.resetMapView });
+      dispatch({ action: actionTypes.resetStation });
+    });
+  }, []);
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

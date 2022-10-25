@@ -10,6 +10,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { BsShareFill } from "react-icons/bs";
 import events, { subscribe } from "reducer/events";
 import { Button } from "components/common";
+import { ResetControl } from "./controls";
 import * as util from "./util";
 
 const MapContainer = styled.div`
@@ -101,7 +102,11 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
   });
 
   // Add zoom and rotation controls to the map.
-  mapRef.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
+  mapRef.current.addControl(new ResetControl(), "bottom-right");
+  mapRef.current.addControl(
+    new mapboxgl.NavigationControl({ showCompass: false }),
+    "bottom-right"
+  );
 
   // update map state in url
   mapRef.current.on("moveend", () => util.updateUrlMapState(mapRef.current));
@@ -188,6 +193,7 @@ function Mapbox() {
     if (mapRef.current) return;
     initMap("mapbox-map", { onClick, onMove, store: { state, actions } });
   }, []);
+
   return (
     <MapContainer>
       <ShareButton
