@@ -34,13 +34,14 @@ const Container = styled.div`
   margin: 0;
 `;
 
-function App({ renderScreenshotButton }) {
+function App({ appConfig }) {
+  const { renderScreenshotButton, standaloneMode } = appConfig;
   return (
     <Wrapper>
       <Container>
         <ContextProvider>
           <Sidebar renderScreenshotButton={renderScreenshotButton} />
-          <Mapbox />
+          <Mapbox standaloneMode={standaloneMode} />
         </ContextProvider>
       </Container>
     </Wrapper>

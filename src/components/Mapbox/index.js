@@ -50,7 +50,10 @@ const ButtonText = styled.span`
   margin-right: 7px;
 `;
 
-const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
+const initMap = (
+  elementId,
+  { onClick, onMove, store: { state, actions }, standaloneMode }
+) => {
   // init map
   mapboxgl.accessToken = config.mapbox.token;
 
@@ -71,6 +74,7 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
     maxBounds: config.mapbox.bounds, // restrict to germany
     zoom,
     preserveDrawingBuffer: true,
+    cooperativeGestures: !standaloneMode,
   });
 
   // global event
@@ -124,7 +128,7 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
   return mapRef.current;
 };
 
-function Mapbox() {
+function Mapbox({ standaloneMode }) {
   const { state, actions } = useStore();
 
   const {
@@ -190,7 +194,12 @@ function Mapbox() {
   // on mount
   useEffect(() => {
     if (mapRef.current) return;
-    initMap("mapbox-map", { onClick, onMove, store: { state, actions } });
+    initMap("mapbox-map", {
+      onClick,
+      onMove,
+      store: { state, actions },
+      standaloneMode,
+    });
   }, []);
 
   return (

@@ -9,23 +9,23 @@ import App from "components/App";
 
 import "style/bootstrap.scss";
 
-function AppWrapper({ renderScreenshotButton }) {
+function AppWrapper({ appConfig }) {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <App renderScreenshotButton={renderScreenshotButton} />
+      <App appConfig={appConfig} />
     </ThemeProvider>
   );
 }
 
 const render = () => {
   const element = document.getElementById("gw-explorer-app");
-  const renderScreenshotButton =
-    Object.keys(element.dataset).indexOf("screenshot") > -1;
-  ReactDOM.render(
-    <AppWrapper renderScreenshotButton={renderScreenshotButton} />,
-    element
-  );
+  const appConfig = {
+    renderScreenshotButton:
+      Object.keys(element.dataset).indexOf("screenshot") > -1,
+    standaloneMode: Object.keys(element.dataset).indexOf("standalone") > -1,
+  };
+  ReactDOM.render(<AppWrapper appConfig={appConfig} />, element);
 };
 
 render();
