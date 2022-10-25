@@ -44,6 +44,19 @@ const Button = styled.button`
   }
 `;
 
+const ShareButton = styled(Button)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  &:hover {
+    transition: 0.2s;
+    background: ${(props) => (props.highlighted ? "white" : "#333")};
+    color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
+    border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
+  }
+`;
+
 const ButtonText = styled.span`
   margin-left: 7px;
 `;
@@ -88,7 +101,7 @@ function Toolbar({ mapRef }) {
   return (
     <>
       <ToolbarWrapper id="toolbar-wrapper">
-        <Button
+        <ShareButton
           highlighted
           id="teilen"
           ref={teilenRef}
@@ -96,12 +109,16 @@ function Toolbar({ mapRef }) {
         >
           <BsReplyFill size={16} />
           <ButtonText>Teilen</ButtonText>
-        </Button>
-        <Overlay target={teilenRef.current} show={show.teilen} placement="top">
+        </ShareButton>
+        <Overlay
+          target={teilenRef.current}
+          show={show.teilen}
+          placement="bottom"
+        >
           {(props) => (
             /* eslint-disable react/jsx-props-no-spreading */
             <Tooltip id="teilen-confirm" {...props}>
-              Link kopiert
+              Link in Zwischenablage kopiert
             </Tooltip>
           )}
         </Overlay>
