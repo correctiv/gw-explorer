@@ -31,15 +31,21 @@ const ResultsHeader = styled.header`
   justify-content: space-between;
 `;
 
+const DistrictActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-right: -9px;
+`;
+
 const ActionButton = styled(Button)`
-  display: inline-block;
   padding: 10px 10px;
   font-size: 12px;
   line-height: 12px;
-`;
-
-const AdjustActionButton = styled(ActionButton)`
-  margin-right: -9px;
+  &:hover {
+    background-color: transparent;
+    color: black;
+  }
 `;
 
 const Totals = styled.span`
@@ -199,17 +205,17 @@ function DataSummary() {
     <ResultsWrapper>
       <ResultsHeader>
         <DistrictTitle>{name}</DistrictTitle>
-        <div>
+        <DistrictActions>
           <ActionButton onClick={resetDistrict}>
             <BsX size={16} />
           </ActionButton>
-          <AdjustActionButton
+          <ActionButton
             disabled={districtIsAdjusted}
             onClick={adjustDistrictView}
           >
             <BsArrowsAngleExpand size={14} />
-          </AdjustActionButton>
-        </div>
+          </ActionButton>
+        </DistrictActions>
       </ResultsHeader>
       <DistrictBez>
         {bez}, {state}
