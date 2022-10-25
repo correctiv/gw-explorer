@@ -16,7 +16,7 @@ const ToolbarWrapper = styled.div`
 `;
 
 const ButtonText = styled.span`
-  margin-left: 7px;
+  margin-right: 7px;
 `;
 
 const Methodology = styled.div`

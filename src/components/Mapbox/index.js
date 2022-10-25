@@ -9,6 +9,7 @@ import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BsReplyFill } from "react-icons/bs";
 import events, { subscribe } from "reducer/events";
+import { Button } from "components/common";
 import * as util from "./util";
 
 const MapContainer = styled.div`
@@ -33,32 +34,6 @@ const MapElement = styled.div`
   //   min-height: 400px;
   //   height: 80%;
   // }
-`;
-
-const Button = styled.button`
-  width: max-content;
-  padding: 13px 10px;
-  background: ${(props) => (props.highlighted ? "#fde162" : "transparent")};
-  border-radius: 2px;
-  color: #33333;
-  border: 1px solid
-    ${(props) => (props.highlighted ? "#fde162" : "transparent")};
-  font-size: 15px;
-  line-height: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  transition: 0.2s;
-  &:hover {
-    transition: 0.2s;
-    background: ${(props) => (props.highlighted ? "transparent" : "#333")};
-    color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
-    border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
-  }
-  @media (max-width: 768px) {
-    display: ${(props) => (props.hideOnMobile ? "none" : "flex")};
-  }
 `;
 
 const ShareButton = styled(Button)`
