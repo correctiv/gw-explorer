@@ -26,7 +26,12 @@ function GlobalStyle() {
     #gw-explorer-app {
       margin: 0;
       padding: 0;
-      height: 100%;
+      ${device.phone} {
+        height: 100%;
+      }
+      ${device.tablet} {
+        height: 100vh;
+      }
       width: 100%;
       font-family: ${theme.fonts.sans};
       font-weight: 400;
