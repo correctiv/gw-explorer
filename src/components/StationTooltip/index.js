@@ -75,7 +75,9 @@ const Slope = styled(Badge)`
   background-color: ${(props) => props.theme.colors[props.bin]} !important;
   font-size: 15px;
   color: ${(props) =>
-    props.bin === "kein_starker_trend" ? theme.colors.textLight : "#fff"};
+    props.bin === "kein_starker_trend"
+      ? theme.colors.textLight
+      : "#fff"} !important;
   height: max-content;
   margin-bottom: 2px;
 `;
