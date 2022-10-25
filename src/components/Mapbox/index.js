@@ -135,7 +135,7 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
   const geocoder = Geocoder({ mapboxgl });
   geocoder.on("result", ({ result }) => {
     const { id } = result.properties;
-    if (id) actions.selectDistrict({ id });
+    if (id) actions.selectDistrict({ id, adjusted: true });
   });
 
   document

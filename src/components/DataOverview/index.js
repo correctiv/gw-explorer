@@ -1,6 +1,9 @@
 import React from "react";
+import { BsArrowsAngleExpand } from "react-icons/bs";
 import styled from "@emotion/styled";
 import theme from "style/theme";
+import { useStore } from "reducer";
+import { Button } from "components/common";
 
 const DistrictTitle = styled.h3`
   font-weight: 700;
@@ -21,6 +24,18 @@ const DataOverviewWrapper = styled.div`
 const ResultsWrapper = styled.div`
   width: 100%;
   margin: 0px;
+`;
+
+const ResultsHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const AdjustButton = styled(Button)`
+  padding: 10px 10px;
+  margin-right: -9px;
+  font-size: 12px;
+  line-height: 12px;
 `;
 
 const Totals = styled.span`
@@ -145,7 +160,12 @@ function DataEntry({ measurement, shortname, range, value, total }) {
   );
 }
 
-function DataSummary({ activeDistrict }) {
+function DataSummary() {
+  const {
+    state: { activeDistrict, districtIsAdjusted },
+    actions: { adjustDistrictView },
+  } = useStore();
+
   const { name, state, bez, ...data } = activeDistrict;
   const isData = data.total > 0;
   const totalText = isData ? (
@@ -173,7 +193,15 @@ function DataSummary({ activeDistrict }) {
   ));
   return (
     <ResultsWrapper>
-      <DistrictTitle>{name}</DistrictTitle>
+      <ResultsHeader>
+        <DistrictTitle>{name}</DistrictTitle>
+        <AdjustButton
+          disabled={districtIsAdjusted}
+          onClick={adjustDistrictView}
+        >
+          <BsArrowsAngleExpand />
+        </AdjustButton>
+      </ResultsHeader>
       <DistrictBez>
         {bez}, {state}
       </DistrictBez>
@@ -207,13 +235,11 @@ function Explainer() {
   );
 }
 
-function DataOverview({ activeDistrict }) {
-  const results =
-    activeDistrict === null ? (
-      <Explainer />
-    ) : (
-      <DataSummary activeDistrict={activeDistrict} />
-    );
+function DataOverview() {
+  const {
+    state: { activeDistrict },
+  } = useStore();
+  const results = activeDistrict === null ? <Explainer /> : <DataSummary />;
   return (
     <DataOverviewWrapper id="data-overview-wrapper">
       {results}

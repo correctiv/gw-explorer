@@ -12,6 +12,7 @@ const actionTypes = {
   resetStation: "reset_station",
   selectDistrict: "select_district",
   hoverDistrict: "hover_district",
+  adjustDistrictView: "adjust_district_view",
   updateTooltipPosition: "update_tooltip_position",
 };
 
@@ -23,6 +24,7 @@ const getInitialState = () => {
     initialStationId: stationId,
     hoverDistrictId: null,
     activeDistrict: null,
+    districtIsAdjusted: false,
     activeStation: null,
     stationLock: false,
     tooltipPosition: [0, 0],
@@ -39,7 +41,12 @@ const reducer = (state, { action, payload }) => {
     case actionTypes.setMapReady: {
       // first time it is ready:
       if (!state.mapReady) publish(events.mapFirstReady);
-      return { ...state, mapReady: true };
+      return {
+        ...state,
+        initialStationId: null,
+        initialDistrictId: null,
+        mapReady: true,
+      };
     }
     // select initial station based on url
     case actionTypes.selectInitialStation: {
@@ -90,7 +97,7 @@ const reducer = (state, { action, payload }) => {
     // select district
     case actionTypes.selectDistrict: {
       const currentId = state.activeDistrict?.id;
-      const { id } = payload;
+      const { id, adjusted } = payload;
       if (currentId !== id) {
         const map = state.mapRef.current;
         const district = selectDistrictFromData({ id });
@@ -104,10 +111,14 @@ const reducer = (state, { action, payload }) => {
             currentId: state.activeStation?.id,
             newId: null,
           });
-          updateUrl({ district: district.id, station: null });
+          updateUrl({
+            district: district.id,
+            station: null,
+          });
           return {
             ...state,
             activeDistrict: district,
+            districtIsAdjusted: !!adjusted,
             activeStation: null,
             stationLock: false,
           };
@@ -123,6 +134,20 @@ const reducer = (state, { action, payload }) => {
       const newId = payload.id;
       util.handleDistrictHighlight(map, { currentId, newId, status: "hover" });
       return { ...state, hoverDistrictId: newId };
+    }
+    // fit map to district bounds
+    case actionTypes.adjustDistrictView: {
+      const map = state.mapRef.current;
+      const { activeDistrict } = state;
+      if (activeDistrict) {
+        const [s, e, n, w] = activeDistrict.bbox;
+        map.fitBounds([
+          [s, e],
+          [n, w],
+        ]);
+        return { ...state, districtIsAdjusted: true };
+      }
+      return state;
     }
     // track tooltip
     case actionTypes.updateTooltipPosition: {
@@ -173,6 +198,8 @@ export function useStore() {
         }),
       hoverDistrict: (payload) =>
         dispatch({ action: actionTypes.hoverDistrict, payload }),
+      adjustDistrictView: () =>
+        dispatch({ action: actionTypes.adjustDistrictView }),
       updateTooltipPosition: (payload) =>
         dispatch({
           action: actionTypes.updateTooltipPosition,

@@ -36,7 +36,7 @@ const Searchbar = styled.div`
 function Sidebar({ renderScreenshotButton }) {
   // geocoder is added in `components/Mapbox/index.js`
   const {
-    state: { activeDistrict, mapRef },
+    state: { mapRef },
   } = useStore();
 
   return (
@@ -45,7 +45,7 @@ function Sidebar({ renderScreenshotButton }) {
         Der Grundwasserspiegel in Ihrem Kreis
       </SidebarHeader>
       <Searchbar id="gw-explorer-geocoder" />
-      <DataOverview id="infobox" activeDistrict={activeDistrict} />
+      <DataOverview id="infobox" />
       <Toolbar
         mapRef={mapRef}
         renderScreenshotButton={renderScreenshotButton}
