@@ -53,7 +53,7 @@ const renderChart = ({
   const x0 = new Date(1990, 1, 1);
   const y0 = intercept;
   // will update later with corrected slope!
-  const changey = (32 * slope * 12) / 100;
+  const changey = (32 * slope) / 100;
   const x1 = new Date(2021, 12, 31);
   const y1 = intercept + changey;
 
