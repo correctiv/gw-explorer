@@ -61,7 +61,7 @@ const ButtonText = styled.span`
   margin-left: 7px;
 `;
 
-function Toolbar({ mapRef }) {
+function Toolbar({ mapRef, renderScreenshotButton }) {
   const [show, setShow] = useState({
     screenshot: false,
     export: false,
@@ -122,10 +122,15 @@ function Toolbar({ mapRef }) {
             </Tooltip>
           )}
         </Overlay>
-        <Button id="screenshot" onClick={(e) => screenshot(e.currentTarget.id)}>
-          <BsCameraFill size={16} />
-          <ButtonText>Screenshot</ButtonText>
-        </Button>
+        {renderScreenshotButton ? (
+          <Button
+            id="screenshot"
+            onClick={(e) => screenshot(e.currentTarget.id)}
+          >
+            <BsCameraFill size={16} />
+            <ButtonText>Screenshot</ButtonText>
+          </Button>
+        ) : null}
         <Button
           id="export"
           onClick={(e) => handleShow(e.currentTarget.id)}
@@ -136,7 +141,7 @@ function Toolbar({ mapRef }) {
         </Button>
       </ToolbarWrapper>
       <ImageExportModal
-        show={show.screenshot}
+        show={show.screenshot && renderScreenshotButton}
         handleClose={() => handleClose("screenshot")}
         dataURL={dataURL}
         controlledBy="screenshot"

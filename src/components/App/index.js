@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { ThemeProvider } from "@emotion/react";
-import theme from "style/theme";
 import { device } from "utils/css-utils";
 
 import Sidebar from "components/Sidebar";
@@ -33,19 +31,17 @@ const Container = styled.div`
   flex-grow: 0;
 `;
 
-function App() {
+function App({ renderScreenshotButton }) {
   return (
-    <ThemeProvider theme={theme}>
-      <Wrapper>
-        <Container>
-          <ContextProvider>
-            <Sidebar />
-            <Mapbox />
-            <Tooltip />
-          </ContextProvider>
-        </Container>
-      </Wrapper>
-    </ThemeProvider>
+    <Wrapper>
+      <Container>
+        <ContextProvider>
+          <Sidebar renderScreenshotButton={renderScreenshotButton} />
+          <Mapbox />
+          <Tooltip />
+        </ContextProvider>
+      </Container>
+    </Wrapper>
   );
 }
 

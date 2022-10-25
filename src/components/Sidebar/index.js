@@ -33,7 +33,7 @@ const Searchbar = styled.div`
   padding-bottom: 30px;
 `;
 
-function Sidebar() {
+function Sidebar({ renderScreenshotButton }) {
   // geocoder is added in `components/Mapbox/index.js`
   const {
     state: { activeDistrict, mapRef },
@@ -46,7 +46,10 @@ function Sidebar() {
       </SidebarHeader>
       <Searchbar id="gw-explorer-geocoder" />
       <DataOverview id="infobox" activeDistrict={activeDistrict} />
-      <Toolbar mapRef={mapRef} />
+      <Toolbar
+        mapRef={mapRef}
+        renderScreenshotButton={renderScreenshotButton}
+      />
     </SidebarWrapper>
   );
 }

@@ -9,14 +9,24 @@ import GlobalStyle from "style/global";
 import App from "components/App";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function AppWrapper() {
+function AppWrapper({ renderScreenshotButton }) {
   return (
     <ThemeProvider theme={theme}>
       <NormalizeStyle />
       <GlobalStyle />
-      <App />
+      <App renderScreenshotButton={renderScreenshotButton} />
     </ThemeProvider>
   );
 }
 
-ReactDOM.render(<AppWrapper />, document.getElementById("gw-explorer-app"));
+const render = () => {
+  const element = document.getElementById("gw-explorer-app");
+  const renderScreenshotButton =
+    Object.keys(element.dataset).indexOf("screenshot") > -1;
+  ReactDOM.render(
+    <AppWrapper renderScreenshotButton={renderScreenshotButton} />,
+    element
+  );
+};
+
+render();
