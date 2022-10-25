@@ -7,7 +7,7 @@ import Geocoder from "~/components/Geocoder";
 import { useStore } from "reducer";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
-import { BsReplyFill } from "react-icons/bs";
+import { BsShareFill } from "react-icons/bs";
 import events, { subscribe } from "reducer/events";
 import { Button } from "components/common";
 import * as util from "./util";
@@ -50,7 +50,7 @@ const ShareButton = styled(Button)`
 `;
 
 const ButtonText = styled.span`
-  margin-left: 7px;
+  margin-right: 7px;
 `;
 
 const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
@@ -196,8 +196,8 @@ function Mapbox() {
         ref={teilenRef}
         onClick={() => copyCurrentURL()}
       >
-        <BsReplyFill size={16} />
-        <ButtonText>Teilen</ButtonText>
+        <ButtonText>Aktuelle Ansicht teilen</ButtonText>
+        <BsShareFill size={16} />
       </ShareButton>
       <Overlay target={teilenRef.current} show={show.teilen} placement="bottom">
         {(props) => (
