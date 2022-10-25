@@ -73,7 +73,7 @@ const StateName = styled.h4`
 
 const Slope = styled(Badge)`
   background-color: ${(props) => props.theme.colors[props.bin]} !important;
-  font-size: 15px;
+  font-size: 15px !important;
   color: ${(props) =>
     props.bin === "kein_starker_trend"
       ? theme.colors.textLight
