@@ -1,4 +1,5 @@
 const config = {
+  infoUrl: "https://github.com/correctiv/grundwasser-data",
   mapbox: {
     token:
       "pk.eyJ1IjoiY29ycmVjdGl2LW1hcGJveCIsImEiOiJjbDllOGhsdDIxa3oyM3dxdDkwajJ4dmh4In0.aRVZgaXG7AwgWyLDvNCYLg",

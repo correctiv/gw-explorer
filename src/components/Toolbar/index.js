@@ -3,10 +3,11 @@ import styled from "@emotion/styled";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 
-import DataExportModal from "components/DataExportModal";
+import config from "~/config";
+
 import ImageExportModal from "components/ImageExportModal";
 
-import { BsReplyFill, BsCameraFill, BsDownload } from "react-icons/bs";
+import { BsInfoCircle, BsReplyFill, BsCameraFill } from "react-icons/bs";
 
 const ToolbarWrapper = styled.div`
   width: 100%;
@@ -61,10 +62,16 @@ const ButtonText = styled.span`
   margin-left: 7px;
 `;
 
+const Methodology = styled.div`
+  margin-top: 12px;
+  color: #707070;
+  font-size: 12px;
+  width: 100%;
+`;
+
 function Toolbar({ mapRef, renderScreenshotButton }) {
   const [show, setShow] = useState({
     screenshot: false,
-    export: false,
     teilen: false,
   });
   const [dataURL, setDataURL] = useState(null);
@@ -131,14 +138,6 @@ function Toolbar({ mapRef, renderScreenshotButton }) {
             <ButtonText>Screenshot</ButtonText>
           </Button>
         ) : null}
-        <Button
-          id="export"
-          onClick={(e) => handleShow(e.currentTarget.id)}
-          hideOnMobile
-        >
-          <BsDownload size={16} />
-          <ButtonText>Rohdaten</ButtonText>
-        </Button>
       </ToolbarWrapper>
       <ImageExportModal
         show={show.screenshot && renderScreenshotButton}
@@ -146,11 +145,19 @@ function Toolbar({ mapRef, renderScreenshotButton }) {
         dataURL={dataURL}
         controlledBy="screenshot"
       />
-      <DataExportModal
-        show={show.export}
-        handleClose={() => handleClose("export")}
-        controlledBy="export"
-      />
+      <Methodology id="methodology">
+        <BsInfoCircle size={12} style={{ marginRight: 5, marginBottom: 2 }} />
+        Rohdaten und Infos zur Methodik finden Sie
+        <a
+          href={config.infoUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{ marginLeft: 2 }}
+        >
+          hier
+        </a>
+        .
+      </Methodology>
     </>
   );
 }
