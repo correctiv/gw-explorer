@@ -3,6 +3,8 @@ import { updateUrl } from "utils/url";
 import { statesByIso } from "utils/labels";
 import theme from "style/theme";
 
+import { breakpoints } from "utils/css-utils";
+
 const DistrictStyle = {
   source: `${config.mapbox.districtLayer}-source`,
   sourceLayer: config.mapbox.districtSourceLayer,
@@ -203,6 +205,10 @@ export function addLayers(map) {
 }
 
 export function getTooltopPosition({ point, element }) {
+  const isMobile = window.innerWidth < breakpoints.m;
+  if (isMobile) {
+    return [0, "-90vh"];
+  }
   const containerWidthMidpoint = element.clientWidth / 2;
   const containerHeightMidpoint = element.clientHeight / 2;
   const x = point.x < containerWidthMidpoint ? point.x + 380 : point.x;

@@ -2,45 +2,40 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "@emotion/styled";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
-import config from "~/config";
 import Geocoder from "~/components/Geocoder";
-import { useStore } from "reducer";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BsShareFill } from "react-icons/bs";
+
+import config from "config";
+import { useStore } from "reducer";
 import events, { subscribe } from "reducer/events";
+import { device } from "utils/css-utils";
 import { Button } from "components/common";
 import { ResetControl } from "./controls";
 import * as util from "./util";
 
-const MapContainer = styled.div`
+const MapWrapper = styled.div`
   position: relative;
-  flex-grow: 1;
-  height: 100%;
-  @media (max-width: 768px) {
+  ${device.phone} {
     width: 100%;
-    min-height: 400px;
-    height: 80%;
+    height: 90vh;
+  }
+  ${device.tablet} {
+    flex-grow: 1;
+    height: 100%;
   }
 `;
 
 const MapElement = styled.div`
   width: 100%;
   height: 100%;
-  // position: relative;
-  // flex-grow: 1;
-  // height: 100%;
-  // @media (max-width: 768px) {
-  //   width: 100%;
-  //   min-height: 400px;
-  //   height: 80%;
-  // }
 `;
 
 const ShareButton = styled(Button)`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   z-index: 100;
   &:hover {
     transition: 0.2s;
@@ -198,7 +193,7 @@ function Mapbox() {
   }, []);
 
   return (
-    <MapContainer>
+    <MapWrapper id="map-wrapper">
       <ShareButton
         highlighted
         id="teilen"
@@ -221,7 +216,7 @@ function Mapbox() {
         )}
       </Overlay>
       <MapElement id="mapbox-map" ref={mapContainerRef} />
-    </MapContainer>
+    </MapWrapper>
   );
 }
 
