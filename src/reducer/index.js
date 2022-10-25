@@ -41,6 +41,7 @@ const reducer = (state, { action, payload }) => {
         point,
         element: state.mapContainerRef.current,
       });
+      util.handleStationHighlight(map, { newId: activeStation.id });
       return {
         ...state,
         activeStation,
@@ -48,29 +49,39 @@ const reducer = (state, { action, payload }) => {
         tooltipPosition: [x, y],
       };
     }
-    // select station on hover or click
+    // select station
     case actionTypes.selectStation: {
+      const map = state.mapRef.current;
+      const { activeStation } = state;
       const { station, lock } = payload;
       updateUrl({ station: station.id });
+      util.handleStationHighlight(map, {
+        currentId: activeStation?.id,
+        newId: station.id,
+      });
       return { ...state, activeStation: station, stationLock: lock };
     }
+    // reset station
     case actionTypes.resetStation: {
+      const map = state.mapRef.current;
+      const { activeStation } = state;
+      if (activeStation) {
+        util.handleStationHighlight(map, {
+          currentId: activeStation.id,
+          newId: null,
+        });
+        updateUrl({ station: null });
+      }
       return { ...state, activeStation: null, stationLock: false };
     }
+    // select district
     case actionTypes.selectDistrict: {
       const currentId = state.activeDistrict?.id;
-      const { id, flyTo } = payload;
+      const { id } = payload;
       if (currentId !== id) {
         const map = state.mapRef.current;
         const district = selectDistrictFromData({ id });
         util.handleDistrictHighlight(map, { currentId, newId: id });
-        if (flyTo) {
-          const [s, w, n, e] = district.bbox;
-          map.fitBounds([
-            [s, w],
-            [n, e],
-          ]);
-        }
         updateUrl({ district: district.id });
         return {
           ...state,
@@ -81,6 +92,14 @@ const reducer = (state, { action, payload }) => {
       }
       return state;
     }
+    // highlight district
+    case actionTypes.hoverDistrict: {
+      const currentId = state.activeDistrict?.id;
+      const newId = payload.id;
+      util.handleDistrictHighlight({ currentId, newId });
+      return state;
+    }
+    // track tooltip
     case actionTypes.updateTooltipPosition: {
       const { point } = payload;
       const [x, y] = util.getTooltopPosition({

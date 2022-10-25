@@ -41,18 +41,19 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
     preserveDrawingBuffer: true,
   });
 
-  mapRef.current.on("load", () => {
-    // add districts layer
-    util.addDistrictsLayer(mapRef.current);
+  mapRef.current.on("data", () => {
+    const ready = util.getMapReadyState(mapRef.current);
+    if (ready) {
+      // if initial district and station via url, activate it
+      if (initialDistrictId) actions.selectDistrict({ id: initialDistrictId });
+      if (initialStationId)
+        actions.selectInitialStation({ id: initialStationId });
+    }
+  });
 
-    // if initial district and station via url, activate it
-    if (initialDistrictId)
-      actions.selectDistrict({
-        id: initialDistrictId,
-        flyTo: true,
-      });
-    if (initialStationId)
-      actions.selectInitialStation({ id: initialStationId });
+  mapRef.current.on("load", () => {
+    // add districts and station layer for highlighting
+    util.addLayers(mapRef.current);
   });
 
   // Add zoom and rotation controls to the map.

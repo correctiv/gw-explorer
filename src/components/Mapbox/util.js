@@ -2,9 +2,14 @@ import config from "config";
 import { updateUrl } from "utils/url";
 import { statesByIso } from "utils/labels";
 
-const DISTRICTS = {
+const DistrictStyle = {
   source: `${config.mapbox.districtLayer}-source`,
   sourceLayer: config.mapbox.districtSourceLayer,
+};
+
+const StationStyle = {
+  source: `${config.mapbox.stationLayer}-source`,
+  sourceLayer: config.mapbox.stationSourceLayer,
 };
 
 const selectStation = (features) => {
@@ -25,14 +30,27 @@ const selectStation = (features) => {
   return null;
 };
 
+export function handleStationHighlight(map, { currentId, newId }) {
+  if (newId !== currentId) {
+    if (currentId) {
+      map.setFeatureState(
+        { ...StationStyle, id: currentId },
+        { highlight: false }
+      );
+    }
+    map.setFeatureState({ ...StationStyle, id: newId }, { highlight: true });
+  }
+  return newId;
+}
+
 export function handleDistrictHighlight(map, { currentId, newId }) {
   if (newId !== currentId) {
     if (currentId)
       map.setFeatureState(
-        { ...DISTRICTS, id: currentId },
+        { ...DistrictStyle, id: currentId },
         { highlight: false }
       );
-    map.setFeatureState({ ...DISTRICTS, id: newId }, { highlight: true });
+    map.setFeatureState({ ...DistrictStyle, id: newId }, { highlight: true });
   }
   return newId;
 }
@@ -52,15 +70,11 @@ export function getCurrentStation(map, { point }) {
 }
 
 export function findStation(map, stationId) {
-  const [authority, ms_nr] = stationId.split("-"); // eslint-disable-line
   const features = map
     .queryRenderedFeatures(null, {
       layers: [config.mapbox.stationLayer],
     })
-    .filter(
-      ({ properties }) =>
-        properties.authority === authority && properties.ms_nr === ms_nr // eslint-disable-line
-    );
+    .filter(({ id }) => id === stationId);
   return selectStation(features);
 }
 
@@ -79,8 +93,22 @@ export function updateUrlMapState(map) {
   updateUrl({ bbox, zoom });
 }
 
-export function addDistrictsLayer(map) {
-  map.addSource(DISTRICTS.source, {
+const binColors = [
+  "step",
+  ["get", "slope"],
+  "hsl(4, 82%, 42%)",
+  -1,
+  "hsl(4, 100%, 78%)",
+  -0.5,
+  "hsl(0, 0%, 96%)",
+  0.5,
+  "hsl(195, 100%, 68%)",
+  1,
+  "hsl(212, 68%, 46%)",
+];
+
+export function addLayers(map) {
+  map.addSource(DistrictStyle.source, {
     type: "vector",
     url: config.mapbox.districtSource,
     promoteId: "id",
@@ -88,8 +116,8 @@ export function addDistrictsLayer(map) {
   map.addLayer({
     id: config.mapbox.districtLayer,
     type: "fill",
-    source: DISTRICTS.source,
-    "source-layer": DISTRICTS.sourceLayer,
+    source: DistrictStyle.source,
+    "source-layer": DistrictStyle.sourceLayer,
     layout: {},
     paint: {
       "fill-color": "#ffffff",
@@ -104,8 +132,8 @@ export function addDistrictsLayer(map) {
   map.addLayer({
     id: config.mapbox.districtLayerOutline,
     type: "line",
-    source: DISTRICTS.source,
-    "source-layer": DISTRICTS.sourceLayer,
+    source: DistrictStyle.source,
+    "source-layer": DistrictStyle.sourceLayer,
     layout: {},
     paint: {
       "line-color": "#ffffff",
@@ -117,6 +145,48 @@ export function addDistrictsLayer(map) {
       ],
     },
   });
+  map.addSource(StationStyle.source, {
+    type: "vector",
+    url: config.mapbox.stationSource,
+    promoteId: "id",
+  });
+  map.addLayer({
+    id: config.mapbox.stationLayer,
+    type: "circle",
+    source: StationStyle.source,
+    "source-layer": StationStyle.sourceLayer,
+    layout: {},
+    paint: {
+      "circle-radius": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0,
+        1,
+        5,
+        2,
+        10,
+        6,
+        22,
+        25,
+      ],
+      "circle-color": binColors,
+      "circle-opacity": [
+        "case",
+        ["boolean", ["feature-state", "highlight"], false],
+        1,
+        0.7,
+      ],
+      "circle-stroke-color": "#ffffff",
+      "circle-stroke-width": 3,
+      "circle-stroke-opacity": [
+        "case",
+        ["boolean", ["feature-state", "highlight"], false],
+        1,
+        0,
+      ],
+    },
+  });
 }
 
 export function getTooltopPosition({ point, element }) {
@@ -125,4 +195,14 @@ export function getTooltopPosition({ point, element }) {
   const x = point.x < containerWidthMidpoint ? point.x + 380 : point.x;
   const y = point.y > containerHeightMidpoint ? point.y - 300 : point.y;
   return [x, y];
+}
+
+export function getMapReadyState(map) {
+  const layers = map.getStyle().layers.map((l) => l.id);
+  return (
+    map.isStyleLoaded() &&
+    layers.indexOf(config.mapbox.districtLayer) > -1 &&
+    layers.indexOf(config.mapbox.districtLayerOutline) > -1 &&
+    layers.indexOf(config.mapbox.stationLayer) > -1
+  );
 }
