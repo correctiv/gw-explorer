@@ -37,17 +37,20 @@ const reducer = (state, { action, payload }) => {
       const map = state.mapRef.current;
       const { id } = payload;
       const activeStation = util.findStation(map, id);
-      const point = map.project(activeStation.coordinates);
-      const [x, y] = util.getTooltopPosition({
-        point,
-        element: state.mapContainerRef.current,
-      });
-      util.handleStationHighlight(map, { newId: activeStation.id });
+      let tooltipPosition = [0, 0];
+      if (activeStation) {
+        const point = map.project(activeStation.coordinates);
+        tooltipPosition = util.getTooltopPosition({
+          point,
+          element: state.mapContainerRef.current,
+        });
+        util.handleStationHighlight(map, { newId: activeStation.id });
+      }
       return {
         ...state,
         activeStation,
         stationLock: true,
-        tooltipPosition: [x, y],
+        tooltipPosition,
       };
     }
     // select station
@@ -82,22 +85,25 @@ const reducer = (state, { action, payload }) => {
       if (currentId !== id) {
         const map = state.mapRef.current;
         const district = selectDistrictFromData({ id });
-        util.handleDistrictHighlight(map, {
-          currentId,
-          newId: id,
-          status: "highlight",
-        });
-        util.handleStationHighlight(map, {
-          currentId: state.activeStation?.id,
-          newId: null,
-        });
-        updateUrl({ district: district.id });
-        return {
-          ...state,
-          activeDistrict: district,
-          activeStation: null,
-          stationLock: false,
-        };
+        if (district) {
+          util.handleDistrictHighlight(map, {
+            currentId,
+            newId: id,
+            status: "highlight",
+          });
+          util.handleStationHighlight(map, {
+            currentId: state.activeStation?.id,
+            newId: null,
+          });
+          updateUrl({ district: district.id, station: null });
+          return {
+            ...state,
+            activeDistrict: district,
+            activeStation: null,
+            stationLock: false,
+          };
+        }
+        return state;
       }
       return state;
     }
