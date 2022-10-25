@@ -4,7 +4,6 @@ import { device } from "utils/css-utils";
 
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
-import Tooltip from "components/Tooltip";
 
 import ContextProvider from "reducer";
 
@@ -42,7 +41,6 @@ function App({ renderScreenshotButton }) {
         <ContextProvider>
           <Sidebar renderScreenshotButton={renderScreenshotButton} />
           <Mapbox />
-          <Tooltip />
         </ContextProvider>
       </Container>
     </Wrapper>

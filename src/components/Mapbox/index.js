@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import Geocoder from "~/components/Geocoder";
+import StationTooltip from "components/StationTooltip";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BsShareFill } from "react-icons/bs";
@@ -215,6 +216,7 @@ function Mapbox() {
           </Tooltip>
         )}
       </Overlay>
+      <StationTooltip />
       <MapElement id="mapbox-map" ref={mapContainerRef} />
     </MapWrapper>
   );

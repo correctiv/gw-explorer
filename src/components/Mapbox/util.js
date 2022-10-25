@@ -207,12 +207,12 @@ export function addLayers(map) {
 export function getTooltopPosition({ point, element }) {
   const isMobile = window.innerWidth < breakpoints.m;
   if (isMobile) {
-    return [0, "-90vh"];
+    return [0, 0];
   }
   const containerWidthMidpoint = element.clientWidth / 2;
   const containerHeightMidpoint = element.clientHeight / 2;
-  const x = point.x < containerWidthMidpoint ? point.x + 380 : point.x;
-  const y = point.y > containerHeightMidpoint ? point.y - 300 : point.y;
+  const x = point.x > containerWidthMidpoint ? point.x - 390 : point.x;
+  const y = point.y > containerHeightMidpoint ? point.y - 310 : point.y;
   return [x, y];
 }
 

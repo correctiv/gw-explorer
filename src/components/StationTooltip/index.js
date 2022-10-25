@@ -12,13 +12,12 @@ import { useStore } from "reducer";
 import Chart from "./Chart";
 
 const TooltipWrapper = styled.div`
+  position: absolute;
   ${device.phone} {
-    position: relative;
-    width: auto;
+    width: calc(100% - 20px);
     margin: 64px 10px 0px 10px;
   }
   ${device.tablet} {
-    position: absolute;
     margin-top: -20px;
     margin-left: 20px;
     width: 340px;
@@ -99,7 +98,7 @@ d3.formatDefaultLocale({
 
 const slopeFormat = d3.format("+.2f");
 
-function Tooltip() {
+function StationTooltip() {
   const {
     state: { activeStation, tooltipPosition },
     actions: { resetStation },
@@ -107,7 +106,7 @@ function Tooltip() {
   const [left, top] = tooltipPosition;
 
   return activeStation ? (
-    <TooltipWrapper style={{ top, left }}>
+    <TooltipWrapper style={{ top, left }} id="mapbox-tooltip">
       <Close onClick={resetStation} />
       <StationId>Messstelle {activeStation.ms_nr}</StationId>
       <DistrictName>{activeStation.district}</DistrictName>
@@ -126,4 +125,4 @@ function Tooltip() {
   ) : null;
 }
 
-export default Tooltip;
+export default StationTooltip;
