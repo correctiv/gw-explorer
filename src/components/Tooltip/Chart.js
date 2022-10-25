@@ -115,10 +115,13 @@ const renderChart = ({
   // remove x-axis tick lines
   g.selectAll(".axis--x .tick line").remove();
 
+  // nudge x-axis height
   g.selectAll(".axis--x .tick text").attr("dy", 4);
 
-  g.select(".axis--x .tick:first-of-type text").attr("dx", 11);
+  // nudge first x-axis label right
+  g.select(".axis--x .tick:first-of-type text").attr("dx", 12);
 
+  // nudge last label left
   g.select(".axis--x .tick:last-of-type text").attr("dx", -5);
 
   // tick format for y axis
@@ -150,10 +153,13 @@ const renderChart = ({
   // hide y-axis domain
   g.select(".axis--y .domain").remove();
 
+  // remove y-axis label at midpoint
   g.select(".axis--y .tick:nth-of-type(2) text").remove();
 
+  // add data path
   g.append("path").datum(vizData).attr("d", line).attr("class", "data-path");
 
+  // add trend line
   g.append("path")
     .datum(trendData)
     .attr("d", line)

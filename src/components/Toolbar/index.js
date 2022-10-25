@@ -149,6 +149,7 @@ function Toolbar({ mapRef, renderScreenshotButton }) {
         <BsInfoCircle size={12} style={{ marginRight: 5, marginBottom: 2 }} />
         Rohdaten und Infos zur Methodik finden Sie
         <a
+          className="correctiv-link"
           href={config.infoUrl}
           target="_blank"
           rel="noreferrer"

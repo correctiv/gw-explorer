@@ -15,21 +15,18 @@ function GlobalStyle() {
       padding: 0;
       margin: 0;
       height: 100%;
-      color: ${theme.colors.text};
+      color: ${theme.colors.textL};
     }
-    a {
-      color: ${theme.colors.text};
-      text-decoration: none;
-    }
+    a,
     a:visited,
     a:focus,
-    a:active {
-      color: ${theme.colors.text};
+    a:active,
+    a:hover {
+      color: ${theme.colors.emphasis};
       text-decoration: none;
     }
-    a:hover {
-      color: ${theme.colors.text};
-      text-decoration: none;
+    a.correctiv-link {
+      border-bottom: 1px solid ${theme.colors.emphasis};
     }
     code,
     pre {

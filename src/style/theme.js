@@ -19,15 +19,9 @@ const theme = {
   breakpoints: breakpointsPx,
   boxShadow: "0px 16px 64px rgba(26, 25, 43, 0.32);",
   colors: {
-    primary: "#0041D0",
-    orange: "#FF6700",
-    blue: "#0041D0",
-    red: "#FF0072",
-    purple: "#784BE8",
-    green: "#00D7CA",
     text: "#1A192B",
     textLight: "#808080",
-    lightGrey: "#D9D9D9",
+    lightGrey: "#B3B3B3",
     emphasis: "#FF5064",
     // data coloring
     stark_sinkend: "#FF9210",

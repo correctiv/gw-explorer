@@ -26,21 +26,18 @@ const TooltipWrapper = styled.div`
   box-shadow: ${theme.boxShadow};
 `;
 
-const TooltipSection = styled.section`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0;
+const Close = styled(CloseButton)`
+  position: absolute;
+  height: 4px;
+  width: 4px;
+  top: 10px;
+  right: 10px;
 `;
 
-const StateName = styled.h4`
+const StationId = styled.h4`
   font-size: 14px;
   color: grey;
-  text-transform: uppercase;
-  margin: 0;
+  margin-bottom: 10px;
 `;
 
 const DistrictName = styled.h3`
@@ -48,27 +45,15 @@ const DistrictName = styled.h3`
   font-size: 20px;
   line-height: 150%;
   color: #333333;
-  margin: 0;
+  margin: 0px;
+  padding: 0px;
 `;
 
-const StationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-`;
-
-const StationId = styled.div`
-  width: 100%;
-`;
-
-const SlopeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-end;
+const StateName = styled.h4`
+  font-size: 14px;
+  color: grey;
+  text-transform: uppercase;
+  margin-bottom: 20px;
 `;
 
 const Slope = styled(Badge)`
@@ -79,24 +64,20 @@ const Slope = styled(Badge)`
   margin-bottom: 2px;
 `;
 
-const MiniHeader = styled.span`
-  color: ${theme.colors.textLight};
-  text-align: right;
-  font-size: 15px;
-`;
-
 const Trend = styled.span`
   color: ${theme.colors.textLight};
   text-align: right;
   font-size: 14px;
 `;
 
-const Close = styled(CloseButton)`
-  position: absolute;
-  height: 4px;
-  width: 4px;
-  top: 10px;
-  right: 10px;
+const TooltipSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
 `;
 
 // format locale
@@ -116,18 +97,12 @@ function Tooltip() {
   return activeStation ? (
     <TooltipWrapper style={{ top, left }}>
       <Close onClick={resetStation} />
-      <StateName>{activeStation.state}</StateName>
+      <StationId>Messstelle {activeStation.ms_nr}</StationId>
       <DistrictName>{activeStation.district}</DistrictName>
+      <StateName>{activeStation.state}</StateName>
       <TooltipSection>
-        <StationWrapper>
-          <MiniHeader>Messstelle Nr.</MiniHeader>
-          <StationId>{activeStation.ms_nr}</StationId>
-        </StationWrapper>
-        <SlopeWrapper>
-          <MiniHeader>Tendenz</MiniHeader>
-          <Slope bin={activeStation.bin}>{slopeBin[activeStation.bin]}</Slope>
-          <Trend>{slopeFormat(activeStation.slope)} % pro Jahr</Trend>
-        </SlopeWrapper>
+        <Slope bin={activeStation.bin}>{slopeBin[activeStation.bin]}</Slope>
+        <Trend>{slopeFormat(activeStation.slope)} % pro Jahr</Trend>
       </TooltipSection>
       <Chart
         intercept={activeStation.intercept}

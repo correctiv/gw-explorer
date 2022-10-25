@@ -96,15 +96,15 @@ export function updateUrlMapState(map) {
 const binColors = [
   "step",
   ["get", "slope"],
-  "hsl(4, 82%, 42%)",
+  "#FF9210",
   -1,
-  "hsl(4, 100%, 78%)",
+  "#FFB727",
   -0.5,
   "hsl(0, 0%, 96%)",
   0.5,
-  "hsl(195, 100%, 68%)",
+  "#71B5FE",
   1,
-  "hsl(212, 68%, 46%)",
+  "#0163CB",
 ];
 
 export function addLayers(map) {

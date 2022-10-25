@@ -34,7 +34,7 @@ const IntroText = styled.div`
 
 const DistrictText = styled.div`
   border-bottom: ${(props) => (props.isData ? "1px solid #e6e6e6" : "none")};
-  padding: 12px 0px;
+  padding: 12px 0px 14px 0px;
 `;
 
 const EntryWrapper = styled.div`
