@@ -138,15 +138,15 @@ function Mapbox() {
 
   const [clickPoint, onClick] = useState(null);
   const [movePoint, onMove] = useState(null);
-  const [show, setShow] = useState(false);
+  const [showShareOverlay, setShowShareOverlay] = useState(false);
 
-  const teilenRef = useRef(null);
+  const shareButtonRef = useRef(null);
 
-  function copyCurrentURL() {
+  const copyCurrentURL = () => {
     navigator.clipboard.writeText(window.location.href);
-    setShow(true);
-    setTimeout(() => setShow(false), 1000);
-  }
+    setShowShareOverlay(true);
+    setTimeout(() => setShowShareOverlay(false), 1000);
+  };
 
   // click
   useEffect(() => {
@@ -199,13 +199,17 @@ function Mapbox() {
       <ShareButton
         highlighted
         id="teilen"
-        ref={teilenRef}
-        onClick={() => copyCurrentURL()}
+        ref={shareButtonRef}
+        onClick={copyCurrentURL}
       >
         <ButtonText>Aktuelle Ansicht teilen</ButtonText>
         <BsShareFill size={16} />
       </ShareButton>
-      <Overlay target={teilenRef.current} show={show.teilen} placement="bottom">
+      <Overlay
+        target={shareButtonRef.current}
+        show={showShareOverlay}
+        placement="bottom"
+      >
         {(props) => (
           /* eslint-disable react/jsx-props-no-spreading */
           <Tooltip id="teilen-confirm" {...props}>

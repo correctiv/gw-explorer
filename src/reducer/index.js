@@ -189,7 +189,6 @@ export default function ContextProvider({ children }) {
 
   // subscribe global events
   useEffect(() => {
-    console.log("SUBSCRIBE");
     subscribe(events.resetMapView, () => {
       dispatch({ action: actionTypes.resetMapView });
       dispatch({ action: actionTypes.resetStation });
