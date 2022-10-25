@@ -48,6 +48,8 @@ const StationId = styled.h4`
   font-size: 14px;
   color: grey;
   margin-bottom: 10px;
+  line-height: 1.2;
+  font-weight: 400;
 `;
 
 const DistrictName = styled.h3`
@@ -57,6 +59,7 @@ const DistrictName = styled.h3`
   color: #333333;
   margin: 0px;
   padding: 0px;
+  line-height: 1.2;
 `;
 
 const StateName = styled.h4`
@@ -64,6 +67,8 @@ const StateName = styled.h4`
   color: grey;
   text-transform: uppercase;
   margin-bottom: 20px;
+  line-height: 1.2;
+  font-weight: 500;
 `;
 
 const Slope = styled(Badge)`

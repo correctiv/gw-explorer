@@ -39,6 +39,7 @@ function GlobalStyle() {
       line-height: 1.5;
       font-size: 16px;
       color: ${theme.colors.textL};
+      background-color: #fff;
     }
     #gw-explorer-app .mapboxgl-ctrl-geocoder {
       box-shadow: 0 0 10px 1px #e6e6e6;
