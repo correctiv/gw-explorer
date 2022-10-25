@@ -1,0 +1,35 @@
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+    - closed
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+
+    - name: Build
+      run: |
+        npm install
+        npm run build
+    
+    - name: Commit and push  
+      uses: github-actions-x/commit@v2.9
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: 'main'
+        commit-message: ':robot: automatic page build'
+        rebase: true
+        name: 'github action'
+        files: docs/
+        force-add: true
