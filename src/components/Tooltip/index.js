@@ -4,15 +4,25 @@ import Badge from "react-bootstrap/Badge";
 import CloseButton from "react-bootstrap/CloseButton";
 import * as d3 from "~/lib/d3";
 
+import { device } from "utils/css-utils";
+
 import theme from "style/theme";
 import { slopeBin } from "utils/labels";
 import { useStore } from "reducer";
 import Chart from "./Chart";
 
 const TooltipWrapper = styled.div`
-  position: absolute;
-  margin-top: -20px;
-  margin-left: 20px;
+  ${device.phone} {
+    position: relative;
+    width: auto;
+    margin: 64px 10px 0px 10px;
+  }
+  ${device.tablet} {
+    position: absolute;
+    margin-top: -20px;
+    margin-left: 20px;
+    width: 340px;
+  }
   background: white;
   display: flex;
   flex-direction: column;
@@ -24,6 +34,7 @@ const TooltipWrapper = styled.div`
   background: #ffffff;
   border: 1px solid #e6e6e6;
   box-shadow: ${theme.boxShadow};
+  z-index: 100;
 `;
 
 const Close = styled(CloseButton)`

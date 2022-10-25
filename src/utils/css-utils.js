@@ -1,13 +1,13 @@
 export const breakpoints = {
-  s: 460,
+  s: 300,
   m: 768,
   l: 1024,
 };
 
 export const device = {
-  phone: `(min-width: ${breakpoints.s}px)`,
-  tablet: `(min-width: ${breakpoints.m}px)`,
-  desktop: `(min-width: ${breakpoints.l}px)`,
+  phone: `@media screen and (min-width: ${breakpoints.s}px)`,
+  tablet: `@media screen and (min-width: ${breakpoints.m}px)`,
+  desktop: `@media screen and (min-width: ${breakpoints.l}px)`,
 };
 
 export const rgba = (hex, alpha) => {

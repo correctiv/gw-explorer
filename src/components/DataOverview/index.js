@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "@emotion/styled";
 import theme from "style/theme";
+import { device } from "utils/css-utils";
 
 const DistrictTitle = styled.h3`
   font-weight: 700;
-  font-size: 23px;
   color: #333;
   margin-bottom: 0px;
+  ${device.phone} {
+    font-size: 20px;
+  }
+  ${device.tablet} {
+    font-size: 23px;
+  }
 `;
 
 const DistrictBez = styled.span`
@@ -33,6 +39,7 @@ const IntroText = styled.div`
 `;
 
 const DistrictText = styled.div`
+  line-height: 1.3em;
   border-bottom: ${(props) => (props.isData ? "1px solid #e6e6e6" : "none")};
   padding: 12px 0px 14px 0px;
 `;
@@ -50,9 +57,15 @@ const EntryWrapper = styled.div`
 const EntryTextWrapper = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: flex-start;
+  ${device.phone} {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  ${device.tablet} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
   margin-bottom: 8px;
 `;
 

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { device } from "utils/css-utils";
 
 import DataOverview from "~/components/DataOverview";
 import Toolbar from "~/components/Toolbar";
@@ -7,18 +8,23 @@ import { useStore } from "reducer";
 
 const SidebarWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
-  padding: 30px 30px 30px 30px;
-  width: 380px;
-  height: 100%;
-  @media (max-width: 768px) {
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  ${device.phone} {
     width: 100%;
     height: max-content;
+    overflow: auto;
+    padding: 25px;
   }
-  flex: none;
+  ${device.tablet} {
+    padding: 30px;
+    width: 380px;
+    height: 100%;
+    overflow: scroll;
+  }
   order: 0;
-  overflow: scroll;
 `;
 
 const SidebarHeader = styled.h2`
