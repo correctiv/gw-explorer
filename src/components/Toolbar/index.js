@@ -1,13 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
-import Overlay from "react-bootstrap/Overlay";
-import Tooltip from "react-bootstrap/Tooltip";
 
 import config from "~/config";
 
 import ImageExportModal from "components/ImageExportModal";
 
-import { BsInfoCircle, BsReplyFill, BsCameraFill } from "react-icons/bs";
+import { BsInfoCircle, BsCameraFill } from "react-icons/bs";
 
 const ToolbarWrapper = styled.div`
   width: 100%;
@@ -45,19 +43,6 @@ const Button = styled.button`
   }
 `;
 
-const ShareButton = styled(Button)`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-  &:hover {
-    transition: 0.2s;
-    background: ${(props) => (props.highlighted ? "white" : "#333")};
-    color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
-    border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
-  }
-`;
-
 const ButtonText = styled.span`
   margin-left: 7px;
 `;
@@ -72,10 +57,8 @@ const Methodology = styled.div`
 function Toolbar({ mapRef, renderScreenshotButton }) {
   const [show, setShow] = useState({
     screenshot: false,
-    teilen: false,
   });
   const [dataURL, setDataURL] = useState(null);
-  const teilenRef = useRef(null);
 
   function handleClose(eventId) {
     setShow((prevState) => ({
@@ -99,36 +82,9 @@ function Toolbar({ mapRef, renderScreenshotButton }) {
     handleShow(eventId);
   }
 
-  function copyCurrentURL(eventId) {
-    navigator.clipboard.writeText(window.location.href);
-    handleShow(eventId);
-    setTimeout(() => handleClose(eventId), 1000);
-  }
-
   return (
     <>
       <ToolbarWrapper id="toolbar-wrapper">
-        <ShareButton
-          highlighted
-          id="teilen"
-          ref={teilenRef}
-          onClick={(e) => copyCurrentURL(e.currentTarget.id)}
-        >
-          <BsReplyFill size={16} />
-          <ButtonText>Teilen</ButtonText>
-        </ShareButton>
-        <Overlay
-          target={teilenRef.current}
-          show={show.teilen}
-          placement="bottom"
-        >
-          {(props) => (
-            /* eslint-disable react/jsx-props-no-spreading */
-            <Tooltip id="teilen-confirm" {...props}>
-              Link in Zwischenablage kopiert
-            </Tooltip>
-          )}
-        </Overlay>
         {renderScreenshotButton ? (
           <Button
             id="screenshot"

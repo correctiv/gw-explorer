@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "@emotion/styled";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import config from "~/config";
 import Geocoder from "~/components/Geocoder";
 import { useStore } from "reducer";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
+import { BsReplyFill } from "react-icons/bs";
 import * as util from "./util";
 
-const MapElement = styled.div`
+const MapContainer = styled.div`
   position: relative;
   flex-grow: 1;
   height: 100%;
@@ -16,6 +19,62 @@ const MapElement = styled.div`
     min-height: 400px;
     height: 80%;
   }
+`;
+
+const MapElement = styled.div`
+  width: 100%;
+  height: 100%;
+  // position: relative;
+  // flex-grow: 1;
+  // height: 100%;
+  // @media (max-width: 768px) {
+  //   width: 100%;
+  //   min-height: 400px;
+  //   height: 80%;
+  // }
+`;
+
+const Button = styled.button`
+  width: max-content;
+  padding: 13px 10px;
+  background: ${(props) => (props.highlighted ? "#fde162" : "transparent")};
+  border-radius: 2px;
+  color: #33333;
+  border: 1px solid
+    ${(props) => (props.highlighted ? "#fde162" : "transparent")};
+  font-size: 15px;
+  line-height: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+  &:hover {
+    transition: 0.2s;
+    background: ${(props) => (props.highlighted ? "transparent" : "#333")};
+    color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
+    border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
+  }
+  @media (max-width: 768px) {
+    display: ${(props) => (props.hideOnMobile ? "none" : "flex")};
+  }
+`;
+
+const ShareButton = styled(Button)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  &:hover {
+    transition: 0.2s;
+    background: ${(props) => (props.highlighted ? "white" : "#333")};
+    color: ${(props) => (props.highlighted ? "black" : "#f8f8f8")};
+    border: 1px solid ${(props) => (props.highlighted ? "#cecece" : "#333")};
+  }
+`;
+
+const ButtonText = styled.span`
+  margin-left: 7px;
 `;
 
 const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
@@ -95,6 +154,15 @@ function Mapbox() {
 
   const [clickPoint, onClick] = useState(null);
   const [movePoint, onMove] = useState(null);
+  const [show, setShow] = useState(false);
+
+  const teilenRef = useRef(null);
+
+  function copyCurrentURL() {
+    navigator.clipboard.writeText(window.location.href);
+    setShow(true);
+    setTimeout(() => setShow(false), 1000);
+  }
 
   // click
   useEffect(() => {
@@ -141,7 +209,28 @@ function Mapbox() {
     if (mapRef.current) return;
     initMap("mapbox-map", { onClick, onMove, store: { state, actions } });
   }, []);
-  return <MapElement id="mapbox-map" ref={mapContainerRef} />;
+  return (
+    <MapContainer>
+      <ShareButton
+        highlighted
+        id="teilen"
+        ref={teilenRef}
+        onClick={() => copyCurrentURL()}
+      >
+        <BsReplyFill size={16} />
+        <ButtonText>Teilen</ButtonText>
+      </ShareButton>
+      <Overlay target={teilenRef.current} show={show.teilen} placement="bottom">
+        {(props) => (
+          /* eslint-disable react/jsx-props-no-spreading */
+          <Tooltip id="teilen-confirm" {...props}>
+            Link in Zwischenablage kopiert
+          </Tooltip>
+        )}
+      </Overlay>
+      <MapElement id="mapbox-map" ref={mapContainerRef} />
+    </MapContainer>
+  );
 }
 
 export default Mapbox;
