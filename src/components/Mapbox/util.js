@@ -39,7 +39,8 @@ export function handleStationHighlight(map, { currentId, newId }) {
         { highlight: false }
       );
     }
-    map.setFeatureState({ ...StationStyle, id: newId }, { highlight: true });
+    if (newId)
+      map.setFeatureState({ ...StationStyle, id: newId }, { highlight: true });
   }
   return newId;
 }
@@ -51,7 +52,8 @@ export function handleDistrictHighlight(map, { currentId, newId, status }) {
         { ...DistrictStyle, id: currentId },
         { [status]: false }
       );
-    map.setFeatureState({ ...DistrictStyle, id: newId }, { [status]: true });
+    if (newId)
+      map.setFeatureState({ ...DistrictStyle, id: newId }, { [status]: true });
   }
   return newId;
 }
@@ -141,10 +143,18 @@ export function addLayers(map) {
       "line-width": [
         "case",
         ["boolean", ["feature-state", "highlight"], false],
-        3,
+        2,
         ["boolean", ["feature-state", "hover"], false],
         2,
         1,
+      ],
+      "line-opacity": [
+        "case",
+        ["boolean", ["feature-state", "highlight"], false],
+        1,
+        ["boolean", ["feature-state", "hover"], false],
+        1,
+        0.4,
       ],
     },
   });

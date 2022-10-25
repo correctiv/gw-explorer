@@ -1,5 +1,5 @@
 import React from "react";
-import { BsArrowsAngleExpand } from "react-icons/bs";
+import { BsArrowsAngleExpand, BsX } from "react-icons/bs";
 import styled from "@emotion/styled";
 import theme from "style/theme";
 import { useStore } from "reducer";
@@ -31,11 +31,15 @@ const ResultsHeader = styled.header`
   justify-content: space-between;
 `;
 
-const AdjustButton = styled(Button)`
+const ActionButton = styled(Button)`
+  display: inline-block;
   padding: 10px 10px;
-  margin-right: -9px;
   font-size: 12px;
   line-height: 12px;
+`;
+
+const AdjustActionButton = styled(ActionButton)`
+  margin-right: -9px;
 `;
 
 const Totals = styled.span`
@@ -163,7 +167,7 @@ function DataEntry({ measurement, shortname, range, value, total }) {
 function DataSummary() {
   const {
     state: { activeDistrict, districtIsAdjusted },
-    actions: { adjustDistrictView },
+    actions: { adjustDistrictView, resetDistrict },
   } = useStore();
 
   const { name, state, bez, ...data } = activeDistrict;
@@ -195,12 +199,17 @@ function DataSummary() {
     <ResultsWrapper>
       <ResultsHeader>
         <DistrictTitle>{name}</DistrictTitle>
-        <AdjustButton
-          disabled={districtIsAdjusted}
-          onClick={adjustDistrictView}
-        >
-          <BsArrowsAngleExpand />
-        </AdjustButton>
+        <div>
+          <ActionButton onClick={resetDistrict}>
+            <BsX size={16} />
+          </ActionButton>
+          <AdjustActionButton
+            disabled={districtIsAdjusted}
+            onClick={adjustDistrictView}
+          >
+            <BsArrowsAngleExpand size={14} />
+          </AdjustActionButton>
+        </div>
       </ResultsHeader>
       <DistrictBez>
         {bez}, {state}

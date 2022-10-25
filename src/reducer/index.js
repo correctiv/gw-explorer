@@ -18,6 +18,7 @@ const actionTypes = {
   resetStation: "reset_station",
   selectDistrict: "select_district",
   hoverDistrict: "hover_district",
+  resetDistrict: "reset_district",
   adjustDistrictView: "adjust_district_view",
   updateTooltipPosition: "update_tooltip_position",
   resetMapView: "reset_map_view",
@@ -93,10 +94,7 @@ const reducer = (state, { action, payload }) => {
       const map = state.mapRef.current;
       const { activeStation } = state;
       if (activeStation) {
-        util.handleStationHighlight(map, {
-          currentId: activeStation.id,
-          newId: null,
-        });
+        util.handleStationHighlight(map, { currentId: activeStation.id });
         updateUrl({ station: null });
       }
       return { ...state, activeStation: null, stationLock: false };
@@ -116,7 +114,6 @@ const reducer = (state, { action, payload }) => {
           });
           util.handleStationHighlight(map, {
             currentId: state.activeStation?.id,
-            newId: null,
           });
           updateUrl({
             district: district.id,
@@ -155,6 +152,17 @@ const reducer = (state, { action, payload }) => {
         return { ...state, districtIsAdjusted: true };
       }
       return state;
+    }
+    // reset active district
+    case actionTypes.resetDistrict: {
+      const map = state.mapRef.current;
+      const { activeDistrict } = state;
+      util.handleDistrictHighlight(map, {
+        currentId: activeDistrict?.id,
+        status: "highlight",
+      });
+      updateUrl({ district: null, station: null });
+      return { ...state, activeDistrict: null, activeStation: null };
     }
     // track tooltip
     case actionTypes.updateTooltipPosition: {
@@ -225,6 +233,7 @@ export function useStore() {
         dispatch({ action: actionTypes.hoverDistrict, payload }),
       adjustDistrictView: () =>
         dispatch({ action: actionTypes.adjustDistrictView }),
+      resetDistrict: () => dispatch({ action: actionTypes.resetDistrict }),
       updateTooltipPosition: (payload) =>
         dispatch({
           action: actionTypes.updateTooltipPosition,
