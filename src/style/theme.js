@@ -22,6 +22,7 @@ const theme = {
     text: "#1A192B",
     textLight: "#808080",
     lightGrey: "#B3B3B3",
+    lightLightGrey: "#eee",
     emphasis: "#FF5064",
     // data coloring
     stark_sinkend: "#FF9210",

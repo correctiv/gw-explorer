@@ -42,9 +42,13 @@ const ActionButton = styled(Button)`
   padding: 10px 10px;
   font-size: 12px;
   line-height: 12px;
+  border: none;
+  color: ${theme.colors.textLight};
   &:hover {
-    background-color: transparent;
-    color: black;
+    border: none;
+    background-color: ${(props) =>
+      props.disabled ? "transparent" : theme.colors.lightLightGrey};
+    color: ${theme.colors.textLight};
   }
 `;
 
