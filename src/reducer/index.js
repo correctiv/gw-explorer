@@ -3,8 +3,10 @@ import config from "~/config";
 import * as util from "components/Mapbox/util";
 import { selectDistrictFromData } from "utils/data";
 import { updateUrl } from "utils/url";
+import events, { publish } from "./events";
 
 const actionTypes = {
+  setMapReady: "set_map_ready",
   selectInitialStation: "select_initial_station",
   selectStation: "select_station",
   resetStation: "reset_station",
@@ -16,6 +18,7 @@ const actionTypes = {
 const getInitialState = () => {
   const { bbox, zoom, districtId, stationId } = util.getMapStateFromUrl();
   return {
+    mapReady: false,
     initialDistrictId: districtId,
     initialStationId: stationId,
     hoverDistrictId: null,
@@ -32,6 +35,12 @@ const getInitialState = () => {
 
 const reducer = (state, { action, payload }) => {
   switch (action) {
+    // set map ready on initial load
+    case actionTypes.setMapReady: {
+      // first time it is ready:
+      if (!state.mapReady) publish(events.mapFirstReady);
+      return { ...state, mapReady: true };
+    }
     // select initial station based on url
     case actionTypes.selectInitialStation: {
       const map = state.mapRef.current;
@@ -151,6 +160,7 @@ export function useStore() {
   return {
     state,
     actions: {
+      setMapReady: () => dispatch({ action: actionTypes.setMapReady }),
       selectInitialStation: (payload) =>
         dispatch({ action: actionTypes.selectInitialStation, payload }),
       selectStation: (payload) =>

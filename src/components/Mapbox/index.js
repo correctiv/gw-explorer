@@ -8,6 +8,7 @@ import { useStore } from "reducer";
 import Overlay from "react-bootstrap/Overlay";
 import Tooltip from "react-bootstrap/Tooltip";
 import { BsReplyFill } from "react-icons/bs";
+import events, { subscribe } from "reducer/events";
 import * as util from "./util";
 
 const MapContainer = styled.div`
@@ -100,20 +101,23 @@ const initMap = (elementId, { onClick, onMove, store: { state, actions } }) => {
     preserveDrawingBuffer: true,
   });
 
+  // global event
+  subscribe(events.mapFirstReady, () => {
+    // update current point on click
+    mapRef.current.on("click", ({ point }) => onClick(point));
+
+    // update current point on move
+    mapRef.current.on("mousemove", ({ point }) => onMove(point));
+
+    // if initial district and station via url, activate it
+    if (initialDistrictId) actions.selectDistrict({ id: initialDistrictId });
+    if (initialStationId)
+      actions.selectInitialStation({ id: initialStationId });
+  });
+
   mapRef.current.on("data", () => {
     const ready = util.getMapReadyState(mapRef.current);
-    if (ready) {
-      // update current point on click
-      mapRef.current.on("click", ({ point }) => onClick(point));
-
-      // update current point on move
-      mapRef.current.on("mousemove", ({ point }) => onMove(point));
-
-      // if initial district and station via url, activate it
-      if (initialDistrictId) actions.selectDistrict({ id: initialDistrictId });
-      if (initialStationId)
-        actions.selectInitialStation({ id: initialStationId });
-    }
+    if (ready) actions.setMapReady();
   });
 
   mapRef.current.on("load", () => {
