@@ -2,13 +2,14 @@ import React from "react";
 import styled from "@emotion/styled";
 import Badge from "react-bootstrap/Badge";
 import CloseButton from "react-bootstrap/CloseButton";
-import * as d3 from "~/lib/d3";
+import * as d3 from "lib/d3";
+import { useStoreState } from "easy-peasy";
 
+import { actions } from "store";
 import { device } from "utils/css-utils";
-
 import theme from "style/theme";
 import { slopeBin } from "utils/labels";
-import { useStore } from "reducer";
+
 import Chart from "./Chart";
 
 const TooltipWrapper = styled.div`
@@ -106,15 +107,12 @@ d3.formatDefaultLocale({
 const slopeFormat = d3.format("+.2f");
 
 function StationTooltip() {
-  const {
-    state: { activeStation, tooltipPosition },
-    actions: { resetStation },
-  } = useStore();
-  const [left, top] = tooltipPosition;
+  const activeStation = useStoreState((s) => s.activeStation);
+  const [left, top] = useStoreState((s) => s.tooltipPosition);
 
   return activeStation ? (
     <TooltipWrapper style={{ top, left }} id="mapbox-tooltip">
-      <Close onClick={resetStation} />
+      <Close onClick={actions.resetStation} />
       <StationId>Messstelle {activeStation.ms_nr}</StationId>
       <DistrictName>{activeStation.district}</DistrictName>
       <StateName>{activeStation.state}</StateName>

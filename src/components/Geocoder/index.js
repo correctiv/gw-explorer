@@ -6,10 +6,8 @@ import districts from "data/districts.csv";
 const districtsData = {
   features: districts.map((f) => ({
     type: "Feature",
-    properties: {
-      id: f.id,
-      name: f.name,
-    },
+    id: f.id,
+    name: f.name,
     geometry: {
       coordinates: f.center,
       type: "Point",
@@ -35,12 +33,12 @@ export default function Geocoder({ mapboxgl }) {
   return new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl,
+    placeholder: "Kreis, Postleitzahl oder Adresse...",
     countries: "de",
     language: "de",
-    types: "district,postcode,place",
+    types: "postcode,address,poi,poi.landmark",
     zoom: 12,
-    marker: false,
-    localGeocoderOnly: true,
+    marker: true,
     localGeocoder,
   });
 }
