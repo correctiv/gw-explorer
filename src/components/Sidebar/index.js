@@ -12,6 +12,7 @@ const SidebarWrapper = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   flex: 0 0 auto;
+  background-color: white;
   ${device.phone} {
     width: 100%;
     height: max-content;
