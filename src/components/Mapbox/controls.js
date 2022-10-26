@@ -7,7 +7,9 @@ import events, { publish } from "reducer/events";
 const Button = styled.button`
   width: 29px;
   height: 29px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   outline: none;
   border: 0;
@@ -22,10 +24,15 @@ const Button = styled.button`
   }
 `;
 
+const ExpandSvg = styled(BsArrowsAngleExpand)`
+  stroke-width: 1;
+  stroke: #333;
+`;
+
 function ResetButton() {
   return (
     <Button onClick={() => publish(events.resetMapView)}>
-      <BsArrowsAngleExpand size={20} />
+      <ExpandSvg size={20} />
     </Button>
   );
 }

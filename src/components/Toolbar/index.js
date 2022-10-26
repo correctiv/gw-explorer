@@ -4,6 +4,7 @@ import { BsInfoCircle, BsCameraFill } from "react-icons/bs";
 import config from "config";
 import { Button } from "components/common";
 import ImageExportModal from "components/ImageExportModal";
+import { device } from "utils/css-utils";
 
 const ToolbarWrapper = styled.div`
   width: 100%;
@@ -12,7 +13,6 @@ const ToolbarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
 `;
 
 const ButtonText = styled.span`
@@ -20,7 +20,13 @@ const ButtonText = styled.span`
 `;
 
 const Methodology = styled.div`
-  margin-top: 12px;
+  ${device.phone} {
+    margin-top: 30px;
+  }
+  ${device.tablet} {
+    margin-top: auto;
+    padding-top: 30px;
+  }
   color: #707070;
   font-size: 12px;
   width: 100%;
