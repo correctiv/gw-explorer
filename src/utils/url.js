@@ -1,4 +1,7 @@
 /* eslint-disable import/prefer-default-export */
+
+import config from "config";
+
 export function updateUrl(params) {
   const url = new URL(window.location);
   /* eslint-disable no-restricted-syntax */
@@ -9,5 +12,6 @@ export function updateUrl(params) {
       url.searchParams.set(key, value);
     }
   }
+  url.hash = config.urlHash;
   window.history.pushState(null, "", url.toString());
 }
