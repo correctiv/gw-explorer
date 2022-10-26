@@ -7,6 +7,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { BsShareFill } from "react-icons/bs";
 
 import { actions } from "store";
+import theme from "style/theme";
 import { device } from "utils/css-utils";
 import { Button } from "components/common";
 
@@ -30,6 +31,7 @@ const MapElement = styled.div`
 `;
 
 const ShareButton = styled(Button)`
+  color: ${theme.colors.text};
   position: absolute;
   top: 10px;
   right: 10px;

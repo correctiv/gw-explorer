@@ -9,9 +9,11 @@ import Toolbar from "components/Toolbar";
 const SidebarWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  // align-items: flex-start;
+  align-content: flex-start;
+  flex-flow: row wrap;
   flex: 0 0 auto;
+  background-color: white;
   ${device.phone} {
     width: 100%;
     height: max-content;
