@@ -26,7 +26,7 @@ const DistrictBez = styled.span`
 
 const DataOverviewWrapper = styled.div`
   width: 100%;
-  margin: 0px 0px 30px 0px;
+  margin: 0px 0px 0px 0px;
 `;
 
 const ResultsWrapper = styled.div`
@@ -248,22 +248,11 @@ function DataSummary() {
 function Explainer() {
   return (
     <IntroText id="intro-text">
-      <IntroGraf>Das Grundwasser in Deutschland sinkt.</IntroGraf>
       <IntroGraf>
-        Eine CORRECTIV-Analyse in 13 Bundesländern zeigt, dass insgesamt die
-        Grundwasserspiegel zwischen 1990 und 2021 mehr sinken als sie steigen.
-        Knapp die Hälfte der 6.677 untersuchten Grundwassermessstellen
-        erreichten ihren niedrigsten Wert in den Dürrejahren 2018-2021.
-      </IntroGraf>
-      <IntroGraf>
-        Mit diesem Tool können Sie herausfinden, wie sich der Grundwasserspiegel
-        bei Ihnen vor Ort in den vergangenen 32 Jahren entwickelt hat. Durch die
-        Satellitenansicht können Sie schauen, ob menschliche Einflüsse wie
-        Kohleförderung dafür verantwortlich sein könnten.
-      </IntroGraf>
-      <IntroGraf>
-        Sie können sowohl die Trends einzelner Messstellen als auch die
-        Übersicht auf Kreisebene sehen.
+        Mit dieser interaktiven Karte können Sie herausfinden, wie sich der
+        Grundwasserspiegel bei Ihnen vor Ort zwischen 1990 und 2021 entwickelt
+        hat. Sie können sowohl die Grundwasserentwicklung einzelner Messstellen
+        als auch die Übersicht auf Kreisebene sehen.
       </IntroGraf>
     </IntroText>
   );
