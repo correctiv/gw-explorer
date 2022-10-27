@@ -28,7 +28,7 @@ const districtsData = {
 // https://docs.mapbox.com/mapbox-gl-js/example/forward-geocode-custom-data/
 const localGeocoder = (query) =>
   districtsData.features.filter(({ search }) =>
-    search.includes(query.toLowerCase())
+    search.includes(query.toLowerCase().replace("-", " "))
   );
 
 export default function Geocoder({ mapboxgl }) {
