@@ -80,7 +80,7 @@ function Toolbar({ mapRef, renderScreenshotButton }) {
         controlledBy="screenshot"
       />
       <Methodology id="methodology">
-        <BsInfoCircle size={12} style={{ marginRight: 5, marginBottom: 2 }} />
+        <BsInfoCircle size={12} style={{ marginRight: 5 }} />
         Rohdaten und Infos zur Methodik finden Sie
         <a
           className="correctiv-link"

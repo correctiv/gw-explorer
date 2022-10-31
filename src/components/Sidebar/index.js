@@ -8,10 +8,8 @@ import { useStore } from "reducer";
 
 const SidebarWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  // align-items: flex-start;
   align-content: flex-start;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   flex: 0 0 auto;
   background-color: white;
   ${device.phone} {
