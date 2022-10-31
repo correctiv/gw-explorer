@@ -58,12 +58,12 @@ function Legend() {
         <Bin fill={theme.colors.stark_steigend} border="0px 2px 2px 0px" />
       </BinWrapper>
       <LegendTextWrapper>
-        <EntryRange style={{ textAlign: "left", maxWidth: "30%" }}>
+        <EntryRange style={{ textAlign: "left", maxWidth: "40%" }}>
           stärker als
           <br />
           -1 % pro Jahr
         </EntryRange>
-        <EntryRange style={{ textAlign: "right", maxWidth: "30%" }}>
+        <EntryRange style={{ textAlign: "right", maxWidth: "40%" }}>
           stärker als
           <br />
           +1 % pro Jahr
