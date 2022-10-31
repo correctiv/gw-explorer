@@ -13,5 +13,5 @@ export function updateUrl(params) {
     }
   }
   url.hash = config.urlHash;
-  window.history.pushState(null, "", url.toString());
+  window.history.replaceState(null, "", url.toString());
 }

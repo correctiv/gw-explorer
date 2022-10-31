@@ -2,7 +2,7 @@
 import styled from "@emotion/styled";
 
 const Button = styled.button`
-  cursor: pointer !important;
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")} !important;
   width: max-content;
   padding: 13px 10px;
   background: ${(props) => (props.highlighted ? "#fde162" : "transparent")};

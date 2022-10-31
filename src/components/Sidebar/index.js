@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { device } from "utils/css-utils";
+import { useStoreState } from "easy-peasy";
 
-import DataOverview from "~/components/DataOverview";
-import Toolbar from "~/components/Toolbar";
-import { useStore } from "reducer";
+import { device } from "utils/css-utils";
+import DataOverview from "components/DataOverview";
+import Toolbar from "components/Toolbar";
 
 const SidebarWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  // align-items: flex-start;
   align-content: flex-start;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   flex: 0 0 auto;
   background-color: white;
   ${device.phone} {
@@ -44,9 +42,7 @@ const Searchbar = styled.div`
 
 function Sidebar({ renderScreenshotButton }) {
   // geocoder is added in `components/Mapbox/index.js`
-  const {
-    state: { mapRef },
-  } = useStore();
+  const mapRef = useStoreState((s) => s.mapRef);
 
   return (
     <SidebarWrapper id="sidebar">

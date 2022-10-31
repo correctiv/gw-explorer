@@ -1,11 +1,13 @@
 import React from "react";
 import { BsArrowsAngleExpand, BsX } from "react-icons/bs";
 import styled from "@emotion/styled";
+import { useStoreState } from "easy-peasy";
+
+import { actions } from "store";
 import theme from "style/theme";
 import { device } from "utils/css-utils";
-
-import { useStore } from "reducer";
 import { Button } from "components/common";
+import Legend from "components/Legend";
 
 const DistrictTitle = styled.h3`
   font-weight: 700;
@@ -189,11 +191,8 @@ function DataEntry({ measurement, shortname, range, value, total }) {
   );
 }
 
-function DataSummary() {
-  const {
-    state: { activeDistrict, districtIsAdjusted },
-    actions: { adjustDistrictView, resetDistrict },
-  } = useStore();
+function DataSummary({ activeDistrict }) {
+  const districtIsAdjusted = useStoreState((s) => s.districtIsAdjusted);
 
   const { name, state, bez, ...data } = activeDistrict;
   const isData = data.total > 0;
@@ -225,12 +224,12 @@ function DataSummary() {
       <ResultsHeader>
         <DistrictTitle>{name}</DistrictTitle>
         <DistrictActions>
-          <ActionButton onClick={resetDistrict}>
+          <ActionButton onClick={actions.resetDistrict}>
             <BsX size={16} />
           </ActionButton>
           <ActionButton
             disabled={districtIsAdjusted}
-            onClick={adjustDistrictView}
+            onClick={actions.adjustDistrictView}
           >
             <BsArrowsAngleExpand size={14} />
           </ActionButton>
@@ -249,20 +248,25 @@ function Explainer() {
   return (
     <IntroText id="intro-text">
       <IntroGraf>
-        Mit dieser interaktiven Karte können Sie herausfinden, wie sich der
+        Mit dieser interaktiven Karte finden Sie heraus, wie sich der
         Grundwasserspiegel bei Ihnen vor Ort zwischen 1990 und 2021 entwickelt
-        hat. Sie können sowohl die Grundwasserentwicklung einzelner Messstellen
-        als auch die Übersicht auf Kreisebene sehen.
+        hat. Klicken Sie einfach auf Ihren Landkreis oder geben Sie eine
+        Postleitzahl oder Adresse in das Suchfeld ein.
       </IntroGraf>
+      <Legend />
     </IntroText>
   );
 }
 
 function DataOverview() {
-  const {
-    state: { activeDistrict },
-  } = useStore();
-  const results = activeDistrict === null ? <Explainer /> : <DataSummary />;
+  const activeDistrict = useStoreState((s) => s.activeDistrict);
+  const results =
+    activeDistrict === null ? (
+      <Explainer />
+    ) : (
+      <DataSummary activeDistrict={activeDistrict} />
+    );
+
   return (
     <DataOverviewWrapper id="data-overview-wrapper">
       {results}

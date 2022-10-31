@@ -9,6 +9,12 @@ The starterkit is based on these libraries:
 - [react](https://facebook.github.io/react/)
 - [emotion](https://emotion.sh/docs/styled)
 
+## Embed Code
+
+```
+<script defer="defer" src="https://cdn.correctiv.org/apps/grundwasser-atlas/js/{hash_id}.js"></script><script defer="defer" src="https://cdn.correctiv.org/apps/grundwasser-atlas/js/app.{hash_id}.js"></script><link href="https://cdn.correctiv.org/apps/grundwasser-atlas/bundle.css" rel="stylesheet" /><div id="gw-explorer-app"></div>
+```
+
 ## Getting started
 
 **[Create a new Github repository with the template](https://github.com/wbkd/react-starter/generate)** or clone the repo:
