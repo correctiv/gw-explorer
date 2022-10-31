@@ -83,6 +83,9 @@ function GlobalStyle() {
     #gw-explorer-app #gw-explorer-geocoder {
       margin-bottom: 0px;
     }
+    #gw-explorer-app .mapboxgl-marker svg path:first-of-type {
+      fill: ${theme.colors.emphasis};
+    }
   `;
 
   return <Global styles={globalStyles} />;
