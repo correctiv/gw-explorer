@@ -12,11 +12,18 @@ export function selectDistrictFromData({ id }) {
     NUMERIC_COLS.map((c) => { // eslint-disable-line
       data[c] = +data[c];
     });
+    const bboxCoords = bbox.split(",").map(parseFloat);
+    const [s, e, n, w] = bboxCoords;
+    const bounds = [
+      [s, e],
+      [n, w],
+    ];
     return {
       id,
       state,
       bez: districtBez[bez],
-      bbox: bbox.split(",").map(parseFloat),
+      bbox: bboxCoords,
+      bounds,
       center: center.split(",").map(parseFloat),
       ...data,
     };

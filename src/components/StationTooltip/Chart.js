@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import * as d3 from "~/lib/d3";
+import * as d3 from "lib/d3";
 
 const ChartWrapper = styled.div`
   margin-top: 0px;

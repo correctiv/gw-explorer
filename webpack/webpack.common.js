@@ -30,9 +30,6 @@ module.exports = {
     // new BundleAnalyzerPlugin()
   ],
   resolve: {
-    alias: {
-      "~": Path.resolve(__dirname, "../src"),
-    },
     modules: [
       Path.resolve(__dirname, "../src"),
       Path.resolve(__dirname, "../node_modules"),

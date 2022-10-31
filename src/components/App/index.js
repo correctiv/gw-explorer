@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { device } from "utils/css-utils";
+import { StoreProvider } from "easy-peasy";
 
+import { device } from "utils/css-utils";
 import Sidebar from "components/Sidebar";
 import Mapbox from "components/Mapbox";
 
-import ContextProvider from "reducer";
+import store from "store";
 
 const Wrapper = styled.div`
   padding: 0;
@@ -39,10 +40,10 @@ function App({ appConfig }) {
   return (
     <Wrapper>
       <Container>
-        <ContextProvider>
+        <StoreProvider store={store}>
           <Sidebar renderScreenshotButton={renderScreenshotButton} />
           <Mapbox standaloneMode={standaloneMode} />
-        </ContextProvider>
+        </StoreProvider>
       </Container>
     </Wrapper>
   );
