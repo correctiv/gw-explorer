@@ -33,7 +33,7 @@ export default function Geocoder({ mapboxgl }) {
   return new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl,
-    placeholder: "Kreis, Postleitzahl oder Adresse...",
+    placeholder: "Kreis, Ort oder Adresse...",
     countries: "de",
     language: "de",
     types: "address,place",
