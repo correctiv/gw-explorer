@@ -1,10 +1,11 @@
 import React from "react";
 import { BsArrowsAngleExpand, BsX } from "react-icons/bs";
 import styled from "@emotion/styled";
+import { useStoreState } from "easy-peasy";
+
+import { actions } from "store";
 import theme from "style/theme";
 import { device } from "utils/css-utils";
-
-import { useStore } from "reducer";
 import { Button } from "components/common";
 
 const DistrictTitle = styled.h3`
@@ -189,11 +190,8 @@ function DataEntry({ measurement, shortname, range, value, total }) {
   );
 }
 
-function DataSummary() {
-  const {
-    state: { activeDistrict, districtIsAdjusted },
-    actions: { adjustDistrictView, resetDistrict },
-  } = useStore();
+function DataSummary({ activeDistrict }) {
+  const districtIsAdjusted = useStoreState((s) => s.districtIsAdjusted);
 
   const { name, state, bez, ...data } = activeDistrict;
   const isData = data.total > 0;
@@ -225,12 +223,12 @@ function DataSummary() {
       <ResultsHeader>
         <DistrictTitle>{name}</DistrictTitle>
         <DistrictActions>
-          <ActionButton onClick={resetDistrict}>
+          <ActionButton onClick={actions.resetDistrict}>
             <BsX size={16} />
           </ActionButton>
           <ActionButton
             disabled={districtIsAdjusted}
-            onClick={adjustDistrictView}
+            onClick={actions.adjustDistrictView}
           >
             <BsArrowsAngleExpand size={14} />
           </ActionButton>
@@ -259,10 +257,14 @@ function Explainer() {
 }
 
 function DataOverview() {
-  const {
-    state: { activeDistrict },
-  } = useStore();
-  const results = activeDistrict === null ? <Explainer /> : <DataSummary />;
+  const activeDistrict = useStoreState((s) => s.activeDistrict);
+  const results =
+    activeDistrict === null ? (
+      <Explainer />
+    ) : (
+      <DataSummary activeDistrict={activeDistrict} />
+    );
+
   return (
     <DataOverviewWrapper id="data-overview-wrapper">
       {results}

@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styled from "@emotion/styled";
 import { BsArrowsAngleExpand } from "react-icons/bs";
-import events, { publish } from "reducer/events";
+
+import { actions } from "store";
 
 const Button = styled.button`
   width: 29px;
@@ -31,7 +32,7 @@ const ExpandSvg = styled(BsArrowsAngleExpand)`
 
 function ResetButton() {
   return (
-    <Button onClick={() => publish(events.resetMapView)}>
+    <Button onClick={actions.resetMapView}>
       <ExpandSvg size={20} />
     </Button>
   );
