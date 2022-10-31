@@ -86,6 +86,18 @@ function GlobalStyle() {
     #gw-explorer-app .mapboxgl-marker svg path:first-of-type {
       fill: ${theme.colors.emphasis};
     }
+    #gw-explorer-app .mapboxgl-popup-content {
+      font-family: ${theme.fonts.sans};
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+      font-size: 15px;
+      color: ${theme.colors.textL};
+      border-radius: 0;
+    }
+    #gw-explorer-app .mapboxgl-popup-close-button {
+      color: ${theme.colors.textL};
+    }
   `;
 
   return <Global styles={globalStyles} />;
