@@ -36,7 +36,7 @@ export default function Geocoder({ mapboxgl }) {
     placeholder: "Kreis, Postleitzahl oder Adresse...",
     countries: "de",
     language: "de",
-    types: "postcode,address,poi,poi.landmark",
+    types: "address,place",
     zoom: 12,
     marker: true,
     localGeocoder,
