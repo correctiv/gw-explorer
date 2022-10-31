@@ -250,8 +250,8 @@ function Explainer() {
       <IntroGraf>
         Mit dieser interaktiven Karte finden Sie heraus, wie sich der
         Grundwasserspiegel bei Ihnen vor Ort zwischen 1990 und 2021 entwickelt
-        hat. Klicken Sie einfach auf Ihren Landkreis oder geben Sie eine
-        Postleitzahl oder Adresse in das Suchfeld ein.
+        hat. Klicken Sie einfach auf Ihren Landkreis oder geben Sie einen Ort in
+        das Suchfeld ein.
       </IntroGraf>
       <Legend />
     </IntroText>
