@@ -13,7 +13,7 @@ const SidebarWrapper = styled.div`
   flex: 0 0 auto;
   background-color: white;
   ${device.phone} {
-    width: 100%;
+    width: calc(100% - 50px);
     height: max-content;
     overflow: auto;
     padding: 25px;
@@ -21,8 +21,8 @@ const SidebarWrapper = styled.div`
   ${device.tablet} {
     padding: 30px;
     width: 380px;
-    height: 100%;
-    overflow: scroll;
+    height: calc(100% - 60px);
+    overflow-y: scroll;
   }
   order: 0;
 `;
